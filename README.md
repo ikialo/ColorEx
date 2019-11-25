@@ -4,9 +4,9 @@
 
 ## Features
 
-- Supports CSV, JSON, XML data file input. 
-- Colored tile grid formats in HTML, PNG, JPG, PDF.
-- Single-colored and multi-colored tile grids.
+- Supports CSV data input.
+- Generates color grid in HTML format.
+- Single-colored and multi-colored tile grids supported.
 
 
 ## Requirements
