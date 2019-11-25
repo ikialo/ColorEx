@@ -1,4 +1,4 @@
-![ColorEx](C:\myapps\colorex\colorex\header.png)
+![ColorEx](header.png)
 
 # Contributing to ColorEx
 

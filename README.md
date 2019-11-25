@@ -1,4 +1,4 @@
-![ColorEx](C:\myapps\colorex\colorex\header.png)
+![ColorEx](header.png)
 # ColorEx Library
 
 *ColorEx* is a data visualization library that uses color creatively to represent data, make visualization interactive, and ultimately be a great tool for learning patterns in data.
