@@ -39,13 +39,13 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="colorex",
-    version="1.0.0",
+    version="0.0.1",
     author="Ronsoft Technologies",
     author_email="ronsofttech@gmail.com",
-    description="Expressive and interactive data visualization using color",
+    description="Fun data visualization that creatively uses color",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="",
+    url="https://github.com/louisronron/ColorEx",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
