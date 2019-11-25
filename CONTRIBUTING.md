@@ -1,69 +1,57 @@
-# ColorEx Library
+![ColorEx](C:\myapps\colorex\colorex\header.png)
 
-*ColorEx* is a data visualization library that uses color expressively to represent data, make visualization interactive, and ultimately be a great tool for learning patterns in data. ColorEx is simple.
+# Contributing to ColorEx
 
-## Features
+We love your input! We want to make contributing to this project as easy and transparent as possible, whether it's:
 
-- Supports CSV, JSON, XML data file input. 
-- Colored tile grid formats in HTML, PNG, JPG, PDF.
-- Single-colored and multi-colored tile grids.
+- Reporting a bug
+- Discussing the current state of the code
+- Submitting a fix
+- Proposing new features
+- Becoming a maintainer
 
-## Documentation
+## We Develop with Github
+We use github to host code, to track issues and feature requests, as well as accept pull requests.
 
-More detailed documentation of the library is available at [Colorex Documentation](https://www.google.com.pg)
+## We Use [Github Flow](https://guides.github.com/introduction/flow/index.html), So All Code Changes Happen Through Pull Requests
+Pull requests are the best way to propose changes to the codebase (we use [Github Flow](https://guides.github.com/introduction/flow/index.html)). We actively welcome your pull requests:
 
-## Requirements
+1. Fork the repo and create your branch from `master`.
+2. If you've added code that should be tested, add tests.
+3. If you've changed APIs, update the documentation.
+4. Ensure the test suite passes.
+5. Make sure your code lints.
+6. Issue that pull request!
 
-- Python 3.7 or later.
-- Cheetah
+## Any contributions you make will be under the MIT Software License
+In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
-## Installation
+## Report bugs using Github's [issues](https://github.com/briandk/transcriptase-atom/issues)
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](); it's that easy!
 
-#### Install from PyPi (recommended)
+## Write bug reports with detail, background, and sample code
+[This is an example](http://stackoverflow.com/q/12488905/180626) of a bug report I wrote, and I think it's not a bad model. Here's [another example from Craig Hockenberry](http://www.openradar.me/11905408), an app developer whom I greatly respect.
 
-```shell
-$ pip install colorex
-```
+**Great Bug Reports** tend to have:
 
+- A quick summary and/or background
+- Steps to reproduce
+  - Be specific!
+  - Give sample code if you can. [My stackoverflow question](http://stackoverflow.com/q/12488905/180626) includes sample code that *anyone* with a base R setup can run to reproduce what I was seeing
+- What you expected would happen
+- What actually happens
+- Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
 
+People *love* thorough bug reports. I'm not even kidding.
 
-## Get Started
+## Use a Consistent Coding Style
+I'm again borrowing these from [Facebook's Guidelines](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md)
 
-Get started quickly by first copying this to a new Python file, and running it in your interpreter;
-
-```python
-import colorex as cx
-
-csvFile = cx.CSVReader('website_traffic.csv')
-dataGrid = csvFile.generate_datagrid()
-
-
-engine = cx.ColorEx({
-    'default-rgb': '000000',
-    'rgbs': ['000000']
-})
-
-tileGrid = engine.generate_tilegrid(dataGrid)
-
-HTMLOutputFile = cx.HTMLWriter('Website Traffic.html', tileGrid)
-HTMLOutputFile.write({'template': 'default'})
-
-```
-
-
-
-## Contributing
-
-See [Contributing](CONTRIBUTING.md) to learn more about how to contribute to this project.
-
-
+* 2 spaces for indentation rather than tabs
+* You can try running `npm run lint` for style unification
 
 ## License
+By contributing, you agree that your contributions will be licensed under its MIT License.
 
-Copyright (c) 2019. Louis Ronald.
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+## References
+This document was adapted from the open-source contribution guidelines for [Facebook's Draft](https://github.com/facebook/draft-js/blob/a9316a723f9e918afde44dea68b5f9f39b7d9b00/CONTRIBUTING.md)

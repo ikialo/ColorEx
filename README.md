@@ -1,3 +1,4 @@
+![ColorEx](C:\myapps\colorex\colorex\header.png)
 # ColorEx Library
 
 *ColorEx* is a data visualization library that uses color creatively to represent data, make visualization interactive, and ultimately be a great tool for learning patterns in data.
@@ -50,7 +51,7 @@ HTMLOutputFile.write({'template': 'default'})
 
 ## Contributing
 
-See [Contributing.md](CONTRIBUTING.md) to learn how you can contribute to this project.
+See [Contributing](CONTRIBUTING.md) to learn how you can contribute to this project.
 
 ## License
 
