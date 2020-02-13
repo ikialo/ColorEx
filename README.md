@@ -27,7 +27,7 @@ To begin using the *ColorEx* library, we first install it using *pip*.
 (NOTE: You'll need an Internet connection for this one!)
 
 ```shell
-$ pip install colorex
+$ pip install colorexlib
 ```
 
 
@@ -43,7 +43,7 @@ Let's get started with your first python program using the *ColorEx* library.
 
 ```python
 # import modules 
-from colorex.colorex import ColorExGrid
+from colorexlib.colorex import ColorExGrid
 
 # set tile grid options
 options = dict()
