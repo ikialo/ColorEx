@@ -6,7 +6,7 @@ options = dict()
 options['source'] = ['attendance.csv', 'csv']
 options['title'] = 'Student Attendance'
 options['subtitle'] = 'Attendance of students per month in 2018'
-options['theme'] = 'default'
+options['theme'] = 'sun.cxt'
 
 
 # create ColorEx object, passing options.
