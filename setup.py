@@ -38,7 +38,7 @@ with open("README.md", "r") as fh:
 
 
 setuptools.setup(
-    name="colorex-lib",
+    name="colorexlib",
     version="0.0.1",
     author="Louis Ronald",
     author_email="louisronsonronald@gmail.com",

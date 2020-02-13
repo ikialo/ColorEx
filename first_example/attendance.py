@@ -1,5 +1,5 @@
 # import modules 
-from colorex.colorex import ColorExGrid
+from colorexlib.colorex import ColorExGrid
 
 # set tile grid options
 options = dict()
