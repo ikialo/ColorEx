@@ -1,6 +1,6 @@
 '''
 
-Copyright 2019 Louis Ronald
+Copyright 2019-2020 Louis Ronald
 
 Permission is hereby granted, free of charge, to any person 
 obtaining a copy of this software and associated documentation 
@@ -40,8 +40,8 @@ with open("README.md", "r") as fh:
 setuptools.setup(
     name="colorex",
     version="0.0.1",
-    author="Ronsoft Technologies",
-    author_email="ronsofttech@gmail.com",
+    author="Louis Ronald",
+    author_email="louisronsonronald@gmail.com",
     description="Fun data visualization that creatively uses color",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -53,6 +53,7 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires=">=3.7",
+    include_package_data=True,
 )
 
 
