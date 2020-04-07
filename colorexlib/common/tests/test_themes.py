@@ -69,6 +69,18 @@ def test_CX_HeatMap_rgb_hex_to_decimal():
 
 
 
+def test_CX_HeatMap_is_color_name():
+    themes = Themes()
+    assert themes.is_color_name('blue') == True
+    assert themes.is_color_name('redigo') == False
+    assert themes.is_color_name('red') == True
+    assert themes.is_color_name('yellowish') == False
+    assert themes.is_color_name('pink') == False
+
+
+
+
+
 
 ''' Theme class tests '''
 def test_Theme_palette():

@@ -84,10 +84,6 @@ def test_CX_HeatMap_theme():
     assert cxg2.theme == 'default'
 
 
-def test_CX_HeatMap_get_theme():
-    cxg1 = CX_HeatMap(options1)
-    assert cxg1.get_theme('default') == {'primary': '#0044aa', 'secondary': '#aaccff', 'on-primary': '#d7eef4', 'on-secondary': '#f9f9f9'}
-    assert cxg1.get_theme('sun') == {'primary': '#d45500', 'secondary': '#ffccaa', 'on-primary': '#ffccaa', 'on-secondary': '#000000'}
 
 
 def test_CX_HeatMap_generate_heatmap():
@@ -122,29 +118,6 @@ def test_CX_HeatMap_calculate_rgb_alpha():
     assert cxg1.calculate_rgb_alpha(data_item1, max_val) == 0.7166666666666667
     assert cxg1.calculate_rgb_alpha(data_item2, max_val) == 1.6466666666666667
 
-
-
-
-
-def test_CX_HeatMap_rgb_hex_to_decimal():
-    cxg1 = CX_HeatMap(options1)
-    assert cxg1.rgb_hex_to_decimal('#ff0000') == (255,0,0)
-    assert cxg1.rgb_hex_to_decimal('#000000') == (0,0,0)
-    assert cxg1.rgb_hex_to_decimal('#00ff00') == (0,255,0)
-    assert cxg1.rgb_hex_to_decimal('#00ff00') == (0,255,0)
-    assert cxg1.rgb_hex_to_decimal('#00ffzz') == False
-    assert cxg1.rgb_hex_to_decimal('22aa00') == False
-
-
-
-
-def test_CX_HeatMap_is_color_name():
-    cxg1 = CX_HeatMap(options1)
-    assert cxg1.is_color_name('blue') == True
-    assert cxg1.is_color_name('redigo') == False
-    assert cxg1.is_color_name('red') == True
-    assert cxg1.is_color_name('yellowish') == False
-    assert cxg1.is_color_name('pink') == False
 
 
 

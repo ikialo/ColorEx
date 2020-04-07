@@ -53,6 +53,7 @@ class CX_HeatMap:
             self.__theme = 'default'
 
         self.__colors = Themes().colors
+        self.__themes = Themes().themes
 
 
     @property
@@ -81,19 +82,6 @@ class CX_HeatMap:
         ''' get the currently set theme name '''
         return self.__theme
 
-    # consider moving this to common/themes.py
-    def get_theme(self, theme_name):
-        ''' get a specific theme by its name or path name '''
-        try:
-            the_theme = Theme(filename=theme_name)
-            return the_theme.palette
-        except:
-            try:
-                the_theme = Theme(name=theme_name)
-                return the_theme.palette
-            except:
-                raise Exception
-
 
 
     def generate_heatmap(self, data_grid):
@@ -112,7 +100,7 @@ class CX_HeatMap:
                     # We're just dealing with a theme here.
                     new_tile = self.generate_tile(row[item],
                         max_values[item],
-                        self.get_theme(self.__theme)['primary'])
+                        self.__themes[self.__theme]['primary'])
                     final_row.append(new_tile)
                     rgb_index += 1
                     
@@ -123,7 +111,7 @@ class CX_HeatMap:
         heatmap_obj = HeatMap({'data': heatmap,
             'title': self.__title,
             'subtitle': self.__subtitle,
-            'theme': self.get_theme(self.__theme)})
+            'theme': self.__themes[self.__theme]})
 
         return heatmap_obj
 
@@ -147,18 +135,6 @@ class CX_HeatMap:
             data object and max value '''
         alpha_value = data_item / max_value.value
         return alpha_value
-
-
-
-
-    # consider moving this to common/themes.py
-    def is_color_name(self, color_name):
-        ''' confirms whether or not a color name is valid, based
-        on internal color dictionary '''
-        if(color_name in self.__colors.keys()):
-            return True
-        else:
-            return False
 
 
 

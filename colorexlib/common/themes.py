@@ -128,6 +128,16 @@ class Themes:
 
 
 
+    def is_color_name(self, color_name):
+        ''' confirms whether or not a color name is valid, based
+        on internal color dictionary '''
+        if(color_name in self.__colors.keys()):
+            return True
+        else:
+            return False   
+
+
+
 
 
 
