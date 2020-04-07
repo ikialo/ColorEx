@@ -149,15 +149,6 @@ class CX_HeatMap:
         return alpha_value
 
 
-    # consider moving this to common/themes.py
-    def get_hex_from_color(self, color):
-        ''' returns hex code given a color name '''
-        colors = self.__colors
-        try:
-            return colors[color]
-        except:
-            return False
-
 
     # consider moving this to common/themes.py
     def is_rgb_hex(self, hex_code):

@@ -124,16 +124,6 @@ def test_CX_HeatMap_calculate_rgb_alpha():
 
 
 
-def test_CX_HeatMap_get_hex_from_color():
-    cxg1 = CX_HeatMap(options1)
-    assert cxg1.get_hex_from_color('red') == '#ff0000'
-    assert cxg1.get_hex_from_color('white') == '#ffffff'
-    assert cxg1.get_hex_from_color('black') == '#000000'
-    assert cxg1.get_hex_from_color('indigogaba') == False
-    assert cxg1.get_hex_from_color('gray') == '#808080'
-    assert cxg1.get_hex_from_color('grey') == '#808080'
-
-
 
 
 def test_CX_HeatMap_is_rgb_hex():
