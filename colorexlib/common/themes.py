@@ -35,6 +35,9 @@ class Themes:
         # general theme repo.
         self.__themes = dict()
 
+        # general colors repo.
+        self.__colors = dict()
+
 
         # declare default theme.
         default = dict()
@@ -57,6 +60,28 @@ class Themes:
         self.__themes['sun'] = sun
 
 
+        # declare rgb color codes, and their names.
+        self.__colors['default'] = '#000000'
+        self.__colors['black'] = '#000000'
+        self.__colors['white'] = '#ffffff'
+        self.__colors['red'] = '#ff0000'
+        self.__colors['lime'] = '#00ff00'
+        self.__colors['blue'] = '#0000ff'
+        self.__colors['yellow'] = '#ffff00'
+        self.__colors['cyan'] = '#00ffff'
+        self.__colors['aqua'] = '#00ffff'
+        self.__colors['magenta'] = '#ff00ff'
+        self.__colors['fuchsia'] = '#ff00ff'
+        self.__colors['silver'] = '#c0c0c0'
+        self.__colors['gray'] = '#808080'
+        self.__colors['grey'] = '#808080'
+        self.__colors['maroon'] = '#800000'
+        self.__colors['olive'] = '#808000'
+        self.__colors['green'] = '#008000'
+        self.__colors['purple'] = '#800080'
+        self.__colors['teal'] = '#008080'
+        self.__colors['navy'] = '#000080'
+
 
 
 
@@ -66,12 +91,10 @@ class Themes:
         return self.__themes
 
 
-
-
-
-
-
-
+    @property
+    def colors(self):
+        ''' returns list of in-built colors '''
+        return self.__colors
 
 
 

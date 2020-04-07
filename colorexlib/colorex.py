@@ -52,7 +52,7 @@ class CX_HeatMap:
             # If theme wasn't specified.
             self.__theme = 'default'
 
-        
+        self.__colors = Themes().colors
 
 
     @property
@@ -81,9 +81,7 @@ class CX_HeatMap:
         ''' get the currently set theme name '''
         return self.__theme
 
-
-    
-    # NEEDS TO BE TESTED AGAIN ######################################################   
+    # consider moving this to common/themes.py
     def get_theme(self, theme_name):
         ''' get a specific theme by its name or path name '''
         try:
@@ -96,42 +94,8 @@ class CX_HeatMap:
             except:
                 raise Exception
 
-            
 
 
-
-    ############## TRANSFER THIS METHOD TO THE "THEMES" CLASS ####################
-    def get_rgb_color_names(self):
-        colors = dict()
-        colors['default'] = '#000000'
-        colors['black'] = '#000000'
-        colors['white'] = '#ffffff'
-        colors['red'] = '#ff0000'
-        colors['lime'] = '#00ff00'
-        colors['blue'] = '#0000ff'
-        colors['yellow'] = '#ffff00'
-        colors['cyan'] = '#00ffff'
-        colors['aqua'] = '#00ffff'
-        colors['magenta'] = '#ff00ff'
-        colors['fuchsia'] = '#ff00ff'
-        colors['silver'] = '#c0c0c0'
-        colors['gray'] = '#808080'
-        colors['grey'] = '#808080'
-        colors['maroon'] = '#800000'
-        colors['olive'] = '#808000'
-        colors['green'] = '#008000'
-        colors['purple'] = '#800080'
-        colors['teal'] = '#008080'
-        colors['navy'] = '#000080'
-        return colors
-
-
-
-        
-
-
-
-    ############################## CONTINUE HERE.
     def generate_heatmap(self, data_grid):
         ''' creates an object of type HeatMap '''
         new_data = list()
@@ -163,9 +127,7 @@ class CX_HeatMap:
 
         return heatmap_obj
 
-
-
-        
+ 
         
     def generate_tile(self, data_item, max_value, rgb):
         ''' generates a new tile of type Tile '''
@@ -180,9 +142,6 @@ class CX_HeatMap:
 
 
 
-
-    
-
     def calculate_rgb_alpha(self, data_item, max_value):
         ''' calculates the alpha value for rgb color given
             data object and max value '''
@@ -190,21 +149,17 @@ class CX_HeatMap:
         return alpha_value
 
 
-
-
-
+    # consider moving this to common/themes.py
     def get_hex_from_color(self, color):
         ''' returns hex code given a color name '''
-        colors = self.get_rgb_color_names()
+        colors = self.__colors
         try:
             return colors[color]
         except:
             return False
 
 
-
-
-
+    # consider moving this to common/themes.py
     def is_rgb_hex(self, hex_code):
         ''' confirms whether or not a RGB hex code is valid '''
         if(hex_code[0] == '#' and len(hex_code) == 7):
@@ -217,7 +172,7 @@ class CX_HeatMap:
             return False
 
 
-
+    # consider moving this to common/themes.py
     def rgb_hex_to_decimal(self, rgb_hex):
         if(rgb_hex[0]=='#'):
             rgb_hex = rgb_hex[1:]
@@ -232,14 +187,14 @@ class CX_HeatMap:
             return False
 
 
+    # consider moving this to common/themes.py
     def is_color_name(self, color_name):
         ''' confirms whether or not a color name is valid, based
         on internal color dictionary '''
-        if(color_name in self.get_rgb_color_names()):
+        if(color_name in self.__colors.keys()):
             return True
         else:
             return False
-
 
 
 
