@@ -98,6 +98,19 @@ class Themes:
 
 
 
+    def is_rgb_hex(self, hex_code):
+        ''' confirms whether or not a RGB hex code is valid '''
+        if(hex_code[0] == '#' and len(hex_code) == 7):
+            try:
+                int(hex_code[1:],16)
+                return True
+            except:
+                return False
+        else:
+            return False
+
+
+
 
 
 

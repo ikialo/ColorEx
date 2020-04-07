@@ -39,9 +39,29 @@ def test_Themes_themes():
 
 
 
+def test_Themes_colors():
+	raise Exception
+
+
+
+def test_Themes_is_rgb_hex():
+	themes = Themes()
+	assert themes.is_rgb_hex('#ff0011') == True
+	assert themes.is_rgb_hex('ff0022') == False
+	assert themes.is_rgb_hex('#ff9*&^') == False
+	assert themes.is_rgb_hex('#88aabb00') == False
+	assert themes.is_rgb_hex('#00aakk') == False
+	assert themes.is_rgb_hex('#00aaff') == True
+
+
+
 ''' Theme class tests '''
 def test_Theme_palette():
     theme1 = Theme()
     assert theme1.palette == {'primary': '#0044aa', 'secondary': '#aaccff', 'on-primary': '#d7eef4', 'on-secondary': '#f9f9f9'}
     theme2 = Theme(name='sun')
     assert theme2.palette == {'primary': '#d45500', 'secondary': '#ffccaa', 'on-primary': '#ffccaa', 'on-secondary': '#000000'}
+
+
+
+
