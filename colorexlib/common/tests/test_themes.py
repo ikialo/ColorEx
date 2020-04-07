@@ -40,7 +40,30 @@ def test_Themes_themes():
 
 
 def test_Themes_colors():
-	raise Exception
+    themes = Themes()
+    colors = themes.colors
+    assert type(colors) == type(dict())
+
+    assert colors['default'] == '#000000'
+    assert colors['black'] == '#000000'
+    assert colors['white'] == '#ffffff'
+    assert colors['red'] == '#ff0000'
+    assert colors['lime'] == '#00ff00'
+    assert colors['blue'] == '#0000ff'
+    assert colors['yellow'] == '#ffff00'
+    assert colors['cyan'] == '#00ffff'
+    assert colors['aqua'] == '#00ffff'
+    assert colors['magenta'] == '#ff00ff'
+    assert colors['fuchsia'] == '#ff00ff'
+    assert colors['silver'] == '#c0c0c0'
+    assert colors['gray'] == '#808080'
+    assert colors['grey'] == '#808080'
+    assert colors['maroon'] == '#800000'
+    assert colors['olive'] == '#808000'
+    assert colors['green'] == '#008000'
+    assert colors['purple'] == '#800080'
+    assert colors['teal'] == '#008080'
+    assert colors['navy'] == '#000080'
 
 
 
