@@ -147,7 +147,8 @@ class ColorExGrid:
 
                     # We're just dealing with a theme here.
                     new_tile = self.generate_tile(row[item],
-                        max_values[item], self.get_theme(self.__theme)['primary'])
+                        max_values[item],
+                        self.get_theme(self.__theme)['primary'])
                     final_row.append(new_tile)
                     rgb_index += 1
                     
@@ -155,8 +156,10 @@ class ColorExGrid:
                     final_row.append(row[item])
             colorgrid.append(final_row)
             
-        colorgrid_obj = ColorGrid({'data': colorgrid, 'title': self.__title,
-                                 'subtitle': self.__subtitle, 'theme': self.get_theme(self.__theme)})
+        colorgrid_obj = ColorGrid({'data': colorgrid,
+            'title': self.__title,
+            'subtitle': self.__subtitle,
+            'theme': self.get_theme(self.__theme)})
 
         return colorgrid_obj
 

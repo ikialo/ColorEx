@@ -46,7 +46,7 @@ DEALINGS IN THE SOFTWARE.
 				font-size: 20px;
 				font-family: Roboto;
 				margin: 3px;
-				border-radius: 8px;
+				border-radius: 100px;
 				color: white;
 				
 			}
@@ -113,8 +113,12 @@ DEALINGS IN THE SOFTWARE.
 				</td>
 				#end for
 			</tr>
-			#for $row in $color_grid
+
+
+
+			
 			<tr>
+				#for $row in $color_grid
 				#for $item in $row
 				<td style="color: white;">
 					#try
@@ -133,8 +137,14 @@ DEALINGS IN THE SOFTWARE.
 					#end try
 				</td>
 				#end for
+				#end for
+				
 			</tr>
-			#end for
+			
+
+
+
+
 		</table>
 		
     </body>
