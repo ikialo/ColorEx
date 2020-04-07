@@ -1,4 +1,4 @@
-![ColorEx](header.png)
+![ColorEx](res/header.png)
 # ColorEx Library
 
 *ColorEx* is a data visualization and summarization library that uses color creatively to represent data, make visualization interactive, and ultimately be a great tool for learning patterns in data. It is meant to be simple, easy, and straight-forward.
@@ -76,7 +76,7 @@ colorex_grid.to_html('attendance.html','template.html')
 6. If all things go smoothly, a new **HTML file** called ***attendance.html*** will be created in the same directory.
 7. Open this new HTML file, and you will see a color grid quite similar to the one shown below: 
 
-![Sample Output](sample_output.png)
+![Sample Output](res/sample_output.png)
 
 
 

@@ -1,4 +1,4 @@
-![ColorEx](header.png)
+![ColorEx](res/header.png)
 
 # Contributing to ColorEx
 
