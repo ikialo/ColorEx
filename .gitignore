@@ -1,9 +1,6 @@
 /dist/
 /colorexlib.egg-info/
 /build/
-/__pycache__/
-/.pytest_cache/
-
-/common/__pycache__/
-/readers/__pycache__/
-/writers/__pycache__/
+**/__pycache__/
+**/.pytest_cache/
+**/.pytest_cache/

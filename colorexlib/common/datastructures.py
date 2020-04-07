@@ -92,7 +92,7 @@ class Data:
 
 class Tile:
 
-    ''' Represents a single tile in a tile grid '''
+    ''' Represents a single tile in a grid of heat map tiles '''
 
     def __init__(self, options):
         '''Initialize a single Tile object '''
@@ -300,10 +300,10 @@ class DataGrid(object):
 
 
 
-class ColorGrid(object):
+class HeatMap(object):
 
     def __init__(self, options):
-        ''' Initialize ColorGrid object '''
+        ''' Initialize HeatMap object '''
         self.__grid = options['data']
         self.__size = self.__calculate_size(self.__grid)
         self.__shape = self.__calculate_shape(self.__grid)
@@ -318,40 +318,40 @@ class ColorGrid(object):
 
     @property
     def grid(self):
-        ''' get colorgrid data (list of lists) '''
+        ''' get HeatMap data (list of lists) '''
         return self.__grid
 
 
     @property
     def size(self):
-        ''' get size of color grid '''
+        ''' get size of heat map '''
         return self.__size
 
     @property
     def shape(self):
-        ''' get shape of color grid '''
+        ''' get shape of heat map '''
         return self.__shape
 
     @property
     def rows(self):
-        ''' get number of rows in color grid '''
+        ''' get number of rows in heat map '''
         return self.__rows
 
     @property
     def cols(self):
-        ''' get number of cols in color grid '''
+        ''' get number of cols in heat map '''
         return self.__cols
 
 
     @property
     def title(self):
-        ''' get title of the color grid '''
+        ''' get title of the heat map '''
         return self.__title
 
 
     @property
     def subtitle(self):
-        ''' get subtitle of the color grid '''
+        ''' get subtitle of the heat map '''
         return self.__subtitle
 
 
@@ -368,7 +368,7 @@ class ColorGrid(object):
 
 
     def __calculate_size(self, grid):
-        ''' calculate size of the color grid '''
+        ''' calculate size of the heat map '''
         size = 0
         for row in grid:
             size += len(row)
@@ -376,7 +376,7 @@ class ColorGrid(object):
 
 
     def __calculate_shape(self, grid):
-        ''' calculate the shape of the color grid '''
+        ''' calculate the shape of the heat map '''
         rows = 0
         cols = 0
         rows = len(grid)
@@ -386,16 +386,16 @@ class ColorGrid(object):
 
 
     def __str__(self):
-        return 'ColorGrid(' + str(self.__grid) + ')'
+        return 'HeatMap(' + str(self.__grid) + ')'
 
 
 
     def __repr__(self):
-        return 'ColorGrid(' + str(self.__grid) + ')'
+        return 'HeatMap(' + str(self.__grid) + ')'
 
 
-    def __eq__(self, color_grid):
-        if(self.__grid == color_grid):
+    def __eq__(self, heat_map):
+        if(self.__grid == heat_map):
             return True
         else:
             return False

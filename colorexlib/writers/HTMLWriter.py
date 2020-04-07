@@ -32,23 +32,23 @@ class HTMLWriter(FileOutputWriter):
 
     ''' Class that handles writing to HTML output files '''
 
-    def __init__(self, filepath, color_grid):
+    def __init__(self, filepath, heat_map):
         ''' Initialize HTMLWriter object '''
-        super().__init__(filepath, color_grid)
+        super().__init__(filepath, heat_map)
         self.dirs = dict()
 
     def write(self, options):
-        ''' write the ColorGrid to output HTML file '''
+        ''' write the HeatMap to output HTML file '''
         filepath = self.filepath
         output_file = open(filepath, "w")
         template_filename = options['template']
         template_file = open(template_filename, 'r')
         template_str = template_file.read()
         template = Template(template_str,
-            searchList=[{'color_grid': self.color_grid.grid[1:],
-                         'column_labels': self.color_grid.grid[0],
-                         'title': self.color_grid.title,
-                         'subtitle': self.color_grid.subtitle,
-                         'theme': self.color_grid.theme}])
+            searchList=[{'heat_map': self.heat_map.grid[1:],
+                         'column_labels': self.heat_map.grid[0],
+                         'title': self.heat_map.title,
+                         'subtitle': self.heat_map.subtitle,
+                         'theme': self.heat_map.theme}])
         output_file.write(str(template))
         output_file.close()

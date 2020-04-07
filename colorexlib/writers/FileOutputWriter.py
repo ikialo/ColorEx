@@ -33,10 +33,10 @@ class FileOutputWriter(OutputWriter):
 
     ''' Class represents all output file writers '''
 
-    def __init__(self, filepath, color_grid):
+    def __init__(self, filepath, heat_map):
         ''' Initialize FileOutputWriter object '''
         self.__filepath = filepath
-        self.__color_grid = color_grid
+        self.__heat_map = heat_map
 
     @property
     def filepath(self):
@@ -45,11 +45,11 @@ class FileOutputWriter(OutputWriter):
         return filepath
 
     @property
-    def color_grid(self):
-        ''' get the color grid (list of lists) '''
-        colorgrid = self.__color_grid
-        return colorgrid
+    def heat_map(self):
+        ''' get the heat map (list of lists) '''
+        heatmap = self.__heat_map
+        return heatmap
     
     def write(self, options):
-        ''' write color grid to output file '''
+        ''' write heat map to output file '''
         pass

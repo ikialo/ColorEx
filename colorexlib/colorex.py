@@ -26,12 +26,12 @@ DEALINGS IN THE SOFTWARE.
 
 '''
 from .common.themes import Theme, Themes
-from .common.datastructures import Data, ColorGrid, DataGrid, Tile
+from .common.datastructures import Data, HeatMap, DataGrid, Tile
 from .writers.HTMLWriter import HTMLWriter
 from .readers.CSVReader import CSVReader
 import re
 
-class ColorExGrid:
+class CX_HeatMap:
 
 
 
@@ -57,12 +57,12 @@ class ColorExGrid:
 
     @property
     def filename(self):
-        ''' get the filename for output color grid '''
+        ''' get the filename for output heat map '''
         return self.__filename
 
     @property
     def fileformat(self):
-        ''' get the file format of output color grid '''
+        ''' get the file format of output heat map '''
         return self.__fileformat
 
     @property
@@ -132,12 +132,12 @@ class ColorExGrid:
 
 
     ############################## CONTINUE HERE.
-    def generate_colorgrid(self, data_grid):
-        ''' creates an object of type ColorGrid '''
+    def generate_heatmap(self, data_grid):
+        ''' creates an object of type HeatMap '''
         new_data = list()
         max_values = data_grid.calculate_max_values_by_cols()
-        colorgrid = list()
-        colorgrid.append(data_grid.grid[0])
+        heatmap = list()
+        heatmap.append(data_grid.grid[0])
         
         for row in data_grid.grid[1:]:
             final_row = list()
@@ -154,14 +154,14 @@ class ColorExGrid:
                     
                 else:
                     final_row.append(row[item])
-            colorgrid.append(final_row)
+            heatmap.append(final_row)
             
-        colorgrid_obj = ColorGrid({'data': colorgrid,
+        heatmap_obj = HeatMap({'data': heatmap,
             'title': self.__title,
             'subtitle': self.__subtitle,
             'theme': self.get_theme(self.__theme)})
 
-        return colorgrid_obj
+        return heatmap_obj
 
 
 
@@ -244,26 +244,13 @@ class ColorExGrid:
 
 
     def to_html(self, html_filename, template):
-        ''' outputs ColorGrid object to a HTML file '''
+        ''' outputs HeatMap object to a HTML file '''
         if(self.__fileformat.lower() == 'csv'):
             reader = CSVReader(self.__filename)
             data_grid = reader.generate_datagrid()
-            color_grid = self.generate_colorgrid(data_grid)
-            html_writer = HTMLWriter(html_filename, color_grid)
+            heat_map = self.generate_heatmap(data_grid)
+            html_writer = HTMLWriter(html_filename, heat_map)
             html_writer.write({'template': template})
         else:
             raise Exception
-
-
-
-
-
-class MissingParametersError(Exception):
-    pass
-
-
-
-class InvalidParametersError(Exception):
-    pass
-
 
