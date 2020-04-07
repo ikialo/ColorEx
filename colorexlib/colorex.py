@@ -136,7 +136,7 @@ class CX_HeatMap:
                 'alpha': self.calculate_rgb_alpha(
                     data_item.value,
                     max_value),
-                'rgb': self.rgb_hex_to_decimal(rgb)
+                'rgb': Themes().rgb_hex_to_decimal(rgb)
         }
         return Tile(tile_options)
 
@@ -149,21 +149,6 @@ class CX_HeatMap:
         return alpha_value
 
 
-
-
-    # consider moving this to common/themes.py
-    def rgb_hex_to_decimal(self, rgb_hex):
-        if(rgb_hex[0]=='#'):
-            rgb_hex = rgb_hex[1:]
-        else:
-            return False
-        try:
-            r = int(re.findall('..', str(rgb_hex))[0], base=16)
-            g = int(re.findall('..', str(rgb_hex))[1], base=16)
-            b = int(re.findall('..', str(rgb_hex))[2], base=16)
-            return (r,g,b)
-        except:
-            return False
 
 
     # consider moving this to common/themes.py

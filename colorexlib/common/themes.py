@@ -27,6 +27,7 @@ DEALINGS IN THE SOFTWARE.
 '''
 
 import xml.etree.ElementTree as ET
+import re
 
 
 class Themes:
@@ -111,6 +112,19 @@ class Themes:
 
 
 
+
+    def rgb_hex_to_decimal(self, rgb_hex):
+        if(rgb_hex[0]=='#'):
+            rgb_hex = rgb_hex[1:]
+        else:
+            return False
+        try:
+            r = int(re.findall('..', str(rgb_hex))[0], base=16)
+            g = int(re.findall('..', str(rgb_hex))[1], base=16)
+            b = int(re.findall('..', str(rgb_hex))[2], base=16)
+            return (r,g,b)
+        except:
+            return False
 
 
 

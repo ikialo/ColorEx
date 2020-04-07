@@ -55,6 +55,21 @@ def test_Themes_is_rgb_hex():
 
 
 
+
+def test_CX_HeatMap_rgb_hex_to_decimal():
+    themes = Themes()
+    assert themes.rgb_hex_to_decimal('#ff0000') == (255,0,0)
+    assert themes.rgb_hex_to_decimal('#000000') == (0,0,0)
+    assert themes.rgb_hex_to_decimal('#00ff00') == (0,255,0)
+    assert themes.rgb_hex_to_decimal('#00ff00') == (0,255,0)
+    assert themes.rgb_hex_to_decimal('#00ffzz') == False
+    assert themes.rgb_hex_to_decimal('22aa00') == False
+
+
+
+
+
+
 ''' Theme class tests '''
 def test_Theme_palette():
     theme1 = Theme()
