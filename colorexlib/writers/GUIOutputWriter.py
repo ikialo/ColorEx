@@ -29,14 +29,12 @@ DEALINGS IN THE SOFTWARE.
 from .OutputWriter import OutputWriter
 
 class GUIOutputWriter(OutputWriter):
+        ''' Class facilitates writing of heat maps and grids to the screen GUI '''
 
-	''' Class facilitates writing of heat 
-	maps and grids to the screen GUI '''
+        def __init__(self, heat_map):
+                ''' Initialize GUIOutputWriter object '''
+                pass
 
-	def __init__(self):
-		''' Initialize GUIOutputWriter object '''
-		pass
-
-    def write(self):
-        ''' outputs the heat map to the screen GUI '''
-        pass
+        def write(self):
+                ''' outputs the heat map to the screen GUI '''
+                pass
