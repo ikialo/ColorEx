@@ -114,6 +114,7 @@ class Themes:
 
 
     def rgb_hex_to_decimal(self, rgb_hex):
+        ''' converts rgb hex color code to decimal (0-255) '''
         if(rgb_hex[0]=='#'):
             rgb_hex = rgb_hex[1:]
         else:
@@ -127,6 +128,90 @@ class Themes:
             return False
 
 
+    def decimal_to_rgb_hex(self,decimal):
+        ''' converts decimal code color to rgb hex code '''
+        r = hex(decimal[0]).replace('0x','')
+        g = hex(decimal[1]).replace('0x','')
+        b = hex(decimal[2]).replace('0x','')
+        if(len(r)==1):
+            r = '0'+r
+        if(len(g)==1):
+            g = '0'+g
+        if(len(b)==1):
+            b = '0'+b
+        return '#'+r+g+b
+
+
+
+
+    def generate_alpha_rgbcolor(self, rgb, alpha):
+        ''' Generates color between passed rgb decimal color and white, based on alpha '''
+        r = rgb[0]
+        g = rgb[1]
+        b = rgb[2]
+        n_colors = max(r,g,b)
+        increment = int(alpha*n_colors)
+        r += increment
+        g += increment
+        b += increment
+        if(r>255):
+            r = 255
+        if(g>255):
+            g = 255
+        if(b>255):
+            b = 255
+
+        return (r,g,b)
+
+
+
+
+    def generate_alpha_rgb_bicolor(self, rgb1, rgb2, alpha):
+        ''' Generates color between 2 rgb decimal colors, based on alpha '''
+        r1 = rgb1[0]
+        g1 = rgb1[1]
+        b1 = rgb1[2]
+
+        r2 = rgb2[0]
+        g2 = rgb2[1]
+        b2 = rgb2[2]
+        
+        n_colors = max(abs(r1-r2),abs(g1-g2),abs(b1-b2))
+        steps = int(alpha*n_colors)
+
+        if(r1 > r2):
+            r_new = r1 - steps
+        else:
+            r_new = r1 + steps
+
+        if(g1 > g2):
+            g_new = g1 - steps
+        else:
+            g_new = g1 + steps
+
+        if(b1 > b2):
+            b_new = b1 - steps
+        else:
+            b_new = b1 + steps
+        
+        if(r_new>255):
+            r_new = 255
+        elif(r_new<0):
+            r_new = 0
+            
+        if(g_new>255):
+            g_new = 255
+        elif(g_new<0):
+            g_new = 0
+            
+        if(b_new>255):
+            b_new = 255
+        elif(b_new<0):
+            b_new = 0
+
+        return (r_new,g_new,b_new)
+    
+    
 
     def is_color_name(self, color_name):
         ''' confirms whether or not a color name is valid, based
