@@ -28,6 +28,7 @@ DEALINGS IN THE SOFTWARE.
 from .common.themes import Theme, Themes
 from .common.datastructures import Data, HeatMap, DataGrid, Tile
 from .writers.HTMLWriter import HTMLWriter
+from .writers.GUIOutputWriter import GUIOutputWriter
 from .readers.CSVReader import CSVReader
 import re
 
@@ -148,4 +149,29 @@ class CX_HeatMap:
             html_writer.write({'template': template})
         else:
             raise Exception
+
+
+
+
+
+
+
+
+    # still experimenting with this, not confirmed.
+    
+    def to_gui(self):
+        ''' outputs HeatMap to a GUI screen'''
+        if(self.__fileformat.lower() == 'csv'):
+            reader = CSVReader(self.__filename)
+            data_grid = reader.generate_datagrid()
+            heat_map = self.generate_heatmap(data_grid)
+            gui_writer = GUIOutputWriter(heat_map)
+            gui_writer.write()
+        else:
+            raise Exception
+
+
+
+
+
 
