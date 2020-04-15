@@ -10,13 +10,33 @@ class HeatMapWindow(Frame):
 
 
     
-    def __init__(self, parent,heatmap=None, **kwargs):
+    def __init__(self, parent, heatmap=None, tile_size=(60,60),
+                 canvas_size_factor=0.9, canvas_top_margin=20,
+                 canvas_bottom_margin=20, ylabel_margin=10,
+                 xlabel_margin=2, **kwargs):
 
         if(heatmap == None):
             raise Exception
         
         # call parent initialize
         Frame.__init__(self, parent, **kwargs)
+
+
+        # declare some constants.
+        self.const = dict()
+        self.const["TILESIZE"] = tile_size
+        self.const["CANVAS_SIZE_FACTOR"] = canvas_size_factor
+        self.const["CANVAS_TOP_MARGIN"] = canvas_top_margin
+        self.const["CANVAS_BOTTOM_MARGIN"] = canvas_bottom_margin
+        self.const["YLABEL_MARGIN"] = ylabel_margin
+        self.const["XLABEL_MARGIN"] = xlabel_margin
+        self.const["YCOORD_TITLE"] = 30
+        self.const["YCOORD_SUBTITLE"] = 70
+        self.const["PLANE_TOP_MARGIN"] = 110
+        self.const["AXIS_TICK_LENGTH"] = 10
+
+    
+
         # set some heat map properties
         self.title = heatmap.title
         self.subtitle = heatmap.subtitle
@@ -24,50 +44,80 @@ class HeatMapWindow(Frame):
         self.yaxis_labels = list(map(lambda row: row[0], heatmap.grid[1:]))
         self.heatmap = heatmap
         self.heatmap_data = list(map(lambda row: row[1:], heatmap.grid[1:]))
+
+
         # create layout frames
         self.bottom_frame = Frame(self)
         self.right_frame = Frame(self)
         self.left_frame = Frame(self)
         self.parent = parent
+        
         # create a canvas object, and set window properties.
-        canvas_width_factor = 0.9
-        canvas_height_factor = 0.9
         self.canvas_width = int(
-            canvas_width_factor*self.parent.winfo_screenwidth())
+            self.const["CANVAS_SIZE_FACTOR"]*self.parent.winfo_screenwidth())
         self.canvas_height = int(
-            canvas_height_factor*self.parent.winfo_screenheight())
+            self.const["CANVAS_SIZE_FACTOR"]*self.parent.winfo_screenheight())
+
         # set window minimum size.
-        self.parent.minsize(width=self.canvas_width,
-            height=self.canvas_height)
+        self.parent.minsize(width=400,
+            height=300)
+
+
         # position the window
-        self.parent.geometry("1x1+0+0")
+        self.parent.geometry(str(self.canvas_width)+"x"+str(self.canvas_height)+"+0+0")
+        
         # initialize the canvas and render.
         self.canvas = Canvas(self.left_frame, bg="white",
             width=self.canvas_width, height=self.canvas_height)
         self.init_canvas()
-        # center the heatmap in the canvas
-        self.canvas_center_heatmap()
         self.render()
+        
         # bind some events to handlers
-        #self.left_frame.bind("<Configure>",self.on_configure)
+        self.left_frame.bind("<Configure>",self.on_configure)
         
 
 
     def init_canvas(self):
-        # init the canvas
-        margin_x = 0.15
-        margin_y = 0.15
-        # draw the title on the canvas.
-        self.canvas.create_text(self.canvas_width/2,28,
-            anchor="center", text=self.title,
-            fill='black', font=('Tahoma',26))
-        # draw the cartesian plane on the canvas.
-        cartesian_points = self.canvas_draw_cartesian(
-            len(self.xaxis_labels),len(self.yaxis_labels),
-            self.xaxis_labels, self.yaxis_labels, margin_x, margin_y)
-        # draw the tiles on the cartesian plane.
-        xint = cartesian_points["xaxis"]["axis_interval"]
-        yint = cartesian_points["yaxis"]["axis_interval"]
+        # draw the titles on the canvas.
+        # title
+        self.canvas.create_text(0,
+        self.const["YCOORD_TITLE"],
+        anchor="center", text=self.title,
+        fill='black', font=('Tahoma',26), tag="header")
+        # subtitle
+        self.canvas.create_text(0,
+        self.const["YCOORD_SUBTITLE"],
+        anchor="center", text=self.subtitle,
+        fill='gray', font=('Tahoma',15), tag="header")        
+
+        
+
+        # draw the cartesian plane on the canvas at canvas origin first.
+        # vertical axis
+        yaxis_start = (0,0)
+        yaxis_end =  (0,(self.const["TILESIZE"][1]*len(self.yaxis_labels)))
+        self.canvas.create_line(yaxis_start[0],yaxis_start[1],
+            yaxis_end[0], yaxis_end[1], tag="heatmap")
+        for n in range(len(self.yaxis_labels)):
+            point = (yaxis_start[0], yaxis_start[1]+(self.const["TILESIZE"][1]*n))
+            label = self.yaxis_labels[n]
+            self.canvas_draw_yaxis_tick(point, label)
+        
+        # horizontal axis
+        xaxis_start = yaxis_end
+        xaxis_end = (xaxis_start[0]+self.const["TILESIZE"][1]*len(self.xaxis_labels),
+            xaxis_start[1])
+        self.canvas.create_line(xaxis_start[0], xaxis_start[1],
+            xaxis_end[0], xaxis_end[1], tag="heatmap")
+        for n in range(len(self.xaxis_labels)):
+            point = (xaxis_start[0]+(self.const["TILESIZE"][0]*(n+1)), xaxis_start[1])
+            label = self.xaxis_labels[n]
+            self.canvas_draw_xaxis_tick(point, label)
+
+
+        plot_start = yaxis_start
+
+        # plot all tiles into the heat map cartesian plane
         for i in range(len(self.xaxis_labels)):
             for j in range(len(self.yaxis_labels)):
                 '''                
@@ -76,13 +126,22 @@ class HeatMapWindow(Frame):
                     self.heatmap_data[j][i].alpha)
                 '''
                 alpha_color = Themes().generate_alpha_rgb_bicolor(
-                    (212,0,1),(255,204,0),self.heatmap_data[j][i].alpha)
+                    (128,0,51),(255,213,229),self.heatmap_data[j][i].alpha)
                 alpha_color_hex = Themes().decimal_to_rgb_hex(
                     alpha_color)
-                self.canvas_draw_tile(self.canvas_get_new_point(
-                    cartesian_points["origin"], i*xint, j*yint),xint,
-                    yint, alpha_color_hex)      
-        self.canvas.addtag_all("all")
+                point = self.canvas_get_new_point(plot_start,
+                    i*self.const["TILESIZE"][0],
+                    j*self.const["TILESIZE"][1])
+                self.canvas_draw_tile(point,alpha_color_hex,
+                    self.heatmap_data[j][i], width=0, outline="white")
+                
+        
+        # center the heatmap horizontally.
+        self.canvas_center_header()
+        self.canvas_center_heatmap(centerAlongX=True, centerAlongY=True)
+
+
+
         # create some scrollbars
         self.scroll_y = Scrollbar(self.right_frame,
             command=self.canvas.yview, orient=VERTICAL)
@@ -92,107 +151,118 @@ class HeatMapWindow(Frame):
         self.canvas.configure(xscrollcommand=self.scroll_x.set)
 
 
+
+
+
+    def canvas_center_heatmap(self,centerAlongX=True, centerAlongY=True):
+        ''' centers the cartesian plane illustrating the heat map '''
+        tag = "heatmap"
+        bbox = self.canvas.bbox(tag)
+        bbox_x1 = bbox[0]
+        bbox_x2 = bbox[2]
+        bbox_y1 = bbox[1]
+        bbox_width = bbox_x2 - bbox_x1
+        canvas_width = self.canvas_width
+        final_x = (canvas_width/2) - (bbox_width/2)
+        dx = final_x - bbox_x1
+        #self.canvas.move(tag, dx,0)
+        if(centerAlongX):
+            for item in self.canvas.find_withtag(tag):
+                self.canvas.move(item, dx, 0)
+        if(centerAlongY):
+            for item in self.canvas.find_withtag(tag):
+                self.canvas.move(item,0,self.const["PLANE_TOP_MARGIN"])
+        self.canvas_update_scrollregion()
+
+
+    def canvas_center_header(self):
+        ''' centers the header of the heatmap containing title, subtitle. '''
+        tag = "header"
+        bbox = self.canvas.bbox(tag)
+        bbox_x1 = bbox[0]
+        bbox_x2 = bbox[2]
+        bbox_width = bbox_x2 - bbox_x1
+        canvas_width = self.canvas_width
+        final_x = (canvas_width/2) - (bbox_width/2)
+        dx = final_x - bbox_x1
+        self.canvas.move(tag, dx, 0)
+        self.canvas_update_scrollregion()
+
+
+
+
+
+
+
+
     def canvas_get_new_point(self, old_point, dx, dy):
         old_x = old_point[0]
         old_y = old_point[1]
         new_x = old_x + dx
-        new_y = old_y - dy
+        new_y = old_y + dy
         return (new_x, new_y)
 
 
-    def canvas_draw_tile(self, bottom_left_xy, xint, yint, fill_color):
-        self.canvas.create_rectangle(bottom_left_xy[0], bottom_left_xy[1],
-            bottom_left_xy[0]+xint, bottom_left_xy[1]-yint, fill=fill_color, tag="heatmap")
 
 
-    def canvas_draw_cartesian(self,n_xaxis_ticks, n_yaxis_ticks,
-        xaxis_ticks_labels, yaxis_ticks_labels, margin_x, margin_y):
-        # draw vertical axis
-        v_start_point = (margin_x*self.canvas_width,70)
-        v_end_point =  (margin_x*self.canvas_width,(1-margin_y)*self.canvas_height)
-        self.canvas.create_line(v_start_point[0],v_start_point[1],
-            v_end_point[0], v_end_point[1], tag="heatmap")
-        # draw horizontal axis
-        h_start_point = (margin_x*self.canvas_width,(1-margin_y)*self.canvas_height)
-        h_end_point = (900,(1-margin_y)*self.canvas_height)
-        self.canvas.create_line(h_start_point[0], h_start_point[1],
-            h_end_point[0], h_end_point[1], tag="heatmap")
-        # draw ticks on vertical axis
-        yaxis_const = self.canvas_draw_yaxis_ticks(v_start_point,
-            v_end_point,n_yaxis_ticks,yaxis_ticks_labels)
-        xaxis_const = self.canvas_draw_xaxis_ticks(h_start_point,
-            h_end_point,n_xaxis_ticks,xaxis_ticks_labels)
-        points = dict()
-        points["yaxis"] = yaxis_const
-        points["xaxis"] = xaxis_const
-        points["origin"] = v_end_point
-        points["xmargin"] = margin_x
-        points["ymargin"] = margin_y
-        return points
-
-
-    def canvas_draw_yaxis_ticks(self, start, end, n_ticks, tick_labels):
-        y_axis_length = math.trunc(math.sqrt(
-            (end[0]-start[0])**2+(end[1]-start[1])**2))
-        y_axis_interval = math.trunc(y_axis_length / n_ticks)
-        current_point = end
-        for i in range(n_ticks):
-            self.canvas_draw_axis_tick(current_point, "y")
-            current_point = (current_point[0], current_point[1]-y_axis_interval)
-            self.canvas_label_yaxis_tick(self.canvas_get_new_point(current_point,
-                -20, -y_axis_interval/2), tick_labels[i])
-        constants = dict()
-        constants["axis_length"] = y_axis_length
-        constants["axis_interval"] = y_axis_interval
-        return constants
-
-
-
-    def canvas_draw_xaxis_ticks(self, start, end, n_ticks, tick_labels):
-        x_axis_length = math.trunc(math.sqrt((end[0]-start[0])**2+(end[1]-start[1])**2))
-        x_axis_interval = math.trunc(x_axis_length / n_ticks)
-        current_point = start
-        for i in range(n_ticks):
-            self.canvas_draw_axis_tick(current_point, "x")
-            current_point = (current_point[0]+x_axis_interval, current_point[1])
-            self.canvas_label_xaxis_tick(self.canvas_get_new_point(current_point,
-                -x_axis_interval/2,-20), tick_labels[i])
-        constants = dict()
-        constants["axis_length"] = x_axis_length
-        constants["axis_interval"] = x_axis_interval
-        return constants
+    def canvas_draw_tile(self, topleft_point, fill_color, tile, width=0, outline="black"):
+        xint = self.const["TILESIZE"][0]
+        yint = self.const["TILESIZE"][1]
+        x1 = topleft_point[0]
+        y1 = topleft_point[1]
+        x2 = topleft_point[0]+xint
+        y2 = topleft_point[1]+yint
+        self.canvas.create_rectangle(x1,y1,x2,y2,fill=fill_color,
+            width=width, outline=outline,tag="heatmap")
+        #self.canvas.create_text(x1, y1,
+        #    text=tile.value, tag="heatmap")
 
 
 
 
-    def canvas_draw_axis_tick(self, point, axis):
-        x = point[0]
-        y = point[1]
-        if(axis=="x"):
-            self.canvas.create_line(x, y-10, x, y+10, tag="heatmap")
-        elif(axis=="y"):
-            self.canvas.create_line(x-10, y, x+10, y, tag="heatmap")
-    
 
 
-    def canvas_label_xaxis_tick(self, point, label):
-        self.canvas.create_text(point[0], point[1], text=label, anchor="e", angle=90, tag="heatmap")
-        
+    def canvas_draw_yaxis_tick(self, point, label):
+        # determine the coordinates
+        x1 = point[0]
+        y1 = point[1]
+        end = (point[0]-self.const["AXIS_TICK_LENGTH"],point[1])
+        x2 = end[0]
+        y2 = end[1]
+        # draw the tick
+        self.canvas.create_line(x1,y1,x2,y2, tag="heatmap")
+        # label the tick
+        label_point = list()
+        label_point.append(point[0]-self.const["AXIS_TICK_LENGTH"]
+            -self.const["YLABEL_MARGIN"])
+        label_point.append(point[1])
+        self.canvas.create_text(label_point[0],
+            label_point[1]+self.const["TILESIZE"][1]/2,
+            text=label, anchor="e", tag="heatmap")
 
-    def canvas_label_yaxis_tick(self, point, label):
-        self.canvas.create_text(point[0], point[1], text=label, anchor="e", tag="heatmap")
-    
+
+
+    def canvas_draw_xaxis_tick(self, point, label):
+        # determine the coordinates
+        x1 = point[0]
+        y1 = point[1]
+        end = (point[0],point[1]+self.const["AXIS_TICK_LENGTH"])
+        x2 = end[0]
+        y2 = end[1]
+        # draw the tick
+        self.canvas.create_line(x1,y1,x2,y2, tag="heatmap")
+        # label the tick
+        label_point = list()
+        label_point.append(point[0])
+        label_point.append(point[1]+self.const["AXIS_TICK_LENGTH"]
+            +self.const["XLABEL_MARGIN"])
+        self.canvas.create_text(label_point[0]-self.const["TILESIZE"][0]/2,
+            label_point[1],
+            text=label, anchor="e", angle=90, tag="heatmap")
 
 
 
-    def on_configure(self,event):
-        if(self.canvas.winfo_width()!=1):
-            self.canvas_width = self.canvas.winfo_width()
-            self.canvas_height = self.canvas.winfo_height()
-            self.canvas_position_item("all", self.canvas_width/2, 28)
-        #self.canvas.scale("all",0,0,1.0001,1.001)
-        self.canvas_update_scrollregion()
-    
+
 
 
 
@@ -202,27 +272,17 @@ class HeatMapWindow(Frame):
 
 
 
-    def canvas_move_all_items(self, x, y):
-        self.canvas.move("all", x, y)
+
+    def on_configure(self,event):
+        if(self.canvas.winfo_width()!=1):
+            self.canvas_width = self.canvas.winfo_width()
+            self.canvas_height = self.canvas.winfo_height()
+            self.canvas_center_header()
+            self.canvas_center_heatmap(centerAlongX=True, centerAlongY=False)
         self.canvas_update_scrollregion()
 
 
 
-    def canvas_position_item(self, tag, x, y):
-        self.canvas.coords(tag, x, y)
-        self.canvas_update_scrollregion()
-
-
-
-    def canvas_center_heatmap(self):
-        ''' centers the cartesian plane illustrating the heat map '''
-        tag = "heatmap"
-        bbox_width = self.canvas.bbox(tag)[2] - self.canvas.bbox(tag)[0]
-        print("bbox",self.canvas.bbox(tag))
-        print("bbox_width",bbox_width)
-        print("canvas_width",self.canvas_width)
-        print("canvas_width/2",self.canvas_width/2)
-        self.canvas.move(tag, ((self.canvas_width/2)-(bbox_width/2))/2,0)
 
 
     def render(self):

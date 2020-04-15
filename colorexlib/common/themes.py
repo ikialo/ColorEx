@@ -177,7 +177,7 @@ class Themes:
         b2 = rgb2[2]
         
         n_colors = max(abs(r1-r2),abs(g1-g2),abs(b1-b2))
-        steps = int(alpha*n_colors)
+        steps = int((1-alpha)*n_colors)
 
         if(r1 > r2):
             r_new = r1 - steps
