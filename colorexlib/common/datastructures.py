@@ -302,6 +302,8 @@ class DataGrid(object):
 
 class HeatMap(object):
 
+    
+
     def __init__(self, options):
         ''' Initialize HeatMap object '''
         self.__grid = options['data']
@@ -311,10 +313,13 @@ class HeatMap(object):
         self.__cols = self.__shape['cols']
         self.__title = options['title']
         self.__subtitle = options['subtitle']
+        self.__theme = options['theme']
+        self.__stylesheet = options['stylesheet']
         try:
             self.__theme = options['theme']
         except:
             self.__theme = 'default'
+        
 
     @property
     def grid(self):
@@ -359,6 +364,13 @@ class HeatMap(object):
     def theme(self):
         ''' get theme dictionary of options '''
         return self.__theme
+
+
+
+    @property
+    def stylesheet(self):
+        ''' get style dictionary of settings'''
+        return self.__stylesheet
 
 
 

@@ -46,13 +46,8 @@ class CX_HeatMap:
         self.__fileformat = options["source"][1]
         self.__title = options["title"]
         self.__subtitle = options["subtitle"]
-        try:
-            # If theme was specified
-            self.__theme = options['theme']
-        except:
-            # If theme wasn't specified.
-            self.__theme = 'default'
-
+        self.__theme = options["theme"]
+        self.__stylesheet = options["stylesheet"]
         self.__colors = Themes().colors
         self.__themes = Themes().themes
 
@@ -83,6 +78,11 @@ class CX_HeatMap:
         ''' get the currently set theme name '''
         return self.__theme
 
+    @property
+    def stylesheet(self):
+        ''' get the currently set stylesheet object '''
+        return self.__stylesheet
+
 
 
     def generate_heatmap(self, data_grid):
@@ -94,17 +94,14 @@ class CX_HeatMap:
         
         for row in data_grid.grid[1:]:
             final_row = list()
-            rgb_index = 0
             for item in range(len(row)):
                 if(type(row[item]) is Data):
 
-                    # We're just dealing with a theme here.
+                    
                     new_tile = self.generate_tile(row[item],
                         max_values[item],
-                        self.__themes[self.__theme]['primary'])
+                        self.__theme)
                     final_row.append(new_tile)
-                    rgb_index += 1
-                    
                 else:
                     final_row.append(row[item])
             heatmap.append(final_row)
@@ -112,20 +109,30 @@ class CX_HeatMap:
         heatmap_obj = HeatMap({'data': heatmap,
             'title': self.__title,
             'subtitle': self.__subtitle,
-            'theme': self.__themes[self.__theme]})
+            'theme': self.__theme,
+            'stylesheet': self.__stylesheet})
 
         return heatmap_obj
 
  
         
-    def generate_tile(self, data_item, max_value, rgb):
+    def generate_tile(self, data_item, max_value, theme):
         ''' generates a new tile of type Tile '''
+        highColor = theme.palette["primary"]
+        lowColor = theme.palette["secondary"]
+        highColorDec = Themes().rgb_hex_to_decimal(highColor)
+        lowColorDec = Themes().rgb_hex_to_decimal(lowColor)
+        alpha_color = Themes().generate_alpha_rgb_bicolor(
+            highColorDec,lowColorDec,self.calculate_rgb_alpha(
+                data_item.value, max_value))
+        rgb = Themes().decimal_to_rgb_hex(
+            alpha_color)
         tile_options = {
                 'value': data_item.value,
                 'alpha': self.calculate_rgb_alpha(
                     data_item.value,
                     max_value),
-                'rgb': Themes().rgb_hex_to_decimal(rgb)
+                'rgb': rgb
         }
         return Tile(tile_options)
 
@@ -165,7 +172,8 @@ class CX_HeatMap:
             reader = CSVReader(self.__filename)
             data_grid = reader.generate_datagrid()
             heat_map = self.generate_heatmap(data_grid)
-            gui_writer = GUIOutputWriter(heat_map)
+            gui_writer = GUIOutputWriter(heatmap=heat_map,
+                stylesheet=self.__stylesheet)
             gui_writer.write()
         else:
             raise Exception

@@ -227,86 +227,72 @@ class Themes:
 
 
 
+
+
+
+
+
+
+
+
+
+
 class Theme:
 
-    def __init__(self, filename=None, name='default'):
+    def __init__(self, primaryColor="",
+        secondaryColor="",onPrimaryColor="",onSecondaryColor=""):
 
 
         # prepare color palette
         self.__palette = dict()
-        self.__palette['primary'] = ''
-        self.__palette['secondary'] = ''
-        self.__palette['on-primary'] = ''
-        self.__palette['on-secondary'] = ''
+        self.__palette['primary'] = primaryColor
+        self.__palette['secondary'] = secondaryColor
+        self.__palette['on-primary'] = onPrimaryColor
+        self.__palette['on-secondary'] = onSecondaryColor
 
-
-
-        # validation of parameters
-        if(filename == None and name=='default'):
-            # go with default settings.
-            all_themes = Themes()
-            the_theme = all_themes.themes['default']
-            self.__palette['primary'] = the_theme['primary']
-            self.__palette['secondary'] = the_theme['secondary']
-            self.__palette['on-primary'] = the_theme['on-primary']
-            self.__palette['on-secondary'] = the_theme['on-secondary']
-
-        elif(filename == None and name != 'default'):
-            # go with theme name specified, using in-built theme.
-            try:
-                all_themes = Themes()
-                the_theme = all_themes.themes[name]
-                self.__palette['primary'] = the_theme['primary']
-                self.__palette['secondary'] = the_theme['secondary']
-                self.__palette['on-primary'] = the_theme['on-primary']
-                self.__palette['on-secondary'] = the_theme['on-secondary']
-            except:
-                raise Exception
-                        
-
-        elif((filename != None and name == 'default') or (filename != None and name != 'default')):
-            # go with the theme declared in the theme file specified.
-            # read theme from theme file (XML-formatted .cxt file)
-            try:
-                tree = ET.parse(filename)
-                root = tree.getroot()
-                # extract theme data from .cxt XML file
-                all_theme_colors = list(root)
-                for color in all_theme_colors:
-                    if(color.get('name') == 'primary'):
-                        self.__palette['primary'] = color.get('value')
-                        
-                    elif(color.get('name') == 'secondary'):
-                        self.__palette['secondary'] = color.get('value')
-                        
-                    elif(color.get('name') == 'on-primary'):
-                        self.__palette['on-primary'] = color.get('value')
-                        
-                    elif(color.get('name') == 'on-secondary'):
-                        self.__palette['on-secondary'] = color.get('value')
-
-                    else:
-                        continue
-
-            except:
-                raise Exception
-        
-
-        else:
-            # just go with the default.
-            # go with default settings.
-            all_themes = Themes()
-            the_theme = all_themes.themes['default']
-            self.__palette['primary'] = the_theme['primary']
-            self.__palette['secondary'] = the_theme['secondary']
-            self.__palette['on-primary'] = the_theme['on-primary']
-            self.__palette['on-secondary'] = the_theme['on-secondary']        
-        
-
-
+     
 
 
     @property
     def palette(self):
         ''' returns a dictionary color palette for the current theme '''
         return self.__palette
+
+
+
+
+
+
+
+
+
+
+class StyleSheet:
+
+    def __init__(self, tile_size=(60,60),canvas_size_factor=0.9,
+                 canvas_top_margin=20,canvas_bottom_margin=20,
+                 ylabel_margin=10,xlabel_margin=2, xaxis_label="",
+                 yaxis_label=""):
+
+
+        # prepare color palette
+        self.__stylesheet = dict()
+        self.__stylesheet['tile_size'] = tile_size
+        self.__stylesheet['canvas_size_factor'] = canvas_size_factor 
+        self.__stylesheet['canvas_top_margin'] = canvas_top_margin
+        self.__stylesheet['canvas_bottom_margin'] = canvas_bottom_margin
+        self.__stylesheet['ylabel_margin'] = xlabel_margin
+        self.__stylesheet['xlabel_margin'] = ylabel_margin
+        self.__stylesheet['xaxis_label'] = xaxis_label
+        self.__stylesheet['yaxis_label'] = yaxis_label
+
+     
+
+
+    @property
+    def stylesheet(self):
+        ''' returns a dictionary styles for the current stylesheets '''
+        return self.__stylesheet
+
+
+

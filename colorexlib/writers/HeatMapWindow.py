@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from ..common.datastructures import HeatMap, Tile
-from ..common.themes import Themes
+from ..common.themes import Themes, StyleSheet
 import math
 
 
@@ -10,41 +10,27 @@ class HeatMapWindow(Frame):
 
 
     
-    def __init__(self, parent, heatmap=None, tile_size=(60,60),theme="default",
-                 canvas_size_factor=0.9, canvas_top_margin=20,
-                 canvas_bottom_margin=20, ylabel_margin=10,
-                 xlabel_margin=2, xaxis_label="", yaxis_label="",**kwargs):
-
-
-
-        if(heatmap == None):
+    def __init__(self, parent, heatmap=None, stylesheet=None, **kwargs):
+        
+        if(heatmap == None and stylesheet==None):
             raise Exception
         
         # call parent initialize
         Frame.__init__(self, parent, **kwargs)
-
-       
-
+        
 
         # declare some constants.
         self.const = dict()
-        self.const["TILESIZE"] = tile_size
-        self.const["CANVAS_SIZE_FACTOR"] = canvas_size_factor
-        self.const["CANVAS_TOP_MARGIN"] = canvas_top_margin
-        self.const["CANVAS_BOTTOM_MARGIN"] = canvas_bottom_margin
-        self.const["YLABEL_MARGIN"] = ylabel_margin
-        self.const["XLABEL_MARGIN"] = xlabel_margin
+        self.const["TILESIZE"] = stylesheet.stylesheet['tile_size']
+        self.const["CANVAS_SIZE_FACTOR"] = stylesheet.stylesheet['canvas_size_factor']
+        self.const["CANVAS_TOP_MARGIN"] = stylesheet.stylesheet['canvas_top_margin']
+        self.const["CANVAS_BOTTOM_MARGIN"] = stylesheet.stylesheet['canvas_bottom_margin']
+        self.const["YLABEL_MARGIN"] = stylesheet.stylesheet['ylabel_margin']
+        self.const["XLABEL_MARGIN"] = stylesheet.stylesheet['xlabel_margin']
         self.const["YCOORD_TITLE"] = 30
         self.const["YCOORD_SUBTITLE"] = 70
         self.const["PLANE_TOP_MARGIN"] = 110
         self.const["AXIS_TICK_LENGTH"] = 10
-
-
-
-
-
-        #################### create top menu
-        
 
 
 
@@ -55,8 +41,9 @@ class HeatMapWindow(Frame):
         self.yaxis_labels = list(map(lambda row: row[0], heatmap.grid[1:]))
         self.heatmap = heatmap
         self.heatmap_data = list(map(lambda row: row[1:], heatmap.grid[1:]))
-        self.xaxis_label = xaxis_label
-        self.yaxis_label = yaxis_label
+        self.xaxis_label = stylesheet.stylesheet['xaxis_label']
+        self.yaxis_label = stylesheet.stylesheet['yaxis_label']
+
 
 
         # create layout frames
@@ -64,12 +51,16 @@ class HeatMapWindow(Frame):
         self.right_frame = Frame(self)
         self.left_frame = Frame(self)
         self.parent = parent
+
+        
         
         # create a canvas object, and set window properties.
         self.canvas_width = int(
             self.const["CANVAS_SIZE_FACTOR"]*self.parent.winfo_screenwidth())
         self.canvas_height = int(
             self.const["CANVAS_SIZE_FACTOR"]*self.parent.winfo_screenheight())
+
+
 
         # set window minimum size.
         self.parent.minsize(width=400,
@@ -81,12 +72,14 @@ class HeatMapWindow(Frame):
 
         # position the window
         self.parent.geometry(str(self.canvas_width)+"x"+str(self.canvas_height)+"+0+0")
+
         
         # initialize the canvas and render.
         self.canvas = Canvas(self.left_frame, bg="white",
             width=self.canvas_width, height=self.canvas_height)
         self.init_canvas()
         self.render()
+
         
         # bind some events to handlers
         self.left_frame.bind("<Configure>",self.on_configure)
@@ -172,15 +165,16 @@ class HeatMapWindow(Frame):
                 alpha_color = Themes().generate_alpha_rgbcolor(
                     self.heatmap_data[j][i].rgb,
                     self.heatmap_data[j][i].alpha)
-                '''
+
                 alpha_color = Themes().generate_alpha_rgb_bicolor(
                     (212,0,0),(255,213,213),self.heatmap_data[j][i].alpha)
                 alpha_color_hex = Themes().decimal_to_rgb_hex(
                     alpha_color)
+                '''
                 point = self.canvas_get_new_point(plot_start,
                     i*self.const["TILESIZE"][0],
                     j*self.const["TILESIZE"][1])
-                self.canvas_draw_tile(point,alpha_color_hex,
+                self.canvas_draw_tile(point,self.heatmap_data[j][i].rgb,
                     self.heatmap_data[j][i], width=0, outline="white")
                 
 

@@ -36,11 +36,24 @@ class GUIOutputWriter(OutputWriter):
         ''' Class facilitates writing of heat 
         maps and grids to the screen GUI '''
 
-        def __init__(self, heatmap):
+        def __init__(self,heatmap=None,stylesheet=None):
                 ''' Initialize GUIOutputWriter object '''
                 self.heatmap = heatmap
+                self.stylesheet = stylesheet
+                
+
 
         def write(self):
+                ''' outputs the heat map to the screen GUI '''
+                root = Tk()
+                root.title("Heat Map in ColorEx")
+                f = HeatMapWindow(root, heatmap=self.heatmap,
+                                  stylesheet=self.stylesheet)
+                root.mainloop()
+
+                
+
+        def write2(self):
                 ''' outputs the heat map to the screen GUI '''
                 root = Tk()
                 root.title("Heat Map in ColorEx")
