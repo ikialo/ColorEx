@@ -10,16 +10,20 @@ class HeatMapWindow(Frame):
 
 
     
-    def __init__(self, parent, heatmap=None, tile_size=(60,60),
+    def __init__(self, parent, heatmap=None, tile_size=(60,60),theme="default",
                  canvas_size_factor=0.9, canvas_top_margin=20,
                  canvas_bottom_margin=20, ylabel_margin=10,
-                 xlabel_margin=2, **kwargs):
+                 xlabel_margin=2, xaxis_label="", yaxis_label="",**kwargs):
+
+
 
         if(heatmap == None):
             raise Exception
         
         # call parent initialize
         Frame.__init__(self, parent, **kwargs)
+
+       
 
 
         # declare some constants.
@@ -35,7 +39,14 @@ class HeatMapWindow(Frame):
         self.const["PLANE_TOP_MARGIN"] = 110
         self.const["AXIS_TICK_LENGTH"] = 10
 
-    
+
+
+
+
+        #################### create top menu
+        
+
+
 
         # set some heat map properties
         self.title = heatmap.title
@@ -44,6 +55,8 @@ class HeatMapWindow(Frame):
         self.yaxis_labels = list(map(lambda row: row[0], heatmap.grid[1:]))
         self.heatmap = heatmap
         self.heatmap_data = list(map(lambda row: row[1:], heatmap.grid[1:]))
+        self.xaxis_label = xaxis_label
+        self.yaxis_label = yaxis_label
 
 
         # create layout frames
@@ -63,6 +76,9 @@ class HeatMapWindow(Frame):
             height=300)
 
 
+        
+
+
         # position the window
         self.parent.geometry(str(self.canvas_width)+"x"+str(self.canvas_height)+"+0+0")
         
@@ -75,6 +91,38 @@ class HeatMapWindow(Frame):
         # bind some events to handlers
         self.left_frame.bind("<Configure>",self.on_configure)
         
+
+
+
+    def onMouseEnterTile(self, event, tile_id):
+        self.canvas.itemconfigure(str(tile_id), width=5, outline="black")
+        self.canvas.tag_raise(str(tile_id),"heatmap")
+
+
+    def onMouseLeaveTile(self, event, tile_id):
+        self.canvas.itemconfigure(str(tile_id), width=0)
+        self.canvas.delete("current_tile_popup")
+
+
+    def onMouseClickTile(self, event, tile_id, tile_data):
+        self.canvas.itemconfigure(str(tile_id), width=11, outline="black")
+        coords = self.canvas.coords(str(tile_id))
+        x = coords[0]+self.const["TILESIZE"][0]
+        y = coords[1]
+
+        point1 = (x,y)
+        point2 = (x+10, y-40)
+        point3 = (x+80, y-40)
+        point4 = (x+80, y-40+30)
+        point5 = (x+10, y-40+30)
+        self.canvas.create_polygon(point1[0],point1[1],point2[0],
+            point2[1],point3[0],point3[1],point4[0],point4[1],
+            point5[0],point5[1],point1[0],point1[1],fill="black",
+            tag="current_tile_popup")
+        
+        self.canvas.create_text(point2[0]+(point3[0]-point2[0])/2,
+            ((point5[1]-point2[1])/2)+point2[1],text=tile_data.value,
+            font="Tahoma 11 bold",tag="current_tile_popup", fill="white")
 
 
     def init_canvas(self):
@@ -126,7 +174,7 @@ class HeatMapWindow(Frame):
                     self.heatmap_data[j][i].alpha)
                 '''
                 alpha_color = Themes().generate_alpha_rgb_bicolor(
-                    (128,0,51),(255,213,229),self.heatmap_data[j][i].alpha)
+                    (212,0,0),(255,213,213),self.heatmap_data[j][i].alpha)
                 alpha_color_hex = Themes().decimal_to_rgb_hex(
                     alpha_color)
                 point = self.canvas_get_new_point(plot_start,
@@ -135,6 +183,33 @@ class HeatMapWindow(Frame):
                 self.canvas_draw_tile(point,alpha_color_hex,
                     self.heatmap_data[j][i], width=0, outline="white")
                 
+
+
+
+        # draw the axis labels, xaxis, yaxis.
+        hm_leftx = self.canvas.bbox("heatmap")[0]
+        hm_lefty = self.canvas.bbox("heatmap")[1]
+        hm_rightx = self.canvas.bbox("heatmap")[2]
+        hm_righty = self.canvas.bbox("heatmap")[3]
+        
+        tiles_leftx = self.canvas.bbox("tiles")[0]
+        tiles_lefty = self.canvas.bbox("tiles")[1]
+        tiles_rightx = self.canvas.bbox("tiles")[2]
+        tiles_righty = self.canvas.bbox("tiles")[3]
+        
+        xaxis_label_x = (tiles_rightx-tiles_leftx)/2 + tiles_leftx
+        xaxis_label_y = (hm_righty) + 20
+        yaxis_label_x = hm_leftx - 20
+        yaxis_label_y = (tiles_righty - tiles_lefty)/2
+        
+        self.canvas.create_text(xaxis_label_x, xaxis_label_y,
+            text=self.xaxis_label, font="Arial 14 bold", tag="heatmap")
+        self.canvas.create_text(yaxis_label_x, yaxis_label_y,
+            text=self.yaxis_label, font="Arial 14 bold", angle=90, tag="heatmap")
+
+
+
+
         
         # center the heatmap horizontally.
         self.canvas_center_header()
@@ -142,6 +217,10 @@ class HeatMapWindow(Frame):
 
 
 
+
+
+
+    
         # create some scrollbars
         self.scroll_y = Scrollbar(self.right_frame,
             command=self.canvas.yview, orient=VERTICAL)
@@ -150,6 +229,28 @@ class HeatMapWindow(Frame):
             command=self.canvas.xview, orient=HORIZONTAL)
         self.canvas.configure(xscrollcommand=self.scroll_x.set)
 
+
+
+
+
+
+    ################################################# Not using this as a legend may not be necessary due to heatmap interactivity.
+    def canvas_draw_legend(self):
+        # create the legend or key for the heatmap
+        legendbox_x1 = 50
+        legendbox_y1 = self.const["PLANE_TOP_MARGIN"]
+        legendbox_x2 = 250
+        legendbox_y2 = self.const["PLANE_TOP_MARGIN"]+300
+        self.canvas.create_rectangle(legendbox_x1, legendbox_y1,
+            legendbox_x2, legendbox_y2)
+        self.canvas.create_text((legendbox_x1+legendbox_x2)/2,
+            legendbox_y1+40,text="Legend")
+
+
+        self.canvas.create_rectangle(legendbox_x1+15, legendbox_y1+60,
+            legendbox_x1+30, legendbox_y1+75)
+        self.canvas.create_text(legendbox_x1+45, legendbox_y1+60,text="20-30",
+            anchor="w")
 
 
 
@@ -212,12 +313,11 @@ class HeatMapWindow(Frame):
         y1 = topleft_point[1]
         x2 = topleft_point[0]+xint
         y2 = topleft_point[1]+yint
-        self.canvas.create_rectangle(x1,y1,x2,y2,fill=fill_color,
-            width=width, outline=outline,tag="heatmap")
-        #self.canvas.create_text(x1, y1,
-        #    text=tile.value, tag="heatmap")
-
-
+        tile_id = self.canvas.create_rectangle(x1,y1,x2,y2,fill=fill_color,
+            width=width, outline=outline,tag=("heatmap", "tiles"))
+        self.canvas.tag_bind(str(tile_id),"<Enter>",lambda event, tile=tile_id: self.onMouseEnterTile(event, tile_id))
+        self.canvas.tag_bind(str(tile_id),"<Leave>",lambda event, tile=tile_id: self.onMouseLeaveTile(event, tile_id))
+        self.canvas.tag_bind(str(tile_id),"<Button>",lambda event, tile=tile_id, tile_data=tile: self.onMouseClickTile(event, tile_id, tile_data))
 
 
 

@@ -367,6 +367,28 @@ class HeatMap(object):
         return self.__grid[row][col]
 
 
+    def get_distinct_tiles(self):
+        ''' returns a list of non-repeated tiles '''
+        tiles = self.__grid
+        list_of_values = list()
+        for i in range(len(tiles)):
+            for j in range(len(tiles[0])):
+                try:
+                    list_of_values.append(tiles[i][j].value)
+                except:
+                    continue
+
+        for i in range(len(list_of_values)):
+            try:
+                if(list_of_values.count(list_of_values[i]) > 1):
+                    list_of_values.pop(i)
+            except:
+                continue
+            
+        return list_of_values
+    
+
+
     def __calculate_size(self, grid):
         ''' calculate size of the heat map '''
         size = 0

@@ -44,5 +44,5 @@ class GUIOutputWriter(OutputWriter):
                 ''' outputs the heat map to the screen GUI '''
                 root = Tk()
                 root.title("Heat Map in ColorEx")
-                f = HeatMapWindow(root, self.heatmap)
+                f = HeatMapWindow(root, heatmap=self.heatmap)
                 root.mainloop()
