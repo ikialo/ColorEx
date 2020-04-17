@@ -371,7 +371,7 @@ class HeatMap(object):
 
     @property
     def stylesheet(self):
-        ''' get style dictionary of settings'''
+        ''' get stylesheet object of of style settings'''
         return self.__stylesheet
 
 

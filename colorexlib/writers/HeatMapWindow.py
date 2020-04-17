@@ -191,15 +191,18 @@ class HeatMapWindow(Frame):
 
             if(self.xaxis_label != ""):
                 self.canvas.create_text(xaxis_label_x, xaxis_label_y,
-                    text=self.xaxis_label, font="Arial 14 bold", tag="heatmap")
+                    text=self.xaxis_label, font="Arial 14 bold", 
+                    tag="heatmap")
             if(self.yaxis_label != ""):
                 self.canvas.create_text(yaxis_label_x, yaxis_label_y,
-                    text=self.yaxis_label, font="Arial 14 bold", angle=90, tag="heatmap")
+                    text=self.yaxis_label, font="Arial 14 bold", 
+                    angle=90, tag="heatmap")
 
         
         # center the heatmap horizontally.
         self.canvas_center_header()
-        self.canvas_center_heatmap(centerAlongX=True, centerAlongY=True)
+        self.canvas_center_heatmap(centerAlongX=True, 
+            centerAlongY=True)
 
     
         # create some scrollbars
@@ -232,6 +235,7 @@ class HeatMapWindow(Frame):
             legendbox_x1+30, legendbox_y1+75)
         self.canvas.create_text(legendbox_x1+45, legendbox_y1+60,text="20-30",
             anchor="w")
+    ################################################# Not using this as a legend may not be necessary due to heatmap interactivity.
 
 
 
@@ -256,6 +260,9 @@ class HeatMapWindow(Frame):
         self.canvas_update_scrollregion()
 
 
+
+
+
     def canvas_center_header(self):
         ''' centers the header of the heatmap containing title, subtitle. '''
         tag = "header"
@@ -274,8 +281,6 @@ class HeatMapWindow(Frame):
 
 
 
-
-
     def canvas_get_new_point(self, old_point, dx, dy):
         old_x = old_point[0]
         old_y = old_point[1]
@@ -286,18 +291,24 @@ class HeatMapWindow(Frame):
 
 
 
-    def canvas_draw_tile(self, topleft_point, fill_color, tile, width=0, outline="black"):
+    def canvas_draw_tile(self, topleft_point, fill_color, tile, 
+        width=0, outline="black"):
         xint = self.const["TILESIZE"][0]
         yint = self.const["TILESIZE"][1]
         x1 = topleft_point[0]
         y1 = topleft_point[1]
         x2 = topleft_point[0]+xint
         y2 = topleft_point[1]+yint
-        tile_id = self.canvas.create_rectangle(x1,y1,x2,y2,fill=fill_color,
-            width=width, outline=outline,tag=("heatmap", "tiles"))
-        self.canvas.tag_bind(str(tile_id),"<Enter>",lambda event, tile=tile_id: self.onMouseEnterTile(event, tile_id))
-        self.canvas.tag_bind(str(tile_id),"<Leave>",lambda event, tile=tile_id: self.onMouseLeaveTile(event, tile_id))
-        self.canvas.tag_bind(str(tile_id),"<Button>",lambda event, tile=tile_id, tile_data=tile: self.onMouseClickTile(event, tile_id, tile_data))
+        tile_id = self.canvas.create_rectangle(x1,y1,x2,y2,
+            fill=fill_color,width=width, outline=outline,
+            tag=("heatmap", "tiles"))
+        self.canvas.tag_bind(str(tile_id),"<Enter>",lambda event, 
+            tile=tile_id: self.onMouseEnterTile(event, tile_id))
+        self.canvas.tag_bind(str(tile_id),"<Leave>",lambda event, 
+            tile=tile_id: self.onMouseLeaveTile(event, tile_id))
+        self.canvas.tag_bind(str(tile_id),"<Button>",lambda event, 
+            tile=tile_id, tile_data=tile: self.onMouseClickTile(event, 
+                tile_id, tile_data))
 
 
 
@@ -319,6 +330,7 @@ class HeatMapWindow(Frame):
         self.canvas.create_text(label_point[0],
             label_point[1]+self.const["TILESIZE"][1]/2,
             text=label, anchor="e", tag="heatmap")
+
 
 
 
@@ -358,7 +370,8 @@ class HeatMapWindow(Frame):
             self.canvas_width = self.canvas.winfo_width()
             self.canvas_height = self.canvas.winfo_height()
             self.canvas_center_header()
-            self.canvas_center_heatmap(centerAlongX=True, centerAlongY=False)
+            self.canvas_center_heatmap(centerAlongX=True, 
+                centerAlongY=False)
         self.canvas_update_scrollregion()
 
 
@@ -370,7 +383,8 @@ class HeatMapWindow(Frame):
         self.bottom_frame.pack(fill=X, expand=False, side=BOTTOM)
         self.right_frame.pack(fill=Y, expand=False, side=RIGHT)
         self.left_frame.pack(fill=BOTH, expand=True, side=LEFT)
-        self.canvas.pack(fill=BOTH, expand=True, padx=0, pady=0, side=LEFT)
+        self.canvas.pack(fill=BOTH, expand=True, padx=0, 
+            pady=0, side=LEFT)
         self.scroll_y.pack(fill=Y, side=RIGHT)
         self.scroll_x.pack(fill=X, side=BOTTOM)
 

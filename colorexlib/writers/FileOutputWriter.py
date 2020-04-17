@@ -53,7 +53,7 @@ class FileOutputWriter(OutputWriter):
 
     @property
     def stylesheet(self):
-        ''' get the stylesheet object of properties '''
+        ''' get the stylesheet object of styling properties '''
         stylesheet = self.__stylesheet
         return stylesheet
     

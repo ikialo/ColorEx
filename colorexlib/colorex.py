@@ -174,8 +174,8 @@ class CX_HeatMap:
             data_grid = reader.generate_datagrid()
             heat_map = self.generate_heatmap(data_grid)
             stylesheet = self.stylesheet
-            html_writer = HTMLWriter(filepath=html_filename, heatmap=heat_map,
-                                     stylesheet=stylesheet)
+            html_writer = HTMLWriter(filepath=html_filename, 
+                heatmap=heat_map, stylesheet=stylesheet)
             html_writer.write({'template': template})
         else:
             raise Exception
