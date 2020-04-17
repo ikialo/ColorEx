@@ -32,9 +32,12 @@ class HTMLWriter(FileOutputWriter):
 
     ''' Class that handles writing to HTML output files '''
 
-    def __init__(self, filepath, heat_map):
+    def __init__(self, filepath=None, heatmap=None, stylesheet=None):
         ''' Initialize HTMLWriter object '''
-        super().__init__(filepath, heat_map)
+        if(filepath==None or heatmap==None or stylesheet==None):
+            raise Exception
+        
+        super().__init__(filepath, heatmap, stylesheet)
         self.dirs = dict()
 
     def write(self, options):
@@ -45,10 +48,11 @@ class HTMLWriter(FileOutputWriter):
         template_file = open(template_filename, 'r')
         template_str = template_file.read()
         template = Template(template_str,
-            searchList=[{'heat_map': self.heat_map.grid[1:],
-                         'column_labels': self.heat_map.grid[0],
-                         'title': self.heat_map.title,
-                         'subtitle': self.heat_map.subtitle,
-                         'theme': self.heat_map.theme}])
+            searchList=[{'heatmap': self.heatmap.grid[1:],
+                         'column_labels': self.heatmap.grid[0],
+                         'title': self.heatmap.title,
+                         'subtitle': self.heatmap.subtitle,
+                         'theme': self.heatmap.theme,
+                         'stylesheet': self.stylesheet}])
         output_file.write(str(template))
         output_file.close()

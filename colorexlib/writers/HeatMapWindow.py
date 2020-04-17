@@ -19,7 +19,7 @@ class HeatMapWindow(Frame):
         Frame.__init__(self, parent, **kwargs)
         
 
-        # declare some constants.
+        # declare some constants for stylesheet
         self.const = dict()
         self.const["TILESIZE"] = stylesheet.stylesheet['tile_size']
         self.const["CANVAS_SIZE_FACTOR"] = stylesheet.stylesheet['canvas_size_factor']
@@ -41,8 +41,8 @@ class HeatMapWindow(Frame):
         self.yaxis_labels = list(map(lambda row: row[0], heatmap.grid[1:]))
         self.heatmap = heatmap
         self.heatmap_data = list(map(lambda row: row[1:], heatmap.grid[1:]))
-        self.xaxis_label = stylesheet.stylesheet['xaxis_label']
-        self.yaxis_label = stylesheet.stylesheet['yaxis_label']
+        self.xaxis_label = heatmap.xaxislabel
+        self.yaxis_label = heatmap.yaxislabel
 
 
 
@@ -52,7 +52,7 @@ class HeatMapWindow(Frame):
         self.left_frame = Frame(self)
         self.parent = parent
 
-        
+
         
         # create a canvas object, and set window properties.
         self.canvas_width = int(
@@ -62,12 +62,13 @@ class HeatMapWindow(Frame):
 
 
 
+
+
         # set window minimum size.
         self.parent.minsize(width=400,
             height=300)
 
 
-        
 
 
         # position the window
@@ -79,6 +80,9 @@ class HeatMapWindow(Frame):
             width=self.canvas_width, height=self.canvas_height)
         self.init_canvas()
         self.render()
+
+
+        
 
         
         # bind some events to handlers
@@ -115,7 +119,7 @@ class HeatMapWindow(Frame):
         
         self.canvas.create_text(point2[0]+(point3[0]-point2[0])/2,
             ((point5[1]-point2[1])/2)+point2[1],text=tile_data.value,
-            font="Tahoma 11 bold",tag="current_tile_popup", fill="white")
+            font="Arial 11 bold",tag="current_tile_popup", fill="white")
 
 
     def init_canvas(self):
@@ -124,12 +128,12 @@ class HeatMapWindow(Frame):
         self.canvas.create_text(0,
         self.const["YCOORD_TITLE"],
         anchor="center", text=self.title,
-        fill='black', font=('Tahoma',26), tag="header")
+        fill='black', font="Arial 22", tag="header")
         # subtitle
         self.canvas.create_text(0,
         self.const["YCOORD_SUBTITLE"],
         anchor="center", text=self.subtitle,
-        fill='gray', font=('Tahoma',15), tag="header")        
+        fill='gray', font="Arial 13", tag="header")        
 
         
 
@@ -161,16 +165,6 @@ class HeatMapWindow(Frame):
         # plot all tiles into the heat map cartesian plane
         for i in range(len(self.xaxis_labels)):
             for j in range(len(self.yaxis_labels)):
-                '''                
-                alpha_color = Themes().generate_alpha_rgbcolor(
-                    self.heatmap_data[j][i].rgb,
-                    self.heatmap_data[j][i].alpha)
-
-                alpha_color = Themes().generate_alpha_rgb_bicolor(
-                    (212,0,0),(255,213,213),self.heatmap_data[j][i].alpha)
-                alpha_color_hex = Themes().decimal_to_rgb_hex(
-                    alpha_color)
-                '''
                 point = self.canvas_get_new_point(plot_start,
                     i*self.const["TILESIZE"][0],
                     j*self.const["TILESIZE"][1])
@@ -178,41 +172,34 @@ class HeatMapWindow(Frame):
                     self.heatmap_data[j][i], width=0, outline="white")
                 
 
-
-
         # draw the axis labels, xaxis, yaxis.
-        hm_leftx = self.canvas.bbox("heatmap")[0]
-        hm_lefty = self.canvas.bbox("heatmap")[1]
-        hm_rightx = self.canvas.bbox("heatmap")[2]
-        hm_righty = self.canvas.bbox("heatmap")[3]
-        
-        tiles_leftx = self.canvas.bbox("tiles")[0]
-        tiles_lefty = self.canvas.bbox("tiles")[1]
-        tiles_rightx = self.canvas.bbox("tiles")[2]
-        tiles_righty = self.canvas.bbox("tiles")[3]
-        
-        xaxis_label_x = (tiles_rightx-tiles_leftx)/2 + tiles_leftx
-        xaxis_label_y = (hm_righty) + 20
-        yaxis_label_x = hm_leftx - 20
-        yaxis_label_y = (tiles_righty - tiles_lefty)/2
-        
-        self.canvas.create_text(xaxis_label_x, xaxis_label_y,
-            text=self.xaxis_label, font="Arial 14 bold", tag="heatmap")
-        self.canvas.create_text(yaxis_label_x, yaxis_label_y,
-            text=self.yaxis_label, font="Arial 14 bold", angle=90, tag="heatmap")
+        if(self.xaxis_label != "" or self.yaxis_label != ""):
+            hm_leftx = self.canvas.bbox("heatmap")[0]
+            hm_lefty = self.canvas.bbox("heatmap")[1]
+            hm_rightx = self.canvas.bbox("heatmap")[2]
+            hm_righty = self.canvas.bbox("heatmap")[3]
+            
+            tiles_leftx = self.canvas.bbox("tiles")[0]
+            tiles_lefty = self.canvas.bbox("tiles")[1]
+            tiles_rightx = self.canvas.bbox("tiles")[2]
+            tiles_righty = self.canvas.bbox("tiles")[3]
+            
+            xaxis_label_x = (tiles_rightx-tiles_leftx)/2 + tiles_leftx
+            xaxis_label_y = (hm_righty) + 20
+            yaxis_label_x = hm_leftx - 20
+            yaxis_label_y = (tiles_righty - tiles_lefty)/2
 
-
-
+            if(self.xaxis_label != ""):
+                self.canvas.create_text(xaxis_label_x, xaxis_label_y,
+                    text=self.xaxis_label, font="Arial 14 bold", tag="heatmap")
+            if(self.yaxis_label != ""):
+                self.canvas.create_text(yaxis_label_x, yaxis_label_y,
+                    text=self.yaxis_label, font="Arial 14 bold", angle=90, tag="heatmap")
 
         
         # center the heatmap horizontally.
         self.canvas_center_header()
         self.canvas_center_heatmap(centerAlongX=True, centerAlongY=True)
-
-
-
-
-
 
     
         # create some scrollbars
@@ -260,7 +247,6 @@ class HeatMapWindow(Frame):
         canvas_width = self.canvas_width
         final_x = (canvas_width/2) - (bbox_width/2)
         dx = final_x - bbox_x1
-        #self.canvas.move(tag, dx,0)
         if(centerAlongX):
             for item in self.canvas.find_withtag(tag):
                 self.canvas.move(item, dx, 0)

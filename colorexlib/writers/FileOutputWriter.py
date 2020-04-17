@@ -33,10 +33,11 @@ class FileOutputWriter(OutputWriter):
 
     ''' Class represents all output file writers '''
 
-    def __init__(self, filepath, heat_map):
+    def __init__(self, filepath, heatmap, stylesheet):
         ''' Initialize FileOutputWriter object '''
         self.__filepath = filepath
-        self.__heat_map = heat_map
+        self.__heatmap = heatmap
+        self.__stylesheet = stylesheet
 
     @property
     def filepath(self):
@@ -45,10 +46,16 @@ class FileOutputWriter(OutputWriter):
         return filepath
 
     @property
-    def heat_map(self):
+    def heatmap(self):
         ''' get the heat map (list of lists) '''
-        heatmap = self.__heat_map
+        heatmap = self.__heatmap
         return heatmap
+
+    @property
+    def stylesheet(self):
+        ''' get the stylesheet object of properties '''
+        stylesheet = self.__stylesheet
+        return stylesheet
     
     def write(self, options):
         ''' write heat map to output file '''

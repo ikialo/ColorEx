@@ -283,8 +283,6 @@ class StyleSheet:
         self.__stylesheet['canvas_bottom_margin'] = canvas_bottom_margin
         self.__stylesheet['ylabel_margin'] = xlabel_margin
         self.__stylesheet['xlabel_margin'] = ylabel_margin
-        self.__stylesheet['xaxis_label'] = xaxis_label
-        self.__stylesheet['yaxis_label'] = yaxis_label
 
      
 

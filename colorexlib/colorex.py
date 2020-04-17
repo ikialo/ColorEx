@@ -48,6 +48,14 @@ class CX_HeatMap:
         self.__subtitle = options["subtitle"]
         self.__theme = options["theme"]
         self.__stylesheet = options["stylesheet"]
+        try:
+            self.__xaxislabel = options["xaxis_label"]
+        except:
+            self.__xaxislabel = ""
+        try:
+            self.__yaxislabel = options["yaxis_label"]
+        except:
+            self.__yaxislabel = ""
         self.__colors = Themes().colors
         self.__themes = Themes().themes
 
@@ -84,6 +92,18 @@ class CX_HeatMap:
         return self.__stylesheet
 
 
+    @property
+    def xaxislabel(self):
+        ''' get the x-axis label'''
+        return self.__xaxislabel
+
+
+    @property
+    def yaxislabel(self):
+        ''' get the y-axis label '''
+        return self.__yaxislabel
+
+
 
     def generate_heatmap(self, data_grid):
         ''' creates an object of type HeatMap '''
@@ -96,7 +116,6 @@ class CX_HeatMap:
             final_row = list()
             for item in range(len(row)):
                 if(type(row[item]) is Data):
-
                     
                     new_tile = self.generate_tile(row[item],
                         max_values[item],
@@ -110,7 +129,9 @@ class CX_HeatMap:
             'title': self.__title,
             'subtitle': self.__subtitle,
             'theme': self.__theme,
-            'stylesheet': self.__stylesheet})
+            'stylesheet': self.__stylesheet,
+            'xaxis_label': self.__xaxislabel,
+            'yaxis_label': self.__yaxislabel})
 
         return heatmap_obj
 
@@ -152,19 +173,14 @@ class CX_HeatMap:
             reader = CSVReader(self.__filename)
             data_grid = reader.generate_datagrid()
             heat_map = self.generate_heatmap(data_grid)
-            html_writer = HTMLWriter(html_filename, heat_map)
+            stylesheet = self.stylesheet
+            html_writer = HTMLWriter(filepath=html_filename, heatmap=heat_map,
+                                     stylesheet=stylesheet)
             html_writer.write({'template': template})
         else:
             raise Exception
 
 
-
-
-
-
-
-
-    # still experimenting with this, not confirmed.
     
     def to_gui(self):
         ''' outputs HeatMap to a GUI screen'''

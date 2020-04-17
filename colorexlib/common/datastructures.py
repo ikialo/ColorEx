@@ -315,6 +315,8 @@ class HeatMap(object):
         self.__subtitle = options['subtitle']
         self.__theme = options['theme']
         self.__stylesheet = options['stylesheet']
+        self.__xaxislabel = options['xaxis_label']
+        self.__yaxislabel = options['yaxis_label']
         try:
             self.__theme = options['theme']
         except:
@@ -372,6 +374,17 @@ class HeatMap(object):
         ''' get style dictionary of settings'''
         return self.__stylesheet
 
+
+    @property
+    def xaxislabel(self):
+        ''' get the x-axis label'''
+        return self.__xaxislabel
+
+
+    @property
+    def yaxislabel(self):
+        ''' get the y-axis label '''
+        return self.__yaxislabel
 
 
     def get_tile(self, row, col):
