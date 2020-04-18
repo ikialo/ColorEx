@@ -94,11 +94,14 @@ class HeatMapWindow(Frame):
     def onMouseEnterTile(self, event, tile_id):
         self.canvas.itemconfigure(str(tile_id), width=5, outline="black")
         self.canvas.tag_raise(str(tile_id),"heatmap")
+        # change the mouse cursor in the heatmap
+        self.canvas.config(cursor="crosshair")
 
 
     def onMouseLeaveTile(self, event, tile_id):
         self.canvas.itemconfigure(str(tile_id), width=0)
         self.canvas.delete("current_tile_popup")
+        self.canvas.config(cursor="")
 
 
     def onMouseClickTile(self, event, tile_id, tile_data):
