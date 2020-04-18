@@ -25,7 +25,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 '''
-from .common.themes import Theme, Themes
+from .common.styling import Theme, Themes
 from .common.datastructures import Data, HeatMap, DataGrid, Tile
 from .writers.HTMLWriter import HTMLWriter
 from .writers.GUIOutputWriter import GUIOutputWriter

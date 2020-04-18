@@ -145,7 +145,8 @@ class Themes:
 
 
     def generate_alpha_rgbcolor(self, rgb, alpha):
-        ''' Generates color between passed rgb decimal color and white, based on alpha '''
+        ''' Generates color between passed rgb decimal 
+        color and white, based on alpha '''
         r = rgb[0]
         g = rgb[1]
         b = rgb[2]
@@ -167,7 +168,8 @@ class Themes:
 
 
     def generate_alpha_rgb_bicolor(self, rgb1, rgb2, alpha):
-        ''' Generates color between 2 rgb decimal colors, based on alpha '''
+        ''' Generates color between 2 rgb decimal colors, 
+        based on alpha '''
         r1 = rgb1[0]
         g1 = rgb1[1]
         b1 = rgb1[2]
@@ -214,8 +216,8 @@ class Themes:
     
 
     def is_color_name(self, color_name):
-        ''' confirms whether or not a color name is valid, based
-        on internal color dictionary '''
+        ''' confirms whether or not a color name is 
+        valid, based on internal color dictionary '''
         if(color_name in self.__colors.keys()):
             return True
         else:
@@ -239,8 +241,9 @@ class Themes:
 
 class Theme:
 
-    def __init__(self, primaryColor="",
-        secondaryColor="",onPrimaryColor="",onSecondaryColor=""):
+    def __init__(self, primaryColor="#000000",
+        secondaryColor="#ffffff",onPrimaryColor="#ffffff",
+        onSecondaryColor="#000000"):
 
 
         # prepare color palette
@@ -255,7 +258,8 @@ class Theme:
 
     @property
     def palette(self):
-        ''' returns a dictionary color palette for the current theme '''
+        ''' returns a dictionary color 
+        palette for the current theme '''
         return self.__palette
 
 
@@ -289,7 +293,8 @@ class StyleSheet:
 
     @property
     def stylesheet(self):
-        ''' returns a dictionary styles for the current stylesheets '''
+        ''' returns a dictionary styles for 
+        the current stylesheets '''
         return self.__stylesheet
 
 

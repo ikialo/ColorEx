@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import ttk
 from ..common.datastructures import HeatMap, Tile
-from ..common.themes import Themes, StyleSheet
+from ..common.styling import Themes, StyleSheet
 import math
 
 
