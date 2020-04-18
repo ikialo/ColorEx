@@ -222,6 +222,17 @@ class Theme:
         self.__palette['on-primary'] = onPrimaryColor
         self.__palette['on-secondary'] = onSecondaryColor
 
+        # do conversion of the colors from color names to color codes
+        # if necessary
+        if(Themes().is_color_name(primaryColor)):
+            self.__palette['primary'] = Themes().colors[primaryColor]
+        if(Themes().is_color_name(secondaryColor)):
+            self.__palette['secondary'] = Themes().colors[secondaryColor]
+        if(Themes().is_color_name(onPrimaryColor)):
+            self.__palette['on-primary'] = Themes().colors[onPrimaryColor]
+        if(Themes().is_color_name(onSecondaryColor)):
+            self.__palette['on-secondary'] = Themes().colors[onSecondaryColor]
+
      
 
 
