@@ -172,13 +172,13 @@ class Themes:
         based on alpha '''
         import math
 
-        ramount = math.trunc((rgb1[0] - rgb2[0])*alpha)
-        gamount = math.trunc((rgb1[1] - rgb2[1])*alpha)
-        bamount = math.trunc((rgb1[2] - rgb2[2])*alpha)
+        ramount = math.trunc((rgb2[0] - rgb1[0])*alpha)
+        gamount = math.trunc((rgb2[1] - rgb1[1])*alpha)
+        bamount = math.trunc((rgb2[2] - rgb1[2])*alpha)
 
-        r_new = rgb1[0] + (0-ramount)
-        g_new = rgb1[1] + (0-gamount)
-        b_new = rgb1[2] + (0-bamount)
+        r_new = rgb2[0] + (0-ramount)
+        g_new = rgb2[1] + (0-gamount)
+        b_new = rgb2[2] + (0-bamount)
 
         return (r_new,g_new,b_new)
     
