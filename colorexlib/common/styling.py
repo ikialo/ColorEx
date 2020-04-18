@@ -170,46 +170,15 @@ class Themes:
     def generate_alpha_rgb_bicolor(self, rgb1, rgb2, alpha):
         ''' Generates color between 2 rgb decimal colors, 
         based on alpha '''
-        r1 = rgb1[0]
-        g1 = rgb1[1]
-        b1 = rgb1[2]
+        import math
 
-        r2 = rgb2[0]
-        g2 = rgb2[1]
-        b2 = rgb2[2]
-        
-        n_colors = max(abs(r1-r2),abs(g1-g2),abs(b1-b2))
-        steps = int((1-alpha)*n_colors)
+        ramount = math.trunc((rgb1[0] - rgb2[0])*alpha)
+        gamount = math.trunc((rgb1[1] - rgb2[1])*alpha)
+        bamount = math.trunc((rgb1[2] - rgb2[2])*alpha)
 
-        if(r1 > r2):
-            r_new = r1 - steps
-        else:
-            r_new = r1 + steps
-
-        if(g1 > g2):
-            g_new = g1 - steps
-        else:
-            g_new = g1 + steps
-
-        if(b1 > b2):
-            b_new = b1 - steps
-        else:
-            b_new = b1 + steps
-        
-        if(r_new>255):
-            r_new = 255
-        elif(r_new<0):
-            r_new = 0
-            
-        if(g_new>255):
-            g_new = 255
-        elif(g_new<0):
-            g_new = 0
-            
-        if(b_new>255):
-            b_new = 255
-        elif(b_new<0):
-            b_new = 0
+        r_new = rgb1[0] + (0-ramount)
+        g_new = rgb1[1] + (0-gamount)
+        b_new = rgb1[2] + (0-bamount)
 
         return (r_new,g_new,b_new)
     
@@ -242,7 +211,7 @@ class Themes:
 class Theme:
 
     def __init__(self, primaryColor="#000000",
-        secondaryColor="#ffffff",onPrimaryColor="#ffffff",
+        secondaryColor="#ffffff", onPrimaryColor="#ffffff",
         onSecondaryColor="#000000"):
 
 

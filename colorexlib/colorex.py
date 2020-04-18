@@ -25,7 +25,7 @@ DEALINGS IN THE SOFTWARE.
 
 
 '''
-from .common.styling import Theme, Themes
+from .common.styling import Theme, Themes, StyleSheet
 from .common.datastructures import Data, HeatMap, DataGrid, Tile
 from .writers.HTMLWriter import HTMLWriter
 from .writers.GUIOutputWriter import GUIOutputWriter
@@ -46,8 +46,14 @@ class CX_HeatMap:
         self.__fileformat = options["source"][1]
         self.__title = options["title"]
         self.__subtitle = options["subtitle"]
-        self.__theme = options["theme"]
-        self.__stylesheet = options["stylesheet"]
+        try:
+            self.__theme = options["theme"]
+        except:
+            self.__theme = Theme()
+        try:
+            self.__stylesheet = options["stylesheet"]
+        except:
+            self.__stylesheet = StyleSheet()
         try:
             self.__xaxislabel = options["xaxis_label"]
         except:
