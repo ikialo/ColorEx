@@ -31,7 +31,18 @@ class HeatMapWindow(Frame):
         self.const["YCOORD_SUBTITLE"] = 70
         self.const["PLANE_TOP_MARGIN"] = 110
         self.const["AXIS_TICK_LENGTH"] = 10
+        self.const["AXES_LABEL"] = stylesheet.stylesheet['axes_label'] 
 
+
+        self.axes_label_font = list()
+        font_family = self.const["AXES_LABEL"]["font-family"]
+        font_size = str(self.const["AXES_LABEL"]["size"])
+        bold = self.const["AXES_LABEL"]["bold"]
+        self.axes_label_font.append(font_family)
+        self.axes_label_font.append(font_size)
+        if(bold):
+            self.axes_label_font.append('bold')
+        
 
 
         # set some heat map properties
@@ -330,9 +341,12 @@ class HeatMapWindow(Frame):
         label_point.append(point[0]-self.const["AXIS_TICK_LENGTH"]
             -self.const["YLABEL_MARGIN"])
         label_point.append(point[1])
+
+
+
         self.canvas.create_text(label_point[0],
             label_point[1]+self.const["TILESIZE"][1]/2,
-            text=label, anchor="e", tag="heatmap")
+            text=label, anchor="e", font=self.axes_label_font, tag="heatmap")
 
 
 
@@ -351,9 +365,12 @@ class HeatMapWindow(Frame):
         label_point.append(point[0])
         label_point.append(point[1]+self.const["AXIS_TICK_LENGTH"]
             +self.const["XLABEL_MARGIN"])
+            
+
         self.canvas.create_text(label_point[0]-self.const["TILESIZE"][0]/2,
             label_point[1],
-            text=label, anchor="e", angle=90, tag="heatmap")
+            text=label, anchor="e", angle=90, font=self.axes_label_font,
+            tag="heatmap")
 
 
 

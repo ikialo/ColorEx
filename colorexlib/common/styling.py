@@ -256,10 +256,11 @@ class StyleSheet:
     def __init__(self, tile_size=(60,60),canvas_size_factor=0.9,
                  canvas_top_margin=20,canvas_bottom_margin=20,
                  ylabel_margin=10,xlabel_margin=2, xaxis_label="",
-                 yaxis_label=""):
+                 yaxis_label="", axes_label={'font-family': 'Tahoma',
+                 'size': 10, 'bold': False}):
 
 
-        # prepare color palette
+        # prepare and set all the styles
         self.__stylesheet = dict()
         self.__stylesheet['tile_size'] = tile_size
         self.__stylesheet['canvas_size_factor'] = canvas_size_factor 
@@ -267,6 +268,7 @@ class StyleSheet:
         self.__stylesheet['canvas_bottom_margin'] = canvas_bottom_margin
         self.__stylesheet['ylabel_margin'] = xlabel_margin
         self.__stylesheet['xlabel_margin'] = ylabel_margin
+        self.__stylesheet['axes_label'] = axes_label
 
      
 
