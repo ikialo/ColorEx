@@ -526,7 +526,7 @@ class HeatMapWindow(Frame):
 
     def canvas_update_scrollregion(self):
         region = (0,0,self.canvas.bbox(ALL)[2],
-        self.canvas.bbox(ALL)[3])
+        self.canvas.bbox(ALL)[3]+50)
         self.canvas.configure(scrollregion=region)
 
 
