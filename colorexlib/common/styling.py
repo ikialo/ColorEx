@@ -1,5 +1,4 @@
 '''
-
 Copyright 2019 Louis Ronald
 
 Permission is hereby granted, free of charge, to any person 
@@ -21,9 +20,6 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 DEALINGS IN THE SOFTWARE.
-
-
-
 '''
 
 import xml.etree.ElementTree as ET
@@ -212,7 +208,8 @@ class Theme:
 
     def __init__(self, primaryColor="#000000",
         secondaryColor="#ffffff", onPrimaryColor="#ffffff",
-        onSecondaryColor="#000000"):
+        onSecondaryColor="#000000", backgroundColor="#ffffff",
+        onBackgroundColor="#000000"):
 
 
         # prepare color palette
@@ -221,6 +218,8 @@ class Theme:
         self.__palette['secondary'] = secondaryColor
         self.__palette['on-primary'] = onPrimaryColor
         self.__palette['on-secondary'] = onSecondaryColor
+        self.__palette['background'] = backgroundColor
+        self.__palette['on-background'] = onBackgroundColor
 
         # do conversion of the colors from color names to color codes
         # if necessary
@@ -232,8 +231,10 @@ class Theme:
             self.__palette['on-primary'] = Themes().colors[onPrimaryColor]
         if(Themes().is_color_name(onSecondaryColor)):
             self.__palette['on-secondary'] = Themes().colors[onSecondaryColor]
-
-     
+        if(Themes().is_color_name(backgroundColor)):
+            self.__palette['background'] = Themes().colors[backgroundColor]
+        if(Themes().is_color_name(onBackgroundColor)):
+            self.__palette['on-background'] = Themes().colors[onBackgroundColor]
 
 
     @property
@@ -253,31 +254,60 @@ class Theme:
 
 class StyleSheet:
 
-    def __init__(self, tile_size=(60,60),canvas_size_factor=0.9,
-                 canvas_top_margin=20,canvas_bottom_margin=20,
-                 ylabel_margin=10,xlabel_margin=2, xaxis_label="",
-                 yaxis_label="", axes_label={'font-family': 'Tahoma',
-                 'size': 10, 'bold': False}):
+    def __init__(self, tile_size=(60,60), plane_top_margin=117, 
+                 canvas_size_factor=0.9, canvas_top_margin=20,
+                 canvas_bottom_margin=20, ylabel_margin=10,
+                 xlabel_margin=2, axes_title_font="Arial", 
+                 axes_title_size=14, axes_title_bold=True,
+                 axes_tick_length=10,axes_label_font="Arial", 
+                 axes_label_size=10, axes_label_bold=False, 
+                 title_font="Arial", title_size=22, title_bold=False,
+                 title_ycoord=30, subtitle_font="Arial", subtitle_size=13,
+                 subtitle_bold=False, subtitle_ycoord=70):
 
 
         # prepare and set all the styles
-        self.__stylesheet = dict()
-        self.__stylesheet['tile_size'] = tile_size
-        self.__stylesheet['canvas_size_factor'] = canvas_size_factor 
-        self.__stylesheet['canvas_top_margin'] = canvas_top_margin
-        self.__stylesheet['canvas_bottom_margin'] = canvas_bottom_margin
-        self.__stylesheet['ylabel_margin'] = xlabel_margin
-        self.__stylesheet['xlabel_margin'] = ylabel_margin
-        self.__stylesheet['axes_label'] = axes_label
+        self.__styles = dict()
+        self.__styles['tile_size'] = tile_size
+        # plane settings
+        self.__styles['plane_top_margin'] = plane_top_margin
 
-     
+        # canvas settings
+        self.__styles['canvas_size_factor'] = canvas_size_factor 
+        self.__styles['canvas_top_margin'] = canvas_top_margin
+        self.__styles['canvas_bottom_margin'] = canvas_bottom_margin
+
+        # axes label margin settings
+        self.__styles['ylabel_margin'] = xlabel_margin
+        self.__styles['xlabel_margin'] = ylabel_margin
+
+        # axes title settings.
+        self.__styles['axes_title_font'] = axes_title_font
+        self.__styles['axes_title_size'] = axes_title_size
+        self.__styles['axes_title_bold'] = axes_title_bold
+        self.__styles['axes_tick_length'] = axes_tick_length
+        self.__styles['axes_label_font'] = axes_label_font
+        self.__styles['axes_label_size'] = axes_label_size
+        self.__styles['axes_label_bold'] = axes_label_bold
+
+        # title settings.
+        self.__styles['title_font'] = title_font
+        self.__styles['title_size'] = title_size
+        self.__styles['title_bold'] = title_bold
+        self.__styles['title_ycoord'] = title_ycoord
+
+        # subtitle settings.
+        self.__styles['subtitle_font'] = subtitle_font
+        self.__styles['subtitle_size'] = subtitle_size
+        self.__styles['subtitle_bold'] = subtitle_bold
+        self.__styles['subtitle_ycoord'] = subtitle_ycoord
 
 
     @property
-    def stylesheet(self):
+    def styles(self):
         ''' returns a dictionary styles for 
         the current stylesheets '''
-        return self.__stylesheet
+        return self.__styles
 
 
 

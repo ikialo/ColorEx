@@ -33,12 +33,12 @@ class CSVReader(FileInputReader):
 
     ''' CSV data reader for a CSV data file '''
 
-    def __init__(self, filepath):
+    def __init__(self, filepath, rowcol_headers=True):
         ''' Initialize CSVReader object '''
         self.__filepath = filepath
         self.__data = list()
+        self.__rowcolheaders = rowcol_headers
         self.read()
-        self.prepare()
 
 
     @property
@@ -55,20 +55,68 @@ class CSVReader(FileInputReader):
         return filepath
 
 
+
+    @property
+    def rowcolheaders(self):
+        ''' is the first row of data skipped '''
+        return self.__rowcolheaders
+
+
+
+
     def read(self):
         ''' read the CSV file '''
         filepath = self.__filepath
-        self.__data = list()
+        tempdata = list()
+        rowcount = 0
+        # read csv and convert each row to float 
+        # where necessary.
         with open(filepath) as csv_file:
             reader = csv.reader(csv_file, delimiter=",")
             for row in reader:
-                self.__data.append(self.rowToFloat(row))
+                if(self.rowcolheaders and rowcount == 0):
+                    new_row = row
+                elif(self.rowcolheaders and rowcount != 0):
+                    new_row = self.row_to_float(row, 
+                        self.rowcolheaders)
+                else:
+                    new_row = self.row_to_float(row, 
+                        self.rowcolheaders)
+                rowcount += 1
+                tempdata.append(new_row)
+        # set class object data to the read csv data.
+        self.__data = tempdata
+
+
+
+
+    def row_to_float(self, row, rowcolheaders):
+        ''' convert numeric data in row to float data type '''
+        r = list()
+        if(rowcolheaders):
+            row_header = row[0]
+            row = row[1:]
+        for item in row:
+            try:
+                data_item = float(item)
+                r.append(data_item)
+            except:
+                r.append(item)
+        if(rowcolheaders):
+            r.insert(0,row_header)
+        return r
+
+
+
 
 
     def generate_datagrid(self):
-        ''' generate a DataGrid object based on CSV file data '''
+        ''' generate a DataGrid object based on 
+        CSV file data '''
         data = self.__data
         new_data = list()
+        # convert all 'float' values to
+        # Data items.
         for row in data:
             new_row = list()
             for item in row:
@@ -77,42 +125,14 @@ class CSVReader(FileInputReader):
                 else:
                     new_row.append(item)
             new_data.append(new_row)
-                               
-        data_grid = DataGrid({"data": new_data})
+        # create a DataGrid object, passing options.
+        data_grid = DataGrid({"data": new_data, 
+            'rowcol_headers': self.rowcolheaders})
         return data_grid
         
 
 
 
-    def rowToFloat(self, row):
-        ''' convert numeric data in row to float data type '''
-        r = list()
-        for item in row:
-            try:
-                data_item = Data(float(item)) 
-                r.append(data_item)
-            except:
-                r.append(item)
-        return r
 
-
-
-    def convert_val_to_float(self, x):
-        ''' formats value as a float, if it is actually numeric '''
-        try:
-            return float(x)
-        except:
-            return x
-
-
-
-    def prepare(self):
-        ''' process the read CSV data '''
-        data = self.__data
-        pData = list()
-        for row in data:
-            pData.append(list(
-                map(self.convert_val_to_float,row)))
-        self.__data = pData
 
 

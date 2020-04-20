@@ -1,5 +1,4 @@
 '''
-
 Copyright 2019 Louis Ronald
 
 Permission is hereby granted, free of charge, to any person 
@@ -21,9 +20,6 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 DEALINGS IN THE SOFTWARE.
-
-
-
 '''
 
 
@@ -40,8 +36,10 @@ class Data:
         ''' value of the data item '''
         return self.__value
 
+
     def __str__(self):
         return 'Data(' + str(self.__value) + ')'
+
 
     def __repr__(self):
         return 'Data(' + str(self.__value) + ')'
@@ -52,7 +50,6 @@ class Data:
             return True
         else:
             return False
-
 
     def __gt__(self, data):
         if(self.__value > data.value):
@@ -190,6 +187,13 @@ class DataGrid(object):
         self.__rows = self.__shape['rows']
         self.__cols = self.__shape['cols']
 
+        # determine if optional object parameters are passed.
+        if('rowcol_headers' in options):
+            self.__rowcolheaders = options['rowcol_headers']
+        else:
+            self.__rowcolheaders = True
+
+
 
     @property
     def grid(self):
@@ -219,14 +223,24 @@ class DataGrid(object):
         return self.__cols
 
 
+    @property
+    def rowcolheaders(self):
+        ''' are row and column headers set '''
+        return self.__rowcolheaders
+
+
+
     def get_data(self, row, col):
         ''' get value by row, col '''
         item = self.__grid[row][col]
         return item
 
 
+
+    ############################# Possible to remove
     def calculate_max_values_by_cols(self):
-        ''' get list of maximum values for each numeric column '''
+        ''' get list of maximum values for each 
+        numeric column '''
         grid = self.__grid
         max_values = list()
         for index in range(len(grid[0])):
@@ -235,6 +249,8 @@ class DataGrid(object):
         return max_values
 
 
+
+    ############################# Possible to remove
     def max_by_column_label(self, label):
         ''' get maximum value of column by label '''
         try:
@@ -245,6 +261,7 @@ class DataGrid(object):
             return False
 
 
+    ############################# Possible to remove
     def max_by_column_index(self, index):
         ''' get maximum value of column by index '''
         values = list()
@@ -257,6 +274,38 @@ class DataGrid(object):
             return 0
         else:
             return max(values)
+
+
+
+
+    def get_max_value(self):
+        ''' get maximum value in the whole grid '''
+        grid = self.__grid
+        max_values = list()
+        # determine start rows and columns 
+        # given the 'rowcolheaders' option.
+        if(self.__rowcolheaders):
+            firstCol = 1
+        else:
+            firstCol = 0
+        if(self.__rowcolheaders):
+            firstRow = 1
+        else:
+            firstRow = 0
+
+        # determine the maximum value in this
+        # DataGrid object.
+        for row in range(firstRow, len(grid)):
+            row_max = list()
+            for col in range(firstCol, len(grid[0])):
+                try:
+                    row_max.append(grid[row][col])
+                except:
+                    continue
+            if(len(row_max)!=0):
+                max_values.append(max(row_max))
+        # return the maximum value.
+        return max(max_values)
 
 
     
@@ -315,13 +364,27 @@ class HeatMap(object):
         self.__subtitle = options['subtitle']
         self.__theme = options['theme']
         self.__stylesheet = options['stylesheet']
-        self.__xaxislabel = options['xaxis_label']
-        self.__yaxislabel = options['yaxis_label']
-        try:
+        self.__xaxistitle = options['xaxis_title']
+        self.__yaxistitle = options['yaxis_title']
+
+        # determine and set optional arguments passed
+        if('xaxis_labels' in options):
+            self.__xaxislabels = options['xaxis_labels']
+        else:
+            self.__xaxislabels = None
+        if('yaxis_labels' in options):
+            self.__yaxislabels = options['yaxis_labels']
+        else:
+            self.__yaxislabels = None
+        if('theme' in options):
             self.__theme = options['theme']
-        except:
+        else:
             self.__theme = 'default'
-        
+        if('rowcol_headers' in options):
+            self.__rowcolheaders = options['rowcol_headers']
+        else:
+            self.__rowcolheaders = True
+
 
     @property
     def grid(self):
@@ -376,15 +439,35 @@ class HeatMap(object):
 
 
     @property
-    def xaxislabel(self):
-        ''' get the x-axis label'''
-        return self.__xaxislabel
+    def xaxistitle(self):
+        ''' get the x-axis title'''
+        return self.__xaxistitle
 
 
     @property
-    def yaxislabel(self):
-        ''' get the y-axis label '''
-        return self.__yaxislabel
+    def yaxistitle(self):
+        ''' get the y-axis title '''
+        return self.__yaxistitle
+
+
+
+    @property
+    def xaxislabels(self):
+        ''' get the x-axis labels '''
+        return self.__xaxislabels
+
+
+    @property
+    def yaxislabels(self):
+        ''' get the y-axis labels '''
+        return self.__yaxislabels
+
+
+    @property
+    def rowcolheaders(self):
+        ''' is row and column headers set '''
+        return self.__rowcolheaders
+
 
 
     def get_tile(self, row, col):
@@ -392,24 +475,27 @@ class HeatMap(object):
         return self.__grid[row][col]
 
 
+
     def get_distinct_tiles(self):
-        ''' returns a list of non-repeated tiles '''
+        ''' returns a list of non-repeated tile values '''
         tiles = self.__grid
         list_of_values = list()
+        # get all tile values into a list.
         for i in range(len(tiles)):
             for j in range(len(tiles[0])):
                 try:
                     list_of_values.append(tiles[i][j].value)
                 except:
                     continue
-
+        # remove any repeated tile values, and leave
+        # only one occurence of that repeated tile value.
         for i in range(len(list_of_values)):
             try:
                 if(list_of_values.count(list_of_values[i]) > 1):
                     list_of_values.pop(i)
             except:
                 continue
-            
+        # return list of non-repeated tile values
         return list_of_values
     
 
