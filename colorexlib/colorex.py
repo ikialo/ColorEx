@@ -29,6 +29,7 @@ from .common.datastructures import Data, HeatMap, DataGrid, Tile
 from .writers.HTMLWriter import HTMLWriter
 from .writers.GUIOutputWriter import GUIOutputWriter
 from .readers.CSVReader import CSVReader
+from .common.exceptions import *
 import re
 
 
@@ -58,6 +59,9 @@ class CX_HeatMap:
         elif(isinstance(self.__source, DataGrid)):
             self.__sourcetype = 'datagrid'
 
+        else:
+            # the source is not supported so raise exception.
+            raise Exception
 
 
         # set title and subtitle values
@@ -261,8 +265,9 @@ class CX_HeatMap:
             html_writer = HTMLWriter(filepath=html_filename, 
                 heatmap=heat_map, stylesheet=stylesheet)
             html_writer.write({'template': template})
+
         else:
-            # No valid source detected so raise exception.
+            # the source is not supported so raise exception.
             raise Exception
 
 
@@ -290,11 +295,6 @@ class CX_HeatMap:
             gui_writer.write()
 
         else:
-            # No valid source detected so raise exception.
+            # the source is not supported so raise exception.
             raise Exception
-
-
-
-
-
 

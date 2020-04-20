@@ -23,13 +23,19 @@ DEALINGS IN THE SOFTWARE.
 '''
 
 
+from .styling import Themes, Theme, StyleSheet
+
+
 
 class Data:
 
-    ''' Represents a single data item in a data grid ''' 
+    ''' Represents a single numeric data item in a data grid ''' 
 
     def __init__(self, value):
         self.__value = value
+        if(not isinstance(value, int) and 
+           not isinstance(value, float)):
+            raise TypeError(str(value)+" is of invalid type. Must be of type \'int\' or \'float\'.")
 
     @property
     def value(self):
@@ -93,10 +99,43 @@ class Tile:
 
     def __init__(self, options):
         '''Initialize a single Tile object '''
+
+        # ensure validity of 'value' in options
+        if('value' not in options):
+            raise TypeError("required argument 'value' not specified")
+        elif(not isinstance(options['value'], int) and 
+            not isinstance(options['value'], float)):
+            raise TypeError("argument 'value' must be of type 'int' or 'float'")
+
+
+        # ensure validity of 'alpha' in options
+        elif('alpha' not in options):
+            raise TypeError("required argument 'alpha' not specified")
+        elif(not isinstance(options['alpha'], int) and 
+            not isinstance(options['alpha'], float)):
+            raise TypeError("argument 'alpha' must be of type 'int' or 'float'")
+        elif(options['alpha'] < 0 or options['alpha'] > 1):
+            raise ValueError("argument 'alpha' must be between 0-1 inclusively")
+
+
+        # ensure validity of 'rgb' in options
+        elif('rgb' not in options):
+            raise TypeError("required argument 'rgb' not specified")
+        elif(not isinstance(options['rgb'], str)):
+            raise TypeError("argument 'rgb' must be of type 'str'")
+
+        elif(not Themes().is_rgb_hex(options['rgb'])):
+            raise ValueError("argument 'rgb' must be between #000000 to #ffffff, and preceded with '#'")
+
+
+
+
         self.__value = options['value']
         self.__alpha = options['alpha']
         self.__rgb = options['rgb']
         self.__options = options
+
+
 
     @property
     def value(self):
@@ -110,7 +149,7 @@ class Tile:
 
     @property
     def rgb(self):
-        ''' get the RGB color code '''
+        ''' get the RGB hex color code '''
         return self.__rgb
 
     @property
@@ -181,6 +220,16 @@ class DataGrid(object):
 
     def __init__(self, options):
         ''' Initialize DataGrid object '''
+
+        # ensure arguments passed are valid.
+        if('data' not in options):
+            raise TypeError("required argument 'data' not specified")
+        elif(not isinstance(options['data'],list)):
+            raise TypeError("argument 'data' must be of type 'list', i.e. list of lists")
+        for row in options['data']:
+            if(not isinstance(row, list)):
+                raise TypeError("argument 'data' must be of type 'list', i.e. list of lists")
+
         self.__grid = options['data']
         self.__size = self.__calculate_size(self.__grid)
         self.__shape = self.__calculate_shape(self.__grid)
@@ -234,46 +283,6 @@ class DataGrid(object):
         ''' get value by row, col '''
         item = self.__grid[row][col]
         return item
-
-
-
-    ############################# Possible to remove
-    def calculate_max_values_by_cols(self):
-        ''' get list of maximum values for each 
-        numeric column '''
-        grid = self.__grid
-        max_values = list()
-        for index in range(len(grid[0])):
-            max_val = self.max_by_column_index(index)
-            max_values.append(max_val)
-        return max_values
-
-
-
-    ############################# Possible to remove
-    def max_by_column_label(self, label):
-        ''' get maximum value of column by label '''
-        try:
-            labels = self.__grid[0]
-            index = labels.index(label)
-            return self.max_by_column_index(index)
-        except:
-            return False
-
-
-    ############################# Possible to remove
-    def max_by_column_index(self, index):
-        ''' get maximum value of column by index '''
-        values = list()
-        for row in self.__grid[1:]:
-            try:
-                values.append(row[index])
-            except:
-                continue
-        if(len(values)==0):
-            return 0
-        else:
-            return max(values)
 
 
 
@@ -349,12 +358,55 @@ class DataGrid(object):
 
 
 
+
+
 class HeatMap(object):
 
     
 
     def __init__(self, options):
         ''' Initialize HeatMap object '''
+
+        # ensure validity of the arguments passed.
+        if('data' not in options):
+            raise TypeError("required argument 'data' not specified")
+        elif(not isinstance(options['data'], list)):
+            raise TypeError("argument 'data' must be of type 'list' (i.e. list of lists) and further contain items of type 'str' or 'Tile'")
+        for row in options['data']:
+            if(not isinstance(row, list)):
+                raise TypeError("argument 'data' must be of type 'list' (i.e. list of lists) and further contain items of type 'str' or 'Tile'")
+            else:
+                for field in row:
+                    if(not isinstance(field, str) and not isinstance(field, Tile)):
+                        raise TypeError("argument 'data' must be of type 'list' (i.e. list of lists) and further contain items of type 'str' or 'Tile'")
+        
+
+        if('title' not in options):
+            raise TypeError("required argument 'title' not specified")
+        elif(not isinstance(options['title'], str)):
+            raise TypeError("argument 'title' must be of type 'str'")
+        elif('subtitle' not in options):
+            raise TypeError("required argument 'subtitle' not specified")
+        elif(not isinstance(options['subtitle'], str)):
+            raise TypeError("argument 'subtitle' must be of type 'str'")
+        elif('theme' not in options):
+            raise TypeError("required argument 'theme' not specified")
+        elif(not isinstance(options['theme'], Theme)):
+            raise TypeError("argument 'theme' must be of type 'Theme'")
+        elif('stylesheet' not in options):
+            raise TypeError("required argument 'stylesheet' not specified")
+        elif(not isinstance(options['stylesheet'], StyleSheet)):
+            raise TypeError("argument 'stylesheet' must be of type 'StyleSheet'")
+        elif('xaxis_title' not in options):
+            raise TypeError("required argument 'xaxis_title' not specified")
+        elif(not isinstance(options['xaxis_title'], str)):
+            raise TypeError("argument 'xaxis_title' must be of type 'str'")
+        elif('yaxis_title' not in options):
+            raise TypeError("required argument 'yaxis_title' not specified")
+        elif(not isinstance(options['yaxis_title'], str)):
+            raise TypeError("argument 'yaxis_title' must be of type 'str'")
+
+
         self.__grid = options['data']
         self.__size = self.__calculate_size(self.__grid)
         self.__shape = self.__calculate_shape(self.__grid)

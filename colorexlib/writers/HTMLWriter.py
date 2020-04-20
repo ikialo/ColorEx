@@ -27,6 +27,7 @@ DEALINGS IN THE SOFTWARE.
 
 from .FileOutputWriter import FileOutputWriter
 from Cheetah.Template import Template
+from ..common.exceptions import *
 
 class HTMLWriter(FileOutputWriter):
 
@@ -36,6 +37,7 @@ class HTMLWriter(FileOutputWriter):
         ''' Initialize HTMLWriter object '''
         if(filepath==None or heatmap==None or stylesheet==None):
             raise Exception
+
         
         super().__init__(filepath, heatmap, stylesheet)
         self.dirs = dict()
