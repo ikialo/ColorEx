@@ -22,19 +22,29 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 DEALINGS IN THE SOFTWARE.
 
-
-
 '''
 
 from .OutputWriter import OutputWriter
+from .HeatMapWindow import HeatMapWindow
+from tkinter import *
 
 class GUIOutputWriter(OutputWriter):
-        ''' Class facilitates writing of heat maps and grids to the screen GUI '''
+       
 
-        def __init__(self, heat_map):
+        ''' Class facilitates writing of heat 
+        maps and grids to the screen GUI '''
+
+        def __init__(self,heatmap=None,stylesheet=None):
                 ''' Initialize GUIOutputWriter object '''
-                pass
+                self.heatmap = heatmap
+                self.stylesheet = stylesheet
+                
+
 
         def write(self):
                 ''' outputs the heat map to the screen GUI '''
-                pass
+                root = Tk()
+                root.title("Heat Map in ColorEx")
+                f = HeatMapWindow(root, heatmap=self.heatmap,
+                                  stylesheet=self.stylesheet)
+                root.mainloop()
