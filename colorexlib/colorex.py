@@ -41,6 +41,21 @@ class CX_HeatMap:
     def __init__(self, options=dict()):
         ''' Initialize a new engine '''
         
+
+        # determine the validity of arguments passed.
+        if('source' not in options):
+            raise TypeError("required argument 'source' not specified")
+        elif('title' not in options):
+            raise TypeError("required argument 'title' not specified")
+        elif(not isinstance("title", str)):
+            raise TypeError("argument 'title' must be of type 'str'")
+        elif('subtitle' not in options):
+            raise TypeError("required argument 'subtitle' not specified")
+        elif(not isinstance("subtitle", str)):
+            raise TypeError("argument 'subtitle' must be of type 'str'")
+
+
+
         # determine data input source type and source
         self.__source = options["source"]
         self.__sourcetype = ""
@@ -53,14 +68,15 @@ class CX_HeatMap:
             if(filetype == "csv"):
                 self.__sourcetype = "csv"
             else:
-                raise Exception
+                raise ValueError("source file type '"+filetype+"' not supported")
         # check if source is a data grid
         elif(isinstance(self.__source, DataGrid)):
             self.__sourcetype = 'datagrid'
 
         else:
             # the source is not supported so raise exception.
-            raise Exception
+            raise TypeError("source type '"+type(self.__source)+"' not supported")
+
 
 
         # set title and subtitle values
