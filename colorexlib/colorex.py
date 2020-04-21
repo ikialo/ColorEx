@@ -20,11 +20,13 @@ HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 DEALINGS IN THE SOFTWARE.
+
 '''
 
 
 # import necessary modules
 from .common.styling import Theme, Themes, StyleSheet
+from .common.formating import DataFormatter
 from .common.datastructures import Data, HeatMap, DataGrid, Tile
 from .writers.HTMLWriter import HTMLWriter
 from .writers.GUIOutputWriter import GUIOutputWriter
@@ -40,7 +42,6 @@ class CX_HeatMap:
 
     def __init__(self, options=dict()):
         ''' Initialize a new engine '''
-        
 
         # determine the validity of arguments passed.
         if('source' not in options):
@@ -136,6 +137,16 @@ class CX_HeatMap:
             self.__rowcolheaders = True
 
 
+        # data_formatter settings
+        if("data_formatter" in options):
+            if(not isinstance(options["data_formatter"], 
+                DataFormatter)):
+                raise TypeError("argument 'data_formatter' must be of type 'DataFormatter'")
+            self.__data_formatter = options["data_formatter"]
+        else:
+            self.__data_formatter = None
+
+
         # set dictionary of available colors and themes
         # for reference.
         self.__colors = Themes().colors
@@ -197,6 +208,12 @@ class CX_HeatMap:
         return self.__rowcolheaders
 
 
+    @property
+    def dataformatter(self):
+        ''' get data formatter if there is any '''
+        return self.__data_formatter
+
+
 
 
     def generate_heatmap(self, data_grid):
@@ -205,6 +222,7 @@ class CX_HeatMap:
         # get the maximum value out of the
         # entire DataGrid object passed.
         max_value = data_grid.get_max_value()
+        min_value = data_grid.get_min_value()
         heatmap = list()
         grid = data_grid.grid
         # generate a heatmap Tile for every
@@ -215,7 +233,7 @@ class CX_HeatMap:
             for item in range(len(row)):
                 if(type(row[item]) is Data):                    
                     new_tile = self.generate_tile(row[item],
-                        max_value,
+                        min_value, max_value,
                         self.__theme)
                     final_row.append(new_tile)
                 else:
@@ -232,14 +250,15 @@ class CX_HeatMap:
             'yaxis_title': self.__yaxistitle,
             'rowcol_headers': data_grid.rowcolheaders,
             'xaxis_labels': self.__xaxislabels,
-            'yaxis_labels': self.__yaxislabels})
+            'yaxis_labels': self.__yaxislabels,
+            'data_formatter': self.__data_formatter})
         return heatmap_obj
 
  
 
 
         
-    def generate_tile(self, data_item, max_value, theme):
+    def generate_tile(self, data_item, min_value, max_value, theme):
         ''' generates a new tile of type Tile '''
         # set some colors to use.
         highColor = theme.palette["primary"]
@@ -248,13 +267,14 @@ class CX_HeatMap:
         lowColorDec = Themes().rgb_hex_to_decimal(lowColor)
         alpha_color = Themes().generate_alpha_rgb_bicolor(
             highColorDec,lowColorDec,self.calculate_rgb_alpha(
-                data_item.value, max_value))
+                data_item.value, min_value, max_value))
         rgb = Themes().decimal_to_rgb_hex(alpha_color)
         # create a dictionary for all Tile options.
         tile_options = {
                 'value': data_item.value,
                 'alpha': self.calculate_rgb_alpha(
                     data_item.value,
+                    min_value,
                     max_value),
                 'rgb': rgb
         }
@@ -264,10 +284,19 @@ class CX_HeatMap:
 
 
 
-    def calculate_rgb_alpha(self, data_item, max_value):
+    def calculate_rgb_alpha(self, data_item, min_value, max_value):
         ''' calculates the alpha value for rgb color given
             data object and max value '''
-        alpha_value = data_item / max_value.value
+
+        # if max_value is zero, we going to have a 
+        # calculation problem, so transform data 
+        # accordingly to a value > 0 to get ratio.
+        if(max_value.value==0):
+            data_item = data_item + abs(min_value.value)
+            max_value = max_value.value + abs(min_value.value)
+            alpha_value = data_item / max_value
+        else:
+            alpha_value = data_item / max_value.value
         return alpha_value
 
 

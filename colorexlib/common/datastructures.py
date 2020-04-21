@@ -329,6 +329,39 @@ class DataGrid(object):
         return max(max_values)
 
 
+
+    def get_min_value(self):
+        ''' get minimum value in the whole grid '''
+        grid = self.__grid
+        min_values = list()
+        # determine start rows and columns 
+        # given the 'rowcolheaders' option.
+        if(self.__rowcolheaders):
+            firstCol = 1
+        else:
+            firstCol = 0
+        if(self.__rowcolheaders):
+            firstRow = 1
+        else:
+            firstRow = 0
+
+        # determine the minimum value in this
+        # DataGrid object.
+        for row in range(firstRow, len(grid)):
+            row_min = list()
+            for col in range(firstCol, len(grid[0])):
+                try:
+                    row_min.append(grid[row][col])
+                except:
+                    continue
+            if(len(row_min)!=0):
+                min_values.append(min(row_min))
+        # return the minimum value.
+        return min(min_values)
+
+
+
+
     
     
     def __calculate_size(self, grid):
@@ -467,6 +500,10 @@ class HeatMap(object):
             self.__rowcolheaders = options['rowcol_headers']
         else:
             self.__rowcolheaders = True
+        if('data_formatter' in options):
+            self.__data_formatter = options['data_formatter']
+        else:
+            self.__data_formatter = None
 
 
     @property
@@ -550,6 +587,12 @@ class HeatMap(object):
     def rowcolheaders(self):
         ''' is row and column headers set '''
         return self.__rowcolheaders
+
+
+    @property
+    def dataformatter(self):
+        ''' get data formatter if exists '''
+        return self.__data_formatter
 
 
 

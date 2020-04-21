@@ -75,6 +75,7 @@ class HeatMapWindow(Frame):
         self.subtitle = heatmap.subtitle
         self.ncols = self.heatmap.cols
         self.nrows = self.heatmap.rows
+        self.dataformatter = self.heatmap.dataformatter
 
         # determine which rows and columns are data, 
         # and which rows and columns are the axes
@@ -201,9 +202,13 @@ class HeatMapWindow(Frame):
             point2[1],point3[0],point3[1],point4[0],point4[1],
             point5[0],point5[1],point1[0],point1[1],fill="black",
             tag="current_tile_popup")
+        if(self.dataformatter is not None):
+            final_data = self.dataformatter.format(data)
+        else:
+            final_data = data
         # Insert data into the balloon about the selected Tile.
         self.canvas.create_text(point2[0]+(point3[0]-point2[0])/2,
-            ((point5[1]-point2[1])/2)+point2[1],text=data,
+            ((point5[1]-point2[1])/2)+point2[1],text=final_data,
             font="Arial 11 bold",tag="current_tile_popup", 
             fill="white")
 
