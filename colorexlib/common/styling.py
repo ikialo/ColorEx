@@ -115,10 +115,13 @@ class Themes:
         if(not isinstance(decimal, tuple)):
             print("f1")
             return False
-        elif(not isinstance(decimal[0],int) or not isinstance(decimal[1],int) or not isinstance(decimal[2],int)):
+        elif(not isinstance(decimal[0],int) or 
+            not isinstance(decimal[1],int) or 
+            not isinstance(decimal[2],int)):
             print("f2")
             return False
-        elif(decimal[0] not in range(0,256) or decimal[1] not in range(0,256) or decimal[2] not in range(0,256)):
+        elif(decimal[0] not in range(0,256) or decimal[1] 
+            not in range(0,256) or decimal[2] not in range(0,256)):
             print("f3")
             return False
         else:
@@ -131,7 +134,8 @@ class Themes:
     def rgb_hex_to_decimal(self, rgb_hex):
         ''' converts rgb hex color code to decimal (0-255) '''
         if(not self.is_rgb_hex(rgb_hex)):
-            raise TypeError("argument 'rgb_hex' must be a valid hex, type 'str' between #000000 to #ffffff.")
+            raise TypeError("argument 'rgb_hex' must be a valid \
+                hex, type 'str' between #000000 to #ffffff.")
         else:
             rgb_hex = rgb_hex[1:]
         try:
@@ -140,7 +144,8 @@ class Themes:
             b = int(re.findall('..', str(rgb_hex))[2], base=16)
             return (r,g,b)
         except:
-            raise TypeError("argument 'rgb_hex' must be a valid hex, type 'str' between #000000 to #ffffff.")
+            raise TypeError("argument 'rgb_hex' must be a valid \
+                hex, type 'str' between #000000 to #ffffff.")
 
 
 
@@ -151,7 +156,8 @@ class Themes:
         ''' converts decimal code color to rgb hex code '''
 
         if(not self.is_rgb_decimal(decimal)):
-            raise TypeError("argument 'decimal' must be of type tuple between (0,0,0) to (255,255,255)")
+            raise TypeError("argument 'decimal' must be of \
+                type tuple between (0,0,0) to (255,255,255)")
 
         r = hex(decimal[0]).replace('0x','')
         g = hex(decimal[1]).replace('0x','')
@@ -172,13 +178,16 @@ class Themes:
         color and white, based on alpha '''
 
         if(not self.is_rgb_decimal(rgb)):
-            raise TypeError("argument 'rgb' must be of type tuple between (0,0,0) to (255,255,255)")
+            raise TypeError("argument 'rgb' must be of type \
+                tuple between (0,0,0) to (255,255,255)")
 
         elif(not isinstance(alpha, float)):
-            raise TypeError("argument 'alpha' must be of type float, between 0-1 inclusively")
+            raise TypeError("argument 'alpha' must be of type \
+                float, between 0-1 inclusively")
 
         elif(alpha < 0 or alpha > 1):
-            raise TypeError("argument 'alpha' must be of type float, between 0-1 inclusively")            
+            raise TypeError("argument 'alpha' must be of type \
+                float, between 0-1 inclusively")            
 
         r = rgb[0]
         g = rgb[1]
@@ -206,17 +215,21 @@ class Themes:
         
 
         if(not self.is_rgb_decimal(rgb1)):
-            raise TypeError("argument 'rgb1' must be of type tuple between (0,0,0) to (255,255,255)")
+            raise TypeError("argument 'rgb1' must be of type \
+                tuple between (0,0,0) to (255,255,255)")
 
         if(not self.is_rgb_decimal(rgb2)):
-            raise TypeError("argument 'rgb2' must be of type tuple between (0,0,0) to (255,255,255)")
+            raise TypeError("argument 'rgb2' must be of type \
+                tuple between (0,0,0) to (255,255,255)")
 
 
         elif(not isinstance(alpha, float)):
-            raise TypeError("argument 'alpha' must be of type float, between 0-1 inclusively")
+            raise TypeError("argument 'alpha' must be of type \
+                float, between 0-1 inclusively")
 
         elif(alpha < 0 or alpha > 1):
-            raise TypeError("argument 'alpha' must be of type float, between 0-1 inclusively")            
+            raise TypeError("argument 'alpha' must be of type \
+                float, between 0-1 inclusively")            
 
 
 
@@ -266,20 +279,35 @@ class Theme:
 
 
         # ensure all arguments passed are valid.
-        if(not Themes().is_rgb_hex(primaryColor) and primaryColor not in Themes().colors):
-            raise TypeError("argument 'primaryColor' must be a valid hex, type 'str' between #000000 to #ffffff, or a supported color name.")
+        if(not Themes().is_rgb_hex(primaryColor) 
+            and primaryColor not in Themes().colors):
+            raise TypeError("argument 'primaryColor' \
+                must be a valid hex, type 'str' between \
+                #000000 to #ffffff, or a supported color name.")
 
-        elif(not Themes().is_rgb_hex(secondaryColor) and secondaryColor not in Themes().colors):
-            raise TypeError("argument 'secondaryColor' must be a valid hex, type 'str' between #000000 to #ffffff, or a supported color name.")
+        elif(not Themes().is_rgb_hex(secondaryColor) 
+            and secondaryColor not in Themes().colors):
+            raise TypeError("argument 'secondaryColor' \
+                must be a valid hex, type 'str' between \
+                #000000 to #ffffff, or a supported color name.")
 
-        elif(not Themes().is_rgb_hex(onPrimaryColor) and onPrimaryColor not in Themes().colors):
-            raise TypeError("argument 'onPrimaryColor' must be a valid hex, type 'str' between #000000 to #ffffff, or a supported color name.")
+        elif(not Themes().is_rgb_hex(onPrimaryColor) 
+            and onPrimaryColor not in Themes().colors):
+            raise TypeError("argument 'onPrimaryColor' \
+                must be a valid hex, type 'str' between \
+                #000000 to #ffffff, or a supported color name.")
 
-        elif(not Themes().is_rgb_hex(onSecondaryColor) and onSecondaryColor not in Themes().colors):
-            raise TypeError("argument 'onSecondaryColor' must be a valid hex, type 'str' between #000000 to #ffffff, or a supported color name.")
+        elif(not Themes().is_rgb_hex(onSecondaryColor) 
+            and onSecondaryColor not in Themes().colors):
+            raise TypeError("argument 'onSecondaryColor' \
+                must be a valid hex, type 'str' between \
+                #000000 to #ffffff, or a supported color name.")
 
-        elif(not Themes().is_rgb_hex(onBackgroundColor) and onBackgroundColor not in Themes().colors):
-            raise TypeError("argument 'onBackgroundColor' must be a valid hex, type 'str' between #000000 to #ffffff, or a supported color name.")
+        elif(not Themes().is_rgb_hex(onBackgroundColor) 
+            and onBackgroundColor not in Themes().colors):
+            raise TypeError("argument 'onBackgroundColor' \
+                must be a valid hex, type 'str' between \
+                #000000 to #ffffff, or a supported color name.")
 
 
         # prepare color palette
@@ -291,20 +319,26 @@ class Theme:
         self.__palette['background'] = backgroundColor
         self.__palette['on-background'] = onBackgroundColor
 
-        # do conversion of the colors from color names to color codes
-        # if necessary
+        # do conversion of the colors from color names 
+        # to color codes if necessary
         if(Themes().is_color_name(primaryColor)):
-            self.__palette['primary'] = Themes().colors[primaryColor]
+            self.__palette['primary'] = Themes().\
+            colors[primaryColor]
         if(Themes().is_color_name(secondaryColor)):
-            self.__palette['secondary'] = Themes().colors[secondaryColor]
+            self.__palette['secondary'] = Themes().\
+            colors[secondaryColor]
         if(Themes().is_color_name(onPrimaryColor)):
-            self.__palette['on-primary'] = Themes().colors[onPrimaryColor]
+            self.__palette['on-primary'] = Themes().\
+            colors[onPrimaryColor]
         if(Themes().is_color_name(onSecondaryColor)):
-            self.__palette['on-secondary'] = Themes().colors[onSecondaryColor]
+            self.__palette['on-secondary'] = Themes().\
+            colors[onSecondaryColor]
         if(Themes().is_color_name(backgroundColor)):
-            self.__palette['background'] = Themes().colors[backgroundColor]
+            self.__palette['background'] = Themes().\
+            colors[backgroundColor]
         if(Themes().is_color_name(onBackgroundColor)):
-            self.__palette['on-background'] = Themes().colors[onBackgroundColor]
+            self.__palette['on-background'] = Themes().\
+            colors[onBackgroundColor]
 
 
     @property
@@ -332,62 +366,92 @@ class StyleSheet:
                  axes_tick_length=10, axes_label_font="Arial", 
                  axes_label_size=10, axes_label_bold=False, 
                  title_font="Arial", title_size=22, title_bold=False,
-                 title_ycoord=30, subtitle_font="Arial", subtitle_size=13,
-                 subtitle_bold=False, subtitle_ycoord=70):
+                 title_ycoord=30, subtitle_font="Arial", 
+                 subtitle_size=13, subtitle_bold=False, 
+                 subtitle_ycoord=70):
 
 
         # ensure all arguments passed are valid
         if(not isinstance(tile_size, tuple)):
-            raise TypeError("argument 'tile_size' must be of type tuple, and of form (width, height) where 'width' and 'height' are of type 'int'")
+            raise TypeError("argument 'tile_size' must be \
+                of type tuple, and of form (width, height) \
+                where 'width' and 'height' are of type 'int'")
         elif(len(tile_size) != 2):
-            raise TypeError("argument 'tile_size' must be of type tuple, and of form (width, height) where 'width' and 'height' are of type 'int'")
-        elif(not isinstance(tile_size[0], int) or not isinstance(tile_size[1], int)):
-            raise TypeError("argument 'tile_size' must be of type tuple, and of form (width, height) where 'width' and 'height' are of type 'int'")
+            raise TypeError("argument 'tile_size' must be \
+                of type tuple, and of form (width, height) \
+                where 'width' and 'height' are of type 'int'")
+        elif(not isinstance(tile_size[0], int) or 
+            not isinstance(tile_size[1], int)):
+            raise TypeError("argument 'tile_size' must be of \
+                type tuple, and of form (width, height) where \
+                'width' and 'height' are of type 'int'")
 
         elif(not isinstance(plane_top_margin, int)):
-            raise TypeError("argument 'plane_top_margin' must be of type 'int'")
+            raise TypeError("argument 'plane_top_margin' must \
+                be of type 'int'")
         elif(not isinstance(canvas_size_factor, float)):
-            raise TypeError("argument 'canvas_size_factor' must be of type 'float, between 0-1'")
+            raise TypeError("argument 'canvas_size_factor' must \
+                be of type 'float, between 0-1'")
         elif(canvas_size_factor < 0 or canvas_size_factor > 1):
-            raise TypeError("argument 'canvas_size_factor' must be of type 'float, between 0-1'")
+            raise TypeError("argument 'canvas_size_factor' must \
+                be of type 'float, between 0-1'")
         elif(not isinstance(canvas_top_margin, int)):
-            raise TypeError("argument 'canvas_top_margin' must be of type 'int'")
+            raise TypeError("argument 'canvas_top_margin' must \
+                be of type 'int'")
         elif(not isinstance(canvas_bottom_margin, int)):
-            raise TypeError("argument 'canvas_bottom_margin' must be of type 'int'")
+            raise TypeError("argument 'canvas_bottom_margin' must \
+                be of type 'int'")
         elif(not isinstance(ylabel_margin, int)):
-            raise TypeError("argument 'ylabel_margin' must be of type 'int'")
+            raise TypeError("argument 'ylabel_margin' must \
+                be of type 'int'")
         elif(not isinstance(xlabel_margin, int)):
-            raise TypeError("argument 'xlabel_margin' must be of type 'int'")
+            raise TypeError("argument 'xlabel_margin' must be \
+                of type 'int'")
         elif(not isinstance(axes_title_font, str)):
-            raise TypeError("argument 'axes_title_font' must be of type 'str'")
+            raise TypeError("argument 'axes_title_font' must \
+                be of type 'str'")
         elif(not isinstance(axes_title_size, int)):
-            raise TypeError("argument 'axes_title_size' must be of type 'int'")
+            raise TypeError("argument 'axes_title_size' must \
+                be of type 'int'")
         elif(not isinstance(axes_title_bold, bool)):
-            raise TypeError("argument 'axes_title_bold' must be of type 'bool'")
+            raise TypeError("argument 'axes_title_bold' must \
+                be of type 'bool'")
         elif(not isinstance(axes_tick_length, int)):
-            raise TypeError("argument 'axes_tick_length' must be of type 'int'")
+            raise TypeError("argument 'axes_tick_length' must \
+                be of type 'int'")
         elif(not isinstance(axes_label_font, str)):
-            raise TypeError("argument 'axes_label_font' must be of type 'str'")
+            raise TypeError("argument 'axes_label_font' must \
+                be of type 'str'")
         elif(not isinstance(axes_label_size, int)):
-            raise TypeError("argument 'axes_label_size' must be of type 'int'")
+            raise TypeError("argument 'axes_label_size' must \
+                be of type 'int'")
         elif(not isinstance(axes_label_bold, bool)):
-            raise TypeError("argument 'axes_label_bold' must be of type 'bool'")
+            raise TypeError("argument 'axes_label_bold' must \
+                be of type 'bool'")
         elif(not isinstance(title_font, str)):
-            raise TypeError("argument 'title_font' must be of type 'str'")
+            raise TypeError("argument 'title_font' must be of \
+                type 'str'")
         elif(not isinstance(title_size, int)):
-            raise TypeError("argument 'title_size' must be of type 'int'")
+            raise TypeError("argument 'title_size' must be of \
+                type 'int'")
         elif(not isinstance(title_bold, bool)):
-            raise TypeError("argument 'title_bold' must be of type 'bool'")
+            raise TypeError("argument 'title_bold' must be of \
+                type 'bool'")
         elif(not isinstance(title_ycoord, int)):
-            raise TypeError("argument 'title_ycoord' must be of type 'int'")
+            raise TypeError("argument 'title_ycoord' must be \
+                of type 'int'")
         elif(not isinstance(subtitle_font, str)):
-            raise TypeError("argument 'subtitle_font' must be of type 'str'")
+            raise TypeError("argument 'subtitle_font' must be \
+                of type 'str'")
         elif(not isinstance(subtitle_size, int)):
-            raise TypeError("argument 'subtitle_size' must be of type 'int'")
+            raise TypeError("argument 'subtitle_size' must be \
+                of type 'int'")
         elif(not isinstance(subtitle_bold, bool)):
-            raise TypeError("argument 'subtitle_bold' must be of type 'bool'")
+            raise TypeError("argument 'subtitle_bold' must be \
+                of type 'bool'")
         elif(not isinstance(subtitle_ycoord, int)):
-            raise TypeError("argument 'subtitle_ycoord' must be of type 'int'")
+            raise TypeError("argument 'subtitle_ycoord' must \
+                be of type 'int'")
 
         # prepare and set all the styles
         self.__styles = dict()

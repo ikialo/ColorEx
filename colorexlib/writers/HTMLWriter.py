@@ -32,7 +32,8 @@ class HTMLWriter(FileOutputWriter):
 
     ''' Class that handles writing to HTML output files '''
 
-    def __init__(self, filepath=None, heatmap=None, stylesheet=None):
+    def __init__(self, filepath=None, heatmap=None, 
+        stylesheet=None):
         ''' Initialize HTMLWriter object '''
         
         FileOutputWriter.__init__(self, filepath=filepath, 

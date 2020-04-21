@@ -33,15 +33,19 @@ class FileOutputWriter(OutputWriter):
 
     ''' Class represents all output file writers '''
 
-    def __init__(self, filepath=None,heatmap=None, stylesheet=None):
+    def __init__(self, filepath=None,heatmap=None, 
+        stylesheet=None):
         ''' Initialize FileOutputWriter object '''
 
         if(not isinstance(filepath, str)):
-            raise TypeError("argument 'filepath' must be of type 'str'")
+            raise TypeError("argument 'filepath' must \
+                be of type 'str'")
         elif(not isinstance(heatmap, HeatMap)):
-            raise TypeError("argument 'heatmap' must be of type 'HeatMap'")
+            raise TypeError("argument 'heatmap' must be \
+                of type 'HeatMap'")
         elif(not isinstance(stylesheet, StyleSheet)):
-            raise TypeError("argument 'stylesheet' must be of type 'StyleSheet'")
+            raise TypeError("argument 'stylesheet' must \
+                be of type 'StyleSheet'")
 
         self.__filepath = filepath
         self.__heatmap = heatmap
@@ -57,7 +61,8 @@ class FileOutputWriter(OutputWriter):
     def filepath(self, filepath):
         ''' sets file path '''
         if(not isinstance(filepath, str)):
-            raise TypeError("argument 'filepath' must be of type 'str'")
+            raise TypeError("argument 'filepath' must \
+                be of type 'str'")
         self.__filepath = filepath
 
 
@@ -71,13 +76,15 @@ class FileOutputWriter(OutputWriter):
     def heatmap(self, heatmap):
         ''' set heatmap '''
         if(not isinstance(heatmap, HeatMap)):
-            raise TypeError("argument 'heatmap' must be of type 'HeatMap'")
+            raise TypeError("argument 'heatmap' must \
+                be of type 'HeatMap'")
         self.__heatmap = heatmap
 
 
     @property
     def stylesheet(self):
-        ''' get the stylesheet object of styling properties '''
+        ''' get the stylesheet object of styling 
+        properties '''
         stylesheet = self.__stylesheet
         return stylesheet
 
@@ -85,7 +92,8 @@ class FileOutputWriter(OutputWriter):
     def stylesheet(self, stylesheet):
         ''' set stylesheet '''
         if(not isinstance(stylesheet, StyleSheet)):
-            raise TypeError("argument 'stylesheet' must be of type 'StyleSheet'")
+            raise TypeError("argument 'stylesheet' must \
+                be of type 'StyleSheet'")
         self.__stylesheet = stylesheet
 
     

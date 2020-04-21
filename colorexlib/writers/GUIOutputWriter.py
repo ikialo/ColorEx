@@ -40,9 +40,11 @@ class GUIOutputWriter(OutputWriter):
                 ''' Initialize GUIOutputWriter object '''
 
                 if(not isinstance(heatmap, HeatMap)):
-                    raise TypeError("argument 'heatmap' must be of type 'HeatMap'")
+                    raise TypeError("argument 'heatmap' \
+                        must be of type 'HeatMap'")
                 elif(not isinstance(stylesheet, StyleSheet)):
-                    raise TypeError("argument 'stylesheet' must be of type 'StyleSheet")
+                    raise TypeError("argument 'stylesheet' \
+                        must be of type 'StyleSheet")
 
                 self.heatmap = heatmap
                 self.stylesheet = stylesheet

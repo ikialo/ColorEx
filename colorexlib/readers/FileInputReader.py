@@ -32,13 +32,15 @@ from abc import ABC, abstractmethod, abstractproperty
 
 class FileInputReader(InputReader, ABC):
 
-    ''' Class represents all input readers that get data from files '''
+    ''' Class represents all input readers 
+    that get data from files '''
 
     def __init__(self, filepath):
         ''' Initialize FileInputReader object '''
 
         if(not isinstance(filepath, str)):
-            raise TypeError("argument 'filepath' must be of type 'str'")
+            raise TypeError("argument 'filepath' \
+                must be of type 'str'")
 
         self.__filepath = filepath
         self.__data = None
@@ -53,7 +55,8 @@ class FileInputReader(InputReader, ABC):
     def filepath(self, filepath):
         ''' set the file path '''
         if(not isinstance(filepath, str)):
-            raise TypeError("argument 'filepath' must be of type 'str'")
+            raise TypeError("argument 'filepath' \
+                must be of type 'str'")
         self.__filepath = filepath
 
     @property
@@ -67,7 +70,8 @@ class FileInputReader(InputReader, ABC):
     def data(self, data):
         ''' set data '''
         if(not isinstance(data, list)):
-            raise TypeError("argument 'data' must be of type 'list'")
+            raise TypeError("argument 'data' must \
+                be of type 'list'")
         self.__data = data
 
 
@@ -78,6 +82,7 @@ class FileInputReader(InputReader, ABC):
 
 
     def generate_datagrid(self):
-        ''' generate a DataGrid object based on read file data '''
+        ''' generate a DataGrid object based 
+        on read file data '''
         pass
 

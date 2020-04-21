@@ -35,7 +35,8 @@ class Data:
         self.__value = value
         if(not isinstance(value, int) and 
            not isinstance(value, float)):
-            raise TypeError(str(value)+" is of invalid type. Must be of type \'int\' or \'float\'.")
+            raise TypeError(str(value)+" is of invalid type. \
+                Must be of type 'int' or 'float'.")
 
     @property
     def value(self):
@@ -102,30 +103,38 @@ class Tile:
 
         # ensure validity of 'value' in options
         if('value' not in options):
-            raise TypeError("required argument 'value' not specified")
+            raise TypeError("required argument 'value' \
+                not specified")
         elif(not isinstance(options['value'], int) and 
             not isinstance(options['value'], float)):
-            raise TypeError("argument 'value' must be of type 'int' or 'float'")
+            raise TypeError("argument 'value' must be \
+                of type 'int' or 'float'")
 
 
         # ensure validity of 'alpha' in options
         elif('alpha' not in options):
-            raise TypeError("required argument 'alpha' not specified")
+            raise TypeError("required argument 'alpha' \
+                not specified")
         elif(not isinstance(options['alpha'], int) and 
             not isinstance(options['alpha'], float)):
-            raise TypeError("argument 'alpha' must be of type 'int' or 'float'")
+            raise TypeError("argument 'alpha' must be \
+                of type 'int' or 'float'")
         elif(options['alpha'] < 0 or options['alpha'] > 1):
-            raise ValueError("argument 'alpha' must be between 0-1 inclusively")
+            raise ValueError("argument 'alpha' must be \
+                between 0-1 inclusively")
 
 
         # ensure validity of 'rgb' in options
         elif('rgb' not in options):
-            raise TypeError("required argument 'rgb' not specified")
+            raise TypeError("required argument 'rgb' not \
+                specified")
         elif(not isinstance(options['rgb'], str)):
             raise TypeError("argument 'rgb' must be of type 'str'")
 
         elif(not Themes().is_rgb_hex(options['rgb'])):
-            raise ValueError("argument 'rgb' must be between #000000 to #ffffff, and preceded with '#'")
+            raise ValueError("argument 'rgb' must be \
+                between #000000 to \
+                #ffffff, and preceded with '#'")
 
 
 
@@ -223,12 +232,15 @@ class DataGrid(object):
 
         # ensure arguments passed are valid.
         if('data' not in options):
-            raise TypeError("required argument 'data' not specified")
+            raise TypeError("required argument 'data' \
+                not specified")
         elif(not isinstance(options['data'],list)):
-            raise TypeError("argument 'data' must be of type 'list', i.e. list of lists")
+            raise TypeError("argument 'data' must be of type \
+                'list', i.e. list of lists")
         for row in options['data']:
             if(not isinstance(row, list)):
-                raise TypeError("argument 'data' must be of type 'list', i.e. list of lists")
+                raise TypeError("argument 'data' must be of type \
+                    'list', i.e. list of lists")
 
         self.__grid = options['data']
         self.__size = self.__calculate_size(self.__grid)
@@ -371,40 +383,59 @@ class HeatMap(object):
         if('data' not in options):
             raise TypeError("required argument 'data' not specified")
         elif(not isinstance(options['data'], list)):
-            raise TypeError("argument 'data' must be of type 'list' (i.e. list of lists) and further contain items of type 'str' or 'Tile'")
+            raise TypeError("argument 'data' must be of type 'list' \
+                (i.e. list of lists) and further contain items of \
+                type 'str' or 'Tile'")
         for row in options['data']:
             if(not isinstance(row, list)):
-                raise TypeError("argument 'data' must be of type 'list' (i.e. list of lists) and further contain items of type 'str' or 'Tile'")
+                raise TypeError("argument 'data' must be of type \
+                    'list' (i.e. list of lists) and further contain \
+                    items of type 'str' or 'Tile'")
             else:
                 for field in row:
-                    if(not isinstance(field, str) and not isinstance(field, Tile)):
-                        raise TypeError("argument 'data' must be of type 'list' (i.e. list of lists) and further contain items of type 'str' or 'Tile'")
+                    if(not isinstance(field, str) and 
+                        not isinstance(field, Tile)):
+                        raise TypeError("argument 'data' must be of \
+                            type 'list' (i.e. list of lists) and further \
+                            contain items of type 'str' or 'Tile'")
         
 
         if('title' not in options):
-            raise TypeError("required argument 'title' not specified")
+            raise TypeError("required argument 'title' \
+                not specified")
         elif(not isinstance(options['title'], str)):
-            raise TypeError("argument 'title' must be of type 'str'")
+            raise TypeError("argument 'title' must be of \
+                type 'str'")
         elif('subtitle' not in options):
-            raise TypeError("required argument 'subtitle' not specified")
+            raise TypeError("required argument 'subtitle' \
+                not specified")
         elif(not isinstance(options['subtitle'], str)):
-            raise TypeError("argument 'subtitle' must be of type 'str'")
+            raise TypeError("argument 'subtitle' must be \
+                of type 'str'")
         elif('theme' not in options):
-            raise TypeError("required argument 'theme' not specified")
+            raise TypeError("required argument 'theme' \
+                not specified")
         elif(not isinstance(options['theme'], Theme)):
-            raise TypeError("argument 'theme' must be of type 'Theme'")
+            raise TypeError("argument 'theme' must be of \
+                type 'Theme'")
         elif('stylesheet' not in options):
-            raise TypeError("required argument 'stylesheet' not specified")
+            raise TypeError("required argument 'stylesheet' \
+                not specified")
         elif(not isinstance(options['stylesheet'], StyleSheet)):
-            raise TypeError("argument 'stylesheet' must be of type 'StyleSheet'")
+            raise TypeError("argument 'stylesheet' must be \
+                of type 'StyleSheet'")
         elif('xaxis_title' not in options):
-            raise TypeError("required argument 'xaxis_title' not specified")
+            raise TypeError("required argument 'xaxis_title' \
+                not specified")
         elif(not isinstance(options['xaxis_title'], str)):
-            raise TypeError("argument 'xaxis_title' must be of type 'str'")
+            raise TypeError("argument 'xaxis_title' must be \
+                of type 'str'")
         elif('yaxis_title' not in options):
-            raise TypeError("required argument 'yaxis_title' not specified")
+            raise TypeError("required argument 'yaxis_title' \
+                not specified")
         elif(not isinstance(options['yaxis_title'], str)):
-            raise TypeError("argument 'yaxis_title' must be of type 'str'")
+            raise TypeError("argument 'yaxis_title' must be \
+                of type 'str'")
 
 
         self.__grid = options['data']

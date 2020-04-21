@@ -41,7 +41,8 @@ class CSVReader(FileInputReader):
 
 
         if(not isinstance(rowcol_headers, bool)):
-            raise TypeError("argument 'rowcol_headers' must be of type 'bool'")
+            raise TypeError("argument 'rowcol_headers' \
+                must be of type 'bool'")
 
 
         #self.__filepath = filepath

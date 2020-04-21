@@ -44,15 +44,20 @@ class CX_HeatMap:
 
         # determine the validity of arguments passed.
         if('source' not in options):
-            raise TypeError("required argument 'source' not specified")
+            raise TypeError("required argument 'source' \
+                not specified")
         elif('title' not in options):
-            raise TypeError("required argument 'title' not specified")
+            raise TypeError("required argument 'title' \
+                not specified")
         elif(not isinstance("title", str)):
-            raise TypeError("argument 'title' must be of type 'str'")
+            raise TypeError("argument 'title' must be \
+                of type 'str'")
         elif('subtitle' not in options):
-            raise TypeError("required argument 'subtitle' not specified")
+            raise TypeError("required argument 'subtitle' \
+                not specified")
         elif(not isinstance("subtitle", str)):
-            raise TypeError("argument 'subtitle' must be of type 'str'")
+            raise TypeError("argument 'subtitle' must \
+                be of type 'str'")
 
 
 
@@ -68,14 +73,16 @@ class CX_HeatMap:
             if(filetype == "csv"):
                 self.__sourcetype = "csv"
             else:
-                raise ValueError("source file type '"+filetype+"' not supported")
+                raise ValueError("source file type \
+                    '"+filetype+"' not supported")
         # check if source is a data grid
         elif(isinstance(self.__source, DataGrid)):
             self.__sourcetype = 'datagrid'
 
         else:
             # the source is not supported so raise exception.
-            raise TypeError("source type '"+type(self.__source)+"' not supported")
+            raise TypeError("source type '"+\
+                type(self.__source)+"' not supported")
 
 
 
