@@ -256,8 +256,7 @@ class CX_HeatMap:
         # Determine the source of the input data
         if(self.__sourcetype.lower() == 'csv'):
             # CSV file is the input source.
-            reader = CSVReader(self.__source, self.__skip_first_row, 
-                self.__skip_first_column)
+            reader = CSVReader(self.__source, self.__rowcolheaders)
             data_grid = reader.generate_datagrid()
             heat_map = self.generate_heatmap(data_grid)
             stylesheet = self.stylesheet

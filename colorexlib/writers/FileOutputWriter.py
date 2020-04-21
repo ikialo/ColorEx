@@ -23,18 +23,26 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 
-
 '''
 
 from abc import ABC, abstractmethod, abstractproperty
 from .OutputWriter import OutputWriter
+from ..common.datastructures import HeatMap, StyleSheet
 
 class FileOutputWriter(OutputWriter):
 
     ''' Class represents all output file writers '''
 
-    def __init__(self, filepath, heatmap, stylesheet):
+    def __init__(self, filepath=None,heatmap=None, stylesheet=None):
         ''' Initialize FileOutputWriter object '''
+
+        if(not isinstance(filepath, str)):
+            raise TypeError("argument 'filepath' must be of type 'str'")
+        elif(not isinstance(heatmap, HeatMap)):
+            raise TypeError("argument 'heatmap' must be of type 'HeatMap'")
+        elif(not isinstance(stylesheet, StyleSheet)):
+            raise TypeError("argument 'stylesheet' must be of type 'StyleSheet'")
+
         self.__filepath = filepath
         self.__heatmap = heatmap
         self.__stylesheet = stylesheet
@@ -45,17 +53,41 @@ class FileOutputWriter(OutputWriter):
         filepath = self.__filepath
         return filepath
 
+    @filepath.setter
+    def filepath(self, filepath):
+        ''' sets file path '''
+        if(not isinstance(filepath, str)):
+            raise TypeError("argument 'filepath' must be of type 'str'")
+        self.__filepath = filepath
+
+
     @property
     def heatmap(self):
         ''' get the heat map (list of lists) '''
         heatmap = self.__heatmap
         return heatmap
 
+    @heatmap.setter
+    def heatmap(self, heatmap):
+        ''' set heatmap '''
+        if(not isinstance(heatmap, HeatMap)):
+            raise TypeError("argument 'heatmap' must be of type 'HeatMap'")
+        self.__heatmap = heatmap
+
+
     @property
     def stylesheet(self):
         ''' get the stylesheet object of styling properties '''
         stylesheet = self.__stylesheet
         return stylesheet
+
+    @stylesheet.setter
+    def stylesheet(self, stylesheet):
+        ''' set stylesheet '''
+        if(not isinstance(stylesheet, StyleSheet)):
+            raise TypeError("argument 'stylesheet' must be of type 'StyleSheet'")
+        self.__stylesheet = stylesheet
+
     
     def write(self, options):
         ''' write heat map to output file '''

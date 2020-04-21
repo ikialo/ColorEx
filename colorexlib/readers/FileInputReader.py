@@ -50,9 +50,11 @@ class FileInputReader(InputReader, ABC):
         return filepath
 
     @filepath.setter
-    def filepath(self, path):
+    def filepath(self, filepath):
         ''' set the file path '''
-        self.__filepath = path
+        if(not isinstance(filepath, str)):
+            raise TypeError("argument 'filepath' must be of type 'str'")
+        self.__filepath = filepath
 
     @property
     def data(self):
@@ -64,6 +66,8 @@ class FileInputReader(InputReader, ABC):
     @data.setter
     def data(self, data):
         ''' set data '''
+        if(not isinstance(data, list)):
+            raise TypeError("argument 'data' must be of type 'list'")
         self.__data = data
 
 

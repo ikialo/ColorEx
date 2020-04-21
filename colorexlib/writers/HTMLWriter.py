@@ -34,11 +34,10 @@ class HTMLWriter(FileOutputWriter):
 
     def __init__(self, filepath=None, heatmap=None, stylesheet=None):
         ''' Initialize HTMLWriter object '''
-        if(filepath==None or heatmap==None or stylesheet==None):
-            raise Exception
-
         
-        super().__init__(filepath, heatmap, stylesheet)
+        FileOutputWriter.__init__(self, filepath=filepath, 
+            heatmap=heatmap, stylesheet=stylesheet)
+        
         self.dirs = dict()
 
     def write(self, options):

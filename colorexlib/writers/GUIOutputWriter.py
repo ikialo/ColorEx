@@ -26,6 +26,8 @@ DEALINGS IN THE SOFTWARE.
 
 from .OutputWriter import OutputWriter
 from .HeatMapWindow import HeatMapWindow
+from ..common.datastructures import HeatMap
+from ..common.styling import StyleSheet
 from tkinter import *
 
 class GUIOutputWriter(OutputWriter):
@@ -34,8 +36,14 @@ class GUIOutputWriter(OutputWriter):
         ''' Class facilitates writing of heat 
         maps and grids to the screen GUI '''
 
-        def __init__(self,heatmap=None,stylesheet=None):
+        def __init__(self,heatmap=None, stylesheet=None):
                 ''' Initialize GUIOutputWriter object '''
+
+                if(not isinstance(heatmap, HeatMap)):
+                    raise TypeError("argument 'heatmap' must be of type 'HeatMap'")
+                elif(not isinstance(stylesheet, StyleSheet)):
+                    raise TypeError("argument 'stylesheet' must be of type 'StyleSheet")
+
                 self.heatmap = heatmap
                 self.stylesheet = stylesheet
                 
