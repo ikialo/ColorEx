@@ -12,9 +12,15 @@ class HeatMapWindow(Frame):
     
     def __init__(self, parent, heatmap=None, stylesheet=StyleSheet, **kwargs):
         
-        # Determine if the heatmap has been passed.
-        if(heatmap == None):
-            raise Exception
+        # Determine the validity of all parameters passed.
+        if(not isinstance(parent, Tk)):
+            raise TypeError("argument 'parent' must be of type 'Tk'")
+        elif(not isinstance(heatmap, HeatMap)):
+            raise TypeError("argument 'heatmap' must be of type 'HeatMap'")
+        elif(not isinstance(stylesheet, StyleSheet)):
+            raise TypeError("argument 'stylesheet' must be of type 'StyleSheet'")
+
+
         # call parent initialize
         Frame.__init__(self, parent, **kwargs)
         
