@@ -36,6 +36,10 @@ class FileInputReader(InputReader, ABC):
 
     def __init__(self, filepath):
         ''' Initialize FileInputReader object '''
+
+        if(not isinstance(filepath, str)):
+            raise TypeError("argument 'filepath' must be of type 'str'")
+
         self.__filepath = filepath
         self.__data = None
 
@@ -45,15 +49,29 @@ class FileInputReader(InputReader, ABC):
         filepath = self.__filepath
         return filepath
 
+    @filepath.setter
+    def filepath(self, path):
+        ''' set the file path '''
+        self.__filepath = path
+
     @property
     def data(self):
         ''' get the read data '''
         data = self.__data
         return data
 
+
+    @data.setter
+    def data(self, data):
+        ''' set data '''
+        self.__data = data
+
+
+
     def read(self):
         ''' read the data from file '''
         pass
+
 
     def generate_datagrid(self):
         ''' generate a DataGrid object based on read file data '''

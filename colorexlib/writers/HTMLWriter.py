@@ -27,7 +27,6 @@ DEALINGS IN THE SOFTWARE.
 
 from .FileOutputWriter import FileOutputWriter
 from Cheetah.Template import Template
-from ..common.exceptions import *
 
 class HTMLWriter(FileOutputWriter):
 

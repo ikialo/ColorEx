@@ -2,7 +2,6 @@ from tkinter import *
 from tkinter import ttk
 from ..common.datastructures import HeatMap, Tile
 from ..common.styling import Themes, StyleSheet
-from ..common.exceptions import *
 import math
 
 

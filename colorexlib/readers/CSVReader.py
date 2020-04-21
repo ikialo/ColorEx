@@ -22,9 +22,9 @@ WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER 
 DEALINGS IN THE SOFTWARE.
 
-
-
 '''
+
+
 from ..common.datastructures import Data, DataGrid
 import csv
 from .FileInputReader import FileInputReader
@@ -35,24 +35,20 @@ class CSVReader(FileInputReader):
 
     def __init__(self, filepath, rowcol_headers=True):
         ''' Initialize CSVReader object '''
-        self.__filepath = filepath
-        self.__data = list()
+
+        # call the parent class initializer
+        FileInputReader.__init__(self, filepath)
+
+
+        if(not isinstance(rowcol_headers, bool)):
+            raise TypeError("argument 'rowcol_headers' must be of type 'bool'")
+
+
+        #self.__filepath = filepath
+        #self.__data = list()
         self.__rowcolheaders = rowcol_headers
         self.read()
 
-
-    @property
-    def data(self):
-        ''' get CSV data '''
-        data = self.__data
-        return data
-
-
-    @property
-    def filepath(self):
-        ''' get the file path '''
-        filepath = self.__filepath
-        return filepath
 
 
 
@@ -66,7 +62,7 @@ class CSVReader(FileInputReader):
 
     def read(self):
         ''' read the CSV file '''
-        filepath = self.__filepath
+        filepath = self.filepath
         tempdata = list()
         rowcount = 0
         # read csv and convert each row to float 
@@ -85,7 +81,7 @@ class CSVReader(FileInputReader):
                 rowcount += 1
                 tempdata.append(new_row)
         # set class object data to the read csv data.
-        self.__data = tempdata
+        self.data = tempdata
 
 
 
@@ -113,7 +109,7 @@ class CSVReader(FileInputReader):
     def generate_datagrid(self):
         ''' generate a DataGrid object based on 
         CSV file data '''
-        data = self.__data
+        data = self.data
         new_data = list()
         # convert all 'float' values to
         # Data items.
