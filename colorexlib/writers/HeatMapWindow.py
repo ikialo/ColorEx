@@ -176,6 +176,7 @@ class HeatMapWindow(Frame):
 
 
     def onMouseClickTile(self, event, tile_id, tile_data):
+        self.hide_all_tile_balloons()
         # restyle the tile that has been selected
         self.canvas.itemconfigure(str(tile_id), 
             width=11, outline="black")
@@ -190,27 +191,35 @@ class HeatMapWindow(Frame):
 
 
 
+
     def show_current_tile_balloon(self, x, y, data):
-        # Generate points for the balloon
-        point1 = (x,y)
-        point2 = (x+10, y-40)
-        point3 = (x+80, y-40)
-        point4 = (x+80, y-40+30)
-        point5 = (x+10, y-40+30)
-        # Draw the balloon polygon on the canvas.
-        self.canvas.create_polygon(point1[0],point1[1],point2[0],
-            point2[1],point3[0],point3[1],point4[0],point4[1],
-            point5[0],point5[1],point1[0],point1[1],fill="black",
-            tag="current_tile_popup")
+        text_x = x+35
+        text_y = y-45
         if(self.dataformatter is not None):
             final_data = self.dataformatter.format(data)
         else:
             final_data = data
         # Insert data into the balloon about the selected Tile.
-        self.canvas.create_text(point2[0]+(point3[0]-point2[0])/2,
-            ((point5[1]-point2[1])/2)+point2[1],text=final_data,
-            font="Arial 11 bold",tag="current_tile_popup", 
-            fill="white")
+        textid = self.canvas.create_text(text_x, 
+            text_y,text=final_data,
+            font="Arial 11",tag="current_tile_popup", 
+            fill="white", anchor="w")
+        text_bbox = self.canvas.bbox("current_tile_popup")
+        # Generate points for the balloon
+        margin = 10
+        point1 = (x,y)
+        point2 = (text_bbox[0]-margin, text_bbox[1]-margin)
+        point3 = (text_bbox[2]+margin, text_bbox[1]-margin)
+        point4 = (text_bbox[2]+margin, text_bbox[3]+margin)
+        point5 = (text_bbox[0]-margin, text_bbox[3]+margin)
+        # Draw the balloon polygon on the canvas.
+        self.canvas.create_polygon(point1[0],point1[1],point2[0],
+            point2[1],point3[0],point3[1],point4[0],point4[1],
+            point5[0],point5[1],point1[0],point1[1],fill="black",
+            tag="current_tile_popup")
+        self.canvas.tag_raise("current_tile_popup","heatmap")
+        self.canvas.tag_raise(str(textid),"current_tile_popup")
+
 
 
 
