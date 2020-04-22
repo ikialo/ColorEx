@@ -146,6 +146,7 @@ class HeatMapWindow(Frame):
         
 
 
+        self.canvas.update()
 
 
 
