@@ -138,6 +138,16 @@ class Tile:
 
 
 
+        # ensure validity of 'label' in options if it is ever passed.
+        elif('label' not in options):
+            self.label = None
+        elif('label' in options):
+            if(not isinstance(options['label'], str) and options['label'] is not None):
+                raise TypeError("argument 'label' must be of type 'str'")
+            self.label = options['label']
+
+
+
 
         self.__value = options['value']
         self.__alpha = options['alpha']
@@ -166,6 +176,14 @@ class Tile:
         ''' get tile options '''
         return self.__options
 
+
+    @property
+    def label(self):
+        ''' get laebel '''
+        return self.__label
+
+
+
     @alpha.setter
     def alpha(self, value):
         ''' set the alpha value '''
@@ -175,6 +193,13 @@ class Tile:
     def rgb(self, value):
         ''' set the rgb color code '''
         self.__rgb = value
+
+
+
+    @label.setter
+    def label(self, value):
+        ''' set the label '''
+        self.__label = value
 
 
     def __str__(self):
@@ -504,6 +529,16 @@ class HeatMap(object):
             self.__data_formatter = options['data_formatter']
         else:
             self.__data_formatter = None
+        if('grouping' in options):
+            if(options['grouping'] is not None):
+                if(not isinstance(options['grouping'], TileGroups)):
+                    raise TypeError("argument 'grouping' must be of type 'TileGroup'")
+                else:
+                    self.__grouping = options['grouping']
+            else:
+                self.__grouping = None
+        else:
+            self.__grouping = None
 
 
     @property
@@ -596,6 +631,12 @@ class HeatMap(object):
 
 
 
+    @property
+    def grouping(self):
+        ''' get TileGroup object for heatmap if exists '''
+        return self.__grouping
+
+
     def get_tile(self, row, col):
         ''' get a specific tile by row, column '''
         return self.__grid[row][col]
@@ -658,3 +699,313 @@ class HeatMap(object):
             return True
         else:
             return False
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class TileGroup:
+
+    def __init__(self, left, right, inclusive_left=True, 
+        inclusive_right=False, label="", color=None):
+
+        # define class variables.
+        self.left = left
+        self.right = right
+        self.inclusive_left = inclusive_left
+        self.inclusive_right = inclusive_right
+        self.label = label
+        self.color = color
+
+        # validate all arguments.
+        self.__validate()
+
+        # convert color to hex where necessary.
+        if(Themes().is_rgb_hex(self.color)):
+            self.color = color
+        elif(Themes().is_color_name(self.color)):
+            self.color = Themes().colors[self.color]
+        
+
+    def __validate(self):
+
+        # left must ONLY be int, float or None
+        if(not isinstance(self.left, int)
+           and not isinstance(self.left, float)
+           and self.left is not None):
+            raise TypeError("arguments 'left' and 'right' can only be of type 'int', 'float', or None")
+            
+        # right must ONLY be int, float or None
+        if(not isinstance(self.right, int)
+           and not isinstance(self.right, float)
+           and self.right is not None):
+            raise TypeError("arguments 'left' and 'right' can only be of type 'int', 'float', or None")
+        
+        # left value should be less than right value.
+        if((isinstance(self.left,float) or isinstance(self.left, int)) and
+           (isinstance(self.right,int) or isinstance(self.right,float))):            
+            if(self.left > self.right):
+                print(self.left, self.right)
+                raise ValueError("argument 'left' must be less than 'right'")
+
+        # left and right cannot BOTH be false.
+        if(self.left == False and self.right == False):
+            raise ValueError("only one out of arguments 'left' and 'right can be 'False'")
+
+        # inclusive left must only be bool
+        if(not isinstance(self.inclusive_left, bool)):
+            raise TypeError("argument 'inclusive_left' must be of type 'bool'")
+
+        # inclusive right must only be bool
+        if(not isinstance(self.inclusive_right, bool)):
+            raise TypeError("argument 'inclusive_right' must be of type 'bool'")
+
+        # label must be specified
+        if(self.label == ""):
+            raise TypeError("required argument 'label' must be specified, and must be of type 'str'")
+
+        # label must only be string.
+        if(not isinstance(self.label, str)):
+            raise TypeError("argument 'label' must be of type 'str'")
+
+        # color, if specified, must be a valid hex, or color string
+        if(self.color is not None):
+            if(not Themes().is_rgb_hex(self.color) and not Themes().is_color_name(self.color)):
+                raise TypeError("argument 'color' must be color hex string, or valid color name")
+
+
+    def __str__(self):
+        left = self.left
+        right = self.right
+        label = self.label
+        if(not left):
+            left = "-"
+        if(not right):
+            right = "+"
+        return "{} = ({},{})".format(label,left, right)
+
+
+    def __repr__(self):
+        left = self.left
+        right = self.right
+        label = self.label
+        if(not left):
+            left = "-"
+        if(not right):
+            right = "+"
+        return "{} = ({},{})".format(label,left, right)
+    
+        
+    def in_group(self, data):
+        inc_right = self.inclusive_right
+        inc_left = self.inclusive_left
+        if(not self.left and self.right):
+            # means we dealing with low to infinity bound
+            if(inc_right):
+                if(data <= self.right):
+                    return True
+                else:
+                    return False
+            elif(not inc_right):
+                if(data < self.right):
+                    return True
+                else:
+                    return False
+            else:
+                # do nothing if no inclusivity specified.
+                pass
+
+        elif(not self.right and self.left):
+            # means we dealing with a right to infinity bound
+            if(inc_right):
+                if(data >= self.left):
+                    return True
+                else:
+                    return False
+            elif(not inc_right):
+                if(data > self.left):
+                    return True
+                else:
+                    return False
+            else:
+                # do nothing if no inclusivity specified.
+                pass
+
+        elif(self.left and self.right):
+            # means we have a left and right bound
+            l = self.left
+            r = self.right
+
+            if(inc_left == True and inc_right == True):
+                if(data >= self.left and data <= self.right):
+                    return True
+                else:
+                    return False
+            elif(inc_left == True and inc_right == False):
+                if(data >= self.left and data < self.right):
+                    return True
+                else:
+                    return False
+            elif(inc_left == False and inc_right == True):
+                if(data > self.left and data <= self.right):
+                    return True
+                else:
+                    return False
+            elif(inc_left == False and inc_right == False):
+                if(data > self.left and data < self.right):
+                    return True
+                else:
+                    return False
+        else:
+            raise Exception("Unknown error occured")
+
+
+
+
+
+
+
+
+
+
+
+
+
+class TileGroups:
+
+    def __init__(self, *groups):
+        self.groups = groups
+        self.__validate()
+
+
+    def __validate(self):
+        for group in self.groups:
+            if(not isinstance(group, TileGroup)):
+                raise TypeError("all tile groups passed must be of type 'TileGroup'")
+
+    def __is_numeric(self, value):
+        if(isinstance(value, int) or isinstance(value, float)):
+            return True
+        else:
+            return False
+
+    def __is_none(self, value):
+        if(value == None):
+            return True
+        else:
+            return False
+
+
+
+
+    def alpha(self, value):
+        group = self.group(value)
+        if(group is None):
+            return 0.0
+        else:
+            index = self.groups.index(group)
+            index += 1
+            alpha = (1/len(self.groups))*(index)
+            return alpha
+
+
+
+
+    def group(self, value):
+        if(not isinstance(value, int) and
+           not isinstance(value, float)):
+            raise TypeError("required argument 'value' must be of type 'int' or 'float'")
+        
+        for group in self.groups:
+
+            # if both left, right are numeric
+            if(self.__is_numeric(group.left) and self.__is_numeric(group.right)):                
+                l = 0
+                r = 0
+                if(group.inclusive_left):
+                    l = group.left
+                else:
+                    l = group.left + 1
+                if(group.inclusive_right):
+                    r = group.right + 1
+                else:
+                    r = group.right
+
+                if(value in range(l, r)):
+                    return group
+
+            # if left None, right numeric
+            if(group.left == None and self.__is_numeric(group.right)):                
+                r = group.right
+                if(group.inclusive_right):
+                    if(value <= r):
+                        return group
+
+                else:
+                    if(value < r):
+                        return group
+
+            # if left numeric, right None
+            if(self.__is_numeric(group.left) and group.right == None):                
+                l = group.left
+                if(group.inclusive_left):
+                    if(value >= l):
+                        return group
+
+                else:
+                    if(value > l):
+                        return group
+        return None
+
+    
+
+
+    def label(self, value):
+        group = self.group(value)
+        if(group is None):
+            return None
+        else:
+            return group.label
+    
+
+
+    def __str__(self):
+        str_rep = "TileGroups("
+        for i in range(len(self.groups)):
+            if(i == (len(self.groups)-1)):
+                str_rep += self.groups[i].label+" = "
+                str_rep += str(self.groups[i])
+            else:
+                str_rep += self.groups[i].label+" = "
+                str_rep += str(self.groups[i])+", "
+        str_rep += ")"
+        return str_rep
+
+
+
+
+        
+
+
+    def __repr__(self):
+        str_rep = "TileGroups("
+        for i in range(len(self.groups)):
+            if(i == (len(self.groups)-1)):
+                str_rep += self.groups[i].label+" = "
+                str_rep += str(self.groups[i])
+            else:
+                str_rep += self.groups[i].label+" = "
+                str_rep += str(self.groups[i])+", "
+        str_rep += ")"
+        return str_rep
+

@@ -187,15 +187,17 @@ class HeatMapWindow(Frame):
         y = coords[1]
         # show the current tile's popup balloon.
         self.show_current_tile_balloon(x, y, 
-            tile_data.value)
+            tile_data)
 
 
 
 
 
-    def show_current_tile_balloon(self, x, y, data):
+    def show_current_tile_balloon(self, x, y, tile):
         text_x = x+35
         text_y = y-45
+        data = tile.value
+        label = tile.label
         if(self.dataformatter is not None):
             final_data = self.dataformatter.format(data)
         else:
@@ -203,8 +205,13 @@ class HeatMapWindow(Frame):
         # Insert data into the balloon about the selected Tile.
         textid = self.canvas.create_text(text_x, 
             text_y,text=final_data,
-            font="Arial 11",tag="current_tile_popup", 
+            font="Arial 11 bold",tag="current_tile_popup", 
             fill="white", anchor="w")
+        if(label is not None):
+            labelid = self.canvas.create_text(text_x,
+                text_y-20,text=label,
+                font="Arial 10", tag="current_tile_popup",
+                fill="white", anchor="w")
         text_bbox = self.canvas.bbox("current_tile_popup")
         # Generate points for the balloon
         margin = 10
@@ -220,6 +227,8 @@ class HeatMapWindow(Frame):
             tag="current_tile_popup")
         self.canvas.tag_raise("current_tile_popup","heatmap")
         self.canvas.tag_raise(str(textid),"current_tile_popup")
+        if(label is not None):
+            self.canvas.tag_raise(str(labelid),"current_tile_popup")
 
 
 
@@ -550,7 +559,7 @@ class HeatMapWindow(Frame):
 
 
     def canvas_update_scrollregion(self):
-        region = (0,0,self.canvas.bbox(ALL)[2],
+        region = (0,0,self.canvas.bbox(ALL)[2]+50,
         self.canvas.bbox(ALL)[3]+50)
         self.canvas.configure(scrollregion=region)
 

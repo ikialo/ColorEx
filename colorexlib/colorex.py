@@ -27,7 +27,7 @@ DEALINGS IN THE SOFTWARE.
 # import necessary modules
 from .common.styling import Theme, Themes, StyleSheet
 from .common.formating import DataFormatter
-from .common.datastructures import Data, HeatMap, DataGrid, Tile
+from .common.datastructures import Data, HeatMap, DataGrid, Tile, TileGroup, TileGroups
 from .writers.HTMLWriter import HTMLWriter
 from .writers.GUIOutputWriter import GUIOutputWriter
 from .readers.CSVReader import CSVReader
@@ -42,7 +42,6 @@ class CX_HeatMap:
 
     def __init__(self, options=dict()):
         ''' Initialize a new engine '''
-
         # determine the validity of arguments passed.
         if('source' not in options):
             raise TypeError("required argument 'source' \
@@ -147,6 +146,17 @@ class CX_HeatMap:
             self.__data_formatter = None
 
 
+        # grouping settings.
+        if('grouping' in options):
+            if(not isinstance(options['grouping'], TileGroups)):
+                raise TypeError("argument 'grouping' must be of type 'TileGroup'")
+            else:
+                self.__grouping = options['grouping']
+        else:
+            self.__grouping = None
+
+
+
         # set dictionary of available colors and themes
         # for reference.
         self.__colors = Themes().colors
@@ -214,6 +224,12 @@ class CX_HeatMap:
         return self.__data_formatter
 
 
+    @property
+    def grouping(self):
+        ''' get TileGroup object for heatmap if exists '''
+        return self.__grouping
+
+
 
 
     def generate_heatmap(self, data_grid):
@@ -251,13 +267,15 @@ class CX_HeatMap:
             'rowcol_headers': data_grid.rowcolheaders,
             'xaxis_labels': self.__xaxislabels,
             'yaxis_labels': self.__yaxislabels,
-            'data_formatter': self.__data_formatter})
+            'data_formatter': self.__data_formatter,
+            'grouping': self.__grouping})
         return heatmap_obj
 
  
 
 
-        
+
+
     def generate_tile(self, data_item, min_value, max_value, theme):
         ''' generates a new tile of type Tile '''
         # set some colors to use.
@@ -265,21 +283,65 @@ class CX_HeatMap:
         lowColor = theme.palette["secondary"]
         highColorDec = Themes().rgb_hex_to_decimal(highColor)
         lowColorDec = Themes().rgb_hex_to_decimal(lowColor)
-        alpha_color = Themes().generate_alpha_rgb_bicolor(
-            highColorDec,lowColorDec,self.calculate_rgb_alpha(
-                data_item.value, min_value, max_value))
-        rgb = Themes().decimal_to_rgb_hex(alpha_color)
+        label = None
+
+        thereAreGroupings = self.grouping is not None
+        groupingHasColor = False
+        tileInGroup = False
+        if(thereAreGroupings):
+            tileInGroup = self.grouping.group(data_item.value) is not None
+        if(thereAreGroupings and tileInGroup):
+            groupingHasColor = self.grouping.group(data_item.value).color is not None
+            label = self.grouping.group(data_item.value).label
+        
+        # first, check if tile groups available, with colors specified.
+        if(thereAreGroupings):
+            # there are groupings
+            if(tileInGroup):
+                # Current Tile is in group
+                if(groupingHasColor):
+                    # grouping has color so just use specified color.
+                    rgb = self.grouping.group(data_item.value).color
+                    alpha = 1.0
+                else:
+                    # grouping has no color, so use generated color
+                    # based on the group's alpha.
+                    alpha = self.grouping.alpha(data_item.value)
+                    alpha_color = Themes().generate_alpha_rgb_bicolor(
+                        highColorDec, lowColorDec, alpha)
+                    rgb = Themes().decimal_to_rgb_hex(alpha_color)
+            else:
+                # there are no groupings, so generate alpha color
+                # as usual. This is the typical behavior.
+                alpha_color = Themes().generate_alpha_rgb_bicolor(
+                    highColorDec,lowColorDec,self.calculate_rgb_alpha(
+                        data_item.value, min_value, max_value))
+                rgb = Themes().decimal_to_rgb_hex(alpha_color)
+                alpha = self.calculate_rgb_alpha(data_item.value, 
+                    min_value, max_value)
+
+        elif(not thereAreGroupings):
+            # there are no groupings, so generate alpha color
+            # as usual. This is the typical behavior.
+            alpha_color = Themes().generate_alpha_rgb_bicolor(
+                highColorDec,lowColorDec,self.calculate_rgb_alpha(
+                    data_item.value, min_value, max_value))
+            rgb = Themes().decimal_to_rgb_hex(alpha_color)
+            alpha = self.calculate_rgb_alpha(data_item.value, 
+                min_value, max_value)
+
         # create a dictionary for all Tile options.
         tile_options = {
                 'value': data_item.value,
-                'alpha': self.calculate_rgb_alpha(
-                    data_item.value,
-                    min_value,
-                    max_value),
-                'rgb': rgb
+                'alpha': alpha,
+                'rgb': rgb,
+                'label': label
         }
         # return a Tile object, passing the options too.
-        return Tile(tile_options)
+        return Tile(tile_options)            
+
+
+
 
 
 
