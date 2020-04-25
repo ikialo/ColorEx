@@ -465,8 +465,8 @@ class StyleSheet:
         self.__styles['canvas_bottom_margin'] = canvas_bottom_margin
 
         # axes label margin settings
-        self.__styles['ylabel_margin'] = xlabel_margin
-        self.__styles['xlabel_margin'] = ylabel_margin
+        self.__styles['ylabel_margin'] = ylabel_margin
+        self.__styles['xlabel_margin'] = xlabel_margin
 
         # axes title settings.
         self.__styles['axes_title_font'] = axes_title_font

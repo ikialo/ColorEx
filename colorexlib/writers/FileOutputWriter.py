@@ -51,6 +51,7 @@ class FileOutputWriter(OutputWriter):
         self.__heatmap = heatmap
         self.__stylesheet = stylesheet
 
+
     @property
     def filepath(self):
         ''' get file path '''

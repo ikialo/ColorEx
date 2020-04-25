@@ -364,7 +364,7 @@ class CX_HeatMap:
 
 
 
-    def to_html(self, html_filename, template):
+    def to_html(self, html_filename):
         ''' outputs HeatMap object to a HTML file '''
 
         # Determine the source of the input data
@@ -376,7 +376,7 @@ class CX_HeatMap:
             stylesheet = self.stylesheet
             html_writer = HTMLWriter(filepath=html_filename, 
                 heatmap=heat_map, stylesheet=stylesheet)
-            html_writer.write({'template': template})
+            html_writer.write()
 
         else:
             # the source is not supported so raise exception.
