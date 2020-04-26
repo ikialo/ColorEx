@@ -20,18 +20,22 @@ class TestInit(unittest.TestCase):
 
 class TestValue(unittest.TestCase):
 	def setUp(self):
-		self.data1 = Data(10)
-		self.data2 = Data(-92)
-		self.data3 = Data(90.893)
-		self.data4 = Data(0x234)
+		self.n1 = 10
+		self.n2 = -92
+		self.n3 = 90.893
+		self.n4 = 0x234
+		self.data1 = Data(self.n1)
+		self.data2 = Data(self.n2)
+		self.data3 = Data(self.n3)
+		self.data4 = Data(self.n4)
 	def test_value_A(self):
-		self.assertEqual(self.data1.value, 10)
+		self.assertEqual(self.data1.value, self.n1)
 	def test_value_A(self):
-		self.assertEqual(self.data2.value, -92)
+		self.assertEqual(self.data2.value, self.n2)
 	def test_value_B(self):
-		self.assertEqual(self.data3.value, 90.893)
+		self.assertEqual(self.data3.value, self.n3)
 	def test_value_C(self):
-		self.assertEqual(self.data4.value, 0x234)
+		self.assertEqual(self.data4.value, self.n4)
 
 
 
@@ -39,18 +43,22 @@ class TestValue(unittest.TestCase):
 
 class TestStr(unittest.TestCase):
 	def setUp(self):
-		self.data1 = Data(10)
-		self.data2 = Data(-92)
-		self.data3 = Data(90.893)
-		self.data4 = Data(0x234)
-	def test__str__A(self):
-		self.assertEqual(self.data1.__str__(), 'Data(10)')
-	def test__str__B(self):
-		self.assertEqual(self.data2.__str__(), 'Data(-92)')
-	def test__str__C(self):
-		self.assertEqual(self.data3.__str__(), 'Data(90.893)')
-	def test__str__D(self):
-		self.assertEqual(self.data4.__str__(), 'Data(564)')
+		self.n1 = 10
+		self.n2 = -92
+		self.n3 = 90.893
+		self.n4 = 0x234
+		self.data1 = Data(self.n1)
+		self.data2 = Data(self.n2)
+		self.data3 = Data(self.n3)
+		self.data4 = Data(self.n4)
+	def test___str__A(self):
+		self.assertEqual(self.data1.__str__(), 'Data('+str(self.n1)+')')
+	def test___str__B(self):
+		self.assertEqual(self.data2.__str__(), 'Data('+str(self.n2)+')')
+	def test___str__C(self):
+		self.assertEqual(self.data3.__str__(), 'Data('+str(self.n3)+')')
+	def test___str__D(self):
+		self.assertEqual(self.data4.__str__(), 'Data('+str(self.n4)+')')
 
 
 
@@ -58,28 +66,36 @@ class TestStr(unittest.TestCase):
 
 class TestRepr(unittest.TestCase):
 	def setUp(self):
-		self.data1 = Data(10)
-		self.data2 = Data(-92)
-		self.data3 = Data(90.893)
-		self.data4 = Data(0x234)
-	def test__str__A(self):
-		self.assertEqual(self.data1.__repr__(), 'Data(10)')
-	def test__str__B(self):
-		self.assertEqual(self.data2.__repr__(), 'Data(-92)')
-	def test__str__C(self):
-		self.assertEqual(self.data3.__repr__(), 'Data(90.893)')
-	def test__str__D(self):
-		self.assertEqual(self.data4.__repr__(), 'Data(564)')
+		self.n1 = 10
+		self.n2 = -92
+		self.n3 = 90.893
+		self.n4 = 0x234
+		self.data1 = Data(self.n1)
+		self.data2 = Data(self.n2)
+		self.data3 = Data(self.n3)
+		self.data4 = Data(self.n4)
+	def test___repr__A(self):
+		self.assertEqual(self.data1.__repr__(), 'Data('+str(self.n1)+')')
+	def test___repr__B(self):
+		self.assertEqual(self.data2.__repr__(), 'Data('+str(self.n2)+')')
+	def test___repr__C(self):
+		self.assertEqual(self.data3.__repr__(), 'Data('+str(self.n3)+')')
+	def test___repr__D(self):
+		self.assertEqual(self.data4.__repr__(), 'Data('+str(self.n4)+')')
 
 
 
 
 class TestLessThan(unittest.TestCase):
 	def setUp(self):
-		self.data1 = Data(10)
-		self.data2 = Data(-92)
-		self.data3 = Data(90.893)
-		self.data4 = Data(0x234)
+		self.n1 = 10
+		self.n2 = -92
+		self.n3 = 90.893
+		self.n4 = 0x234
+		self.data1 = Data(self.n1)
+		self.data2 = Data(self.n2)
+		self.data3 = Data(self.n3)
+		self.data4 = Data(self.n4)
 	def test__lt__A(self):
 		self.assertTrue(self.data2.__lt__(self.data1))
 	def test__lt__B(self):
@@ -105,10 +121,14 @@ class TestLessThan(unittest.TestCase):
 
 class TestGreaterThan(unittest.TestCase):
 	def setUp(self):
-		self.data1 = Data(10)
-		self.data2 = Data(-92)
-		self.data3 = Data(90.893)
-		self.data4 = Data(0x234)
+		self.n1 = 10
+		self.n2 = -92
+		self.n3 = 90.893
+		self.n4 = 0x234
+		self.data1 = Data(self.n1)
+		self.data2 = Data(self.n2)
+		self.data3 = Data(self.n3)
+		self.data4 = Data(self.n4)
 	def test__gt__A(self):
 		self.assertTrue(self.data1.__gt__(self.data2))
 	def test__gt__B(self):
@@ -137,11 +157,22 @@ class TestGreaterThan(unittest.TestCase):
 
 class TestLessEqual(unittest.TestCase):
 	def setUp(self):
-		self.data1 = Data(10)
-		self.data2 = Data(-92)
-		self.data3 = Data(90.893)
-		self.data4 = Data(0x234)
-		self.data5 = Data(90.893)
+		self.n1 = 10
+		self.n2 = -92
+		self.n3 = 90.893
+		self.n4 = 0x234
+		self.n5 = 90.893
+		self.n6 = 564
+		self.n7 = 10
+		self.n8 = -92
+		self.data1 = Data(self.n1)
+		self.data2 = Data(self.n2)
+		self.data3 = Data(self.n3)
+		self.data4 = Data(self.n4)
+		self.data5 = Data(self.n5)
+		self.data6 = Data(self.n6)
+		self.data7 = Data(self.n7)
+		self.data8 = Data(self.n8)
 	def test__le__A(self):
 		self.assertTrue(self.data1.__le__(self.data3))
 	def test__le__B(self):
@@ -175,11 +206,22 @@ class TestLessEqual(unittest.TestCase):
 
 class TestGreaterEqual(unittest.TestCase):
 	def setUp(self):
-		self.data1 = Data(10)
-		self.data2 = Data(-92)
-		self.data3 = Data(90.893)
-		self.data4 = Data(0x234)
-		self.data5 = Data(90.893)
+		self.n1 = 10
+		self.n2 = -92
+		self.n3 = 90.893
+		self.n4 = 0x234
+		self.n5 = 90.893
+		self.n6 = 564
+		self.n7 = 10
+		self.n8 = -92
+		self.data1 = Data(self.n1)
+		self.data2 = Data(self.n2)
+		self.data3 = Data(self.n3)
+		self.data4 = Data(self.n4)
+		self.data5 = Data(self.n5)
+		self.data6 = Data(self.n6)
+		self.data7 = Data(self.n7)
+		self.data8 = Data(self.n8)
 	def test__ge__A(self):
 		self.assertTrue(self.data1.__ge__(self.data2))
 	def test__ge__B(self):
@@ -213,14 +255,22 @@ class TestGreaterEqual(unittest.TestCase):
 
 class TestEqual(unittest.TestCase):
 	def setUp(self):
-		self.data1 = Data(10)
-		self.data2 = Data(-92)
-		self.data3 = Data(90.893)
-		self.data4 = Data(0x234)
-		self.data5 = Data(90.893)
-		self.data6 = Data(564)
-		self.data7 = Data(10)
-		self.data8 = Data(-92)
+		self.n1 = 10
+		self.n2 = -92
+		self.n3 = 90.893
+		self.n4 = 0x234
+		self.n5 = 90.893
+		self.n6 = 564
+		self.n7 = 10
+		self.n8 = -92
+		self.data1 = Data(self.n1)
+		self.data2 = Data(self.n2)
+		self.data3 = Data(self.n3)
+		self.data4 = Data(self.n4)
+		self.data5 = Data(self.n5)
+		self.data6 = Data(self.n6)
+		self.data7 = Data(self.n7)
+		self.data8 = Data(self.n8)
 	def test__eq__A(self):
 		self.assertTrue(self.data1.__eq__(self.data7))
 	def test__eq__B(self):

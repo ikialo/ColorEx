@@ -101,6 +101,12 @@ class Tile:
     def __init__(self, options):
         '''Initialize a single Tile object '''
 
+
+        # ensure options passed is a dictionary
+        if(not isinstance(options, dict)):
+            raise TypeError("required argument 'options' must be of type 'dict'")
+
+
         # ensure validity of 'value' in options
         if('value' not in options):
             raise TypeError("required argument 'value' \
@@ -140,11 +146,11 @@ class Tile:
 
         # ensure validity of 'label' in options if it is ever passed.
         elif('label' not in options):
-            self.label = None
+            self.__label = None
         elif('label' in options):
             if(not isinstance(options['label'], str) and options['label'] is not None):
                 raise TypeError("argument 'label' must be of type 'str'")
-            self.label = options['label']
+            self.__label = options['label']
 
 
 
@@ -184,22 +190,22 @@ class Tile:
 
 
 
-    @alpha.setter
-    def alpha(self, value):
-        ''' set the alpha value '''
-        self.__alpha = value
+    # @alpha.setter
+    # def alpha(self, value):
+    #     ''' set the alpha value '''
+    #     self.__alpha = value
 
-    @rgb.setter
-    def rgb(self, value):
-        ''' set the rgb color code '''
-        self.__rgb = value
+    # @rgb.setter
+    # def rgb(self, value):
+    #     ''' set the rgb color code '''
+    #     self.__rgb = value
 
 
 
-    @label.setter
-    def label(self, value):
-        ''' set the label '''
-        self.__label = value
+    # @label.setter
+    # def label(self, value):
+    #     ''' set the label '''
+    #     self.__label = value
 
 
     def __str__(self):
