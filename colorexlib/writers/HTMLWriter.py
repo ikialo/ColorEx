@@ -152,6 +152,7 @@ class HTMLWriter(FileOutputWriter):
                 background-color: white;
             }
 
+
             /* Title settings */
             .title {
                 font-family: $stylesheet.styles['title_font'];
@@ -161,6 +162,7 @@ class HTMLWriter(FileOutputWriter):
                 #end if
                 text-align: center;
                 padding-top: #echo $stylesheet.styles['title_ycoord']#px;
+                color: $heatmap.theme.palette['on-background'];
             }
 
             /* Subtitle settings */
@@ -173,6 +175,7 @@ class HTMLWriter(FileOutputWriter):
                 text-align: center;
                 #set $subtitle_pad = $stylesheet.styles['subtitle_ycoord'] - $stylesheet.styles['title_ycoord']
                 padding-top: #echo $subtitle_pad#px;
+                color: $heatmap.theme.palette['on-background'];
             }
 
             /* Tile settings for the HeatMap */
@@ -192,7 +195,14 @@ class HTMLWriter(FileOutputWriter):
 
 
             .heatmap {
-                padding-top: $stylesheet.styles['plane_top_margin'] ;
+                padding-top: $stylesheet.styles['plane_top_margin'];
+                background-color: $heatmap.theme.palette['background'];
+                color: $heatmap.theme.palette['on-background'];
+            }
+
+
+            .plane {
+                padding-top: $stylesheet.styles['plane_top_margin'];
             }
 
 
@@ -203,7 +213,8 @@ class HTMLWriter(FileOutputWriter):
                 #if $stylesheet.styles['axes_title_bold'] == True
                 font-weight: bold;
                 #end if
-                text-align: center;             
+                text-align: center;
+                color: $heatmap.theme.palette['on-background'];
             }
             .yaxis_title {
                 font-family: $stylesheet.styles['axes_title_font'];
@@ -216,6 +227,7 @@ class HTMLWriter(FileOutputWriter):
                 writing-mode: vertical-rl;
                 transform: rotate(180deg);
                 white-space: nowrap;
+                color: $heatmap.theme.palette['on-background'];
             }
 
 
@@ -233,6 +245,7 @@ class HTMLWriter(FileOutputWriter):
                 writing-mode: vertical-rl;
                 transform: rotate(180deg);
                 white-space: nowrap;
+                color: $heatmap.theme.palette['on-background'];
             }
 
             .yaxis_label {
@@ -241,18 +254,21 @@ class HTMLWriter(FileOutputWriter):
                 #if $stylesheet.styles['axes_label_bold'] == True
                 font-weight: bold;
                 #end if
+                color: $heatmap.theme.palette['on-background'];
             }
 
             .xaxis_label_row {
                 text-align: center;
                 vertical-align: top;
                 padding-top: #echo $stylesheet.styles['xlabel_margin']#px;
+                color: $heatmap.theme.palette['on-background'];
             }
 
             .yaxis_label_column {
                 text-align: right;
                 vertical-align: middle;
                 padding-right: #echo $stylesheet.styles['ylabel_margin']#px;
+                color: $heatmap.theme.palette['on-background'];
             }
             
 
@@ -334,7 +350,7 @@ class HTMLWriter(FileOutputWriter):
 
 
         <br/>
-        <div style="border: 1px solid; display: inline-block; padding: 30px;">
+        <div class="heatmap" style="border: 1px solid; display: inline-block; padding: 30px;">
 
         <table>
 
@@ -363,7 +379,7 @@ class HTMLWriter(FileOutputWriter):
 
 
 
-        <table class="heatmap" border="0" cellspacing="0" cellpadding="0">
+        <table class="plane" border="0" cellspacing="0" cellpadding="0">
 
 
             #for $row in $data
@@ -376,7 +392,7 @@ class HTMLWriter(FileOutputWriter):
                 #if $row_n == 0
                 #if $heatmap.rowcolheaders
                 <!-- Y-Axis Title -->
-                <td rowspan="#echo $heatmap.rows-1#">
+                <td rowspan="#echo $heatmap.rows-1#" style="padding-right: 23px;">
                     <div class="yaxis_title">$heatmap.yaxistitle</div>
                 </td>
                 #else
@@ -435,13 +451,13 @@ class HTMLWriter(FileOutputWriter):
             <tr>
                 #if $heatmap.rowcolheaders
                 <td></td>
-                <td colspan="$heatmap.cols" class="xaxis_title">
+                <td style="padding-top: 23px;" colspan="$heatmap.cols" class="xaxis_title">
                     $heatmap.xaxistitle
                 </td>
                 #else
                 <td></td>
                 <td></td>
-                <td colspan="$heatmap.cols" class="xaxis_title">
+                <td style="padding-top: 23px;" colspan="$heatmap.cols" class="xaxis_title">
                     $heatmap.xaxistitle
                 </td>
                 #end if
