@@ -295,6 +295,15 @@ class HTMLWriter(FileOutputWriter):
 
 
 
+
+
+
+
+            .tooltip-big-text {
+                --balloon-font-size: 15px;
+            }
+
+
         </style>
 
 
@@ -324,9 +333,8 @@ class HTMLWriter(FileOutputWriter):
     <center>
 
 
-
-        <div id="status"></div>
-
+        <br/>
+        <div style="border: 1px solid; display: inline-block; padding: 30px;">
 
         <table>
 
@@ -387,10 +395,7 @@ class HTMLWriter(FileOutputWriter):
                 </td>               
                 #for $col in $row
                 <td class="tile" style="background-color: $col.rgb;">
-                        <div class="tile_selector" aria-label="#if $col.label is not None
-                            #echo $col.label# &#10;
-                            #end if
-                            #echo $heatmap.dataformatter.format($col.value)#
+                        <div class="tile_selector tooltip-big-text" aria-label="#if $col.label is not None # #echo $col.label# &#10; #end if# #echo $heatmap.dataformatter.format($col.value)#
                         " data-balloon-break data-balloon-pos="up" data-balloon-length="medium">
                         </div>
 
@@ -444,6 +449,8 @@ class HTMLWriter(FileOutputWriter):
         </table>
 
 
+
+        </div>
 
         </center>
     </body>
