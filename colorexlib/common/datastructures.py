@@ -324,10 +324,19 @@ class DataGrid(object):
 
     def get_data(self, row, col):
         ''' get value by row, col '''
-        item = self.__grid[row][col]
-        return item
+        if(not isinstance(row, int)):
+            raise TypeError("required arguments 'row' and 'col' must be of type 'int'")
+        elif(not isinstance(col, int)):
+            raise TypeError("required arguments 'row' and 'col' must be of type 'int'")
 
 
+        try:
+            item = self.__grid[row][col]
+            return item
+        except IndexError:
+            raise IndexError("required arguments 'row' or 'col' is out of range.")
+        except Exception:
+            raise Exception("An unknown error occured")
 
 
     def get_max_value(self):
