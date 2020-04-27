@@ -770,7 +770,6 @@ class TileGroup:
         if((isinstance(self.left,float) or isinstance(self.left, int)) and
            (isinstance(self.right,int) or isinstance(self.right,float))):            
             if(self.left > self.right):
-                print(self.left, self.right)
                 raise ValueError("argument 'left' must be less than 'right'")
 
         # left and right cannot BOTH be false.
@@ -822,6 +821,11 @@ class TileGroup:
     
         
     def in_group(self, data):
+
+        # validation of argument 'data'
+        if(not isinstance(data, int) and not isinstance(data,float)):
+            raise TypeError("required argument 'data' must be of type 'int' or 'float'")
+
         inc_right = self.inclusive_right
         inc_left = self.inclusive_left
         if(not self.left and self.right):
