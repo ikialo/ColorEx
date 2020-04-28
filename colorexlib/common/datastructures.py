@@ -960,7 +960,7 @@ class TileGroups:
                 else:
                     r = group.right
 
-                if(value in range(l, r)):
+                if(value >= l and value <= r):
                     return group
 
             # if left None, right numeric
@@ -1002,10 +1002,10 @@ class TileGroups:
         str_rep = "TileGroups("
         for i in range(len(self.groups)):
             if(i == (len(self.groups)-1)):
-                str_rep += self.groups[i].label+" = "
+                #str_rep += self.groups[i].label+" = "
                 str_rep += str(self.groups[i])
             else:
-                str_rep += self.groups[i].label+" = "
+                #str_rep += self.groups[i].label+" = "
                 str_rep += str(self.groups[i])+", "
         str_rep += ")"
         return str_rep
@@ -1020,10 +1020,10 @@ class TileGroups:
         str_rep = "TileGroups("
         for i in range(len(self.groups)):
             if(i == (len(self.groups)-1)):
-                str_rep += self.groups[i].label+" = "
+                #str_rep += self.groups[i].label+" = "
                 str_rep += str(self.groups[i])
             else:
-                str_rep += self.groups[i].label+" = "
+                #str_rep += self.groups[i].label+" = "
                 str_rep += str(self.groups[i])+", "
         str_rep += ")"
         return str_rep
