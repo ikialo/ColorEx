@@ -1,14 +1,21 @@
 ![ColorEx](res/header.png)
 # ColorEx Library
 
-*ColorEx* is a data visualization and summarization library that uses color creatively to represent data, make visualization interactive, and ultimately be a great tool for learning patterns in data. It is meant to be simple, easy, and straight-forward.
+*ColorEx* is a simple data visualization Python library for creating awesome and interactive heat maps. Heat maps are a great way for studying and learning patterns in data, and uses color extensively. It is meant to be simple, easy and straight-forward. 
 
 ## Features
 
-- Supports **CSV** data files for input.
-- Generates and outputs **color grid** in **HTML** format.
-- **Themes** supported both in-built and user-defined.
-- **Templates** supported both in-built and user-defined.
+- **2-Dimensional** heat maps.
+- Input data supports **CSV** files.
+- Output to **GUI, HTML, JPG, PNG**.
+- **Styling** and **theming**.
+- **Bi-color** heat maps supported.
+- Flexible data **formatting**.
+- **Interactive** heat map, tile selection.
+- **Labelling** for tiles, cells.
+- **Grouping** for tiles, cells.
+
+
 
 
 ## Requirements
