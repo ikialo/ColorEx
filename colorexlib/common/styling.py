@@ -85,7 +85,7 @@ class Themes:
 
     @property
     def themes(self):
-        ''' returns list of in-built themes '''
+        ''' returns dictionary of in-built themes '''
         return self.__themes
 
 
@@ -113,16 +113,13 @@ class Themes:
     def is_rgb_decimal(self, decimal):
         ''' confirms whether or not a RGB decimal code is valid '''
         if(not isinstance(decimal, tuple)):
-            print("f1")
             return False
         elif(not isinstance(decimal[0],int) or 
             not isinstance(decimal[1],int) or 
             not isinstance(decimal[2],int)):
-            print("f2")
             return False
         elif(decimal[0] not in range(0,256) or decimal[1] 
             not in range(0,256) or decimal[2] not in range(0,256)):
-            print("f3")
             return False
         else:
             return True
@@ -173,38 +170,38 @@ class Themes:
 
 
 
-    def generate_alpha_rgbcolor(self, rgb, alpha):
-        ''' Generates color between passed rgb decimal 
-        color and white, based on alpha '''
+    # def generate_alpha_rgbcolor(self, rgb, alpha):
+    #     ''' Generates color between passed rgb decimal 
+    #     color and white, based on alpha '''
 
-        if(not self.is_rgb_decimal(rgb)):
-            raise TypeError("argument 'rgb' must be of type \
-                tuple between (0,0,0) to (255,255,255)")
+    #     if(not self.is_rgb_decimal(rgb)):
+    #         raise TypeError("argument 'rgb' must be of type \
+    #             tuple between (0,0,0) to (255,255,255)")
 
-        elif(not isinstance(alpha, float)):
-            raise TypeError("argument 'alpha' must be of type \
-                float, between 0-1 inclusively")
+    #     elif(not isinstance(alpha, float)):
+    #         raise TypeError("argument 'alpha' must be of type \
+    #             float, between 0-1 inclusively")
 
-        elif(alpha < 0 or alpha > 1):
-            raise TypeError("argument 'alpha' must be of type \
-                float, between 0-1 inclusively")            
+    #     elif(alpha < 0 or alpha > 1):
+    #         raise TypeError("argument 'alpha' must be of type \
+    #             float, between 0-1 inclusively")            
 
-        r = rgb[0]
-        g = rgb[1]
-        b = rgb[2]
-        n_colors = max(r,g,b)
-        increment = int(alpha*n_colors)
-        r += increment
-        g += increment
-        b += increment
-        if(r>255):
-            r = 255
-        if(g>255):
-            g = 255
-        if(b>255):
-            b = 255
+    #     r = rgb[0]
+    #     g = rgb[1]
+    #     b = rgb[2]
+    #     n_colors = max(r,g,b)
+    #     increment = int(alpha*n_colors)
+    #     r += increment
+    #     g += increment
+    #     b += increment
+    #     if(r>255):
+    #         r = 255
+    #     if(g>255):
+    #         g = 255
+    #     if(b>255):
+    #         b = 255
 
-        return (r,g,b)
+    #     return (r,g,b)
 
 
 
@@ -231,18 +228,16 @@ class Themes:
             raise TypeError("argument 'alpha' must be of type \
                 float, between 0-1 inclusively")            
 
-
-
-        ramount = math.trunc((rgb2[0] - rgb1[0])*alpha)
-        gamount = math.trunc((rgb2[1] - rgb1[1])*alpha)
-        bamount = math.trunc((rgb2[2] - rgb1[2])*alpha)
-
-        r_new = rgb2[0] + (0-ramount)
-        g_new = rgb2[1] + (0-gamount)
-        b_new = rgb2[2] + (0-bamount)
-
+        ramount = math.trunc((rgb1[0] - rgb2[0])*alpha)
+        gamount = math.trunc((rgb1[1] - rgb2[1])*alpha)
+        bamount = math.trunc((rgb1[2] - rgb2[2])*alpha)
+        r_new = rgb2[0] + (ramount)
+        g_new = rgb2[1] + (gamount)
+        b_new = rgb2[2] + (bamount)
         return (r_new,g_new,b_new)
-    
+
+
+
     
 
     def is_color_name(self, color_name):
