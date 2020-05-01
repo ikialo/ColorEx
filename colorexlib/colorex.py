@@ -32,6 +32,7 @@ from .writers.HTMLWriter import HTMLWriter
 from .writers.GUIOutputWriter import GUIOutputWriter
 from .readers.CSVReader import CSVReader
 import re
+import time
 
 
 
