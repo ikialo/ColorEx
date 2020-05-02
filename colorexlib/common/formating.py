@@ -30,6 +30,10 @@ class DataFormatter:
                  format_strings=list()):
 
         # ensure validity of parameters
+        if(not isinstance(prefix, str)):
+            raise TypeError("argument 'prefix' must be of type 'str'")
+        if(not isinstance(suffix, str)):
+            raise TypeError("argument 'suffix' must be of type 'str'")
         if(not isinstance(format_strings, list)):
             raise TypeError("argument 'format_strings' must \
                 be of type 'list'")
