@@ -382,24 +382,24 @@ class HeatMapWindow(Frame):
 
 
 
-    ################################################# Not using this as a legend may not be necessary due to heatmap interactivity.
-    def canvas_draw_legend(self):
-        # create the legend or key for the heatmap
-        legendbox_x1 = 50
-        legendbox_y1 = self.const["PLANE_TOP_MARGIN"]
-        legendbox_x2 = 250
-        legendbox_y2 = self.const["PLANE_TOP_MARGIN"]+300
-        self.canvas.create_rectangle(legendbox_x1, legendbox_y1,
-            legendbox_x2, legendbox_y2)
-        self.canvas.create_text((legendbox_x1+legendbox_x2)/2,
-            legendbox_y1+40,text="Legend")
+    # ################################################# Not using this as a legend may not be necessary due to heatmap interactivity.
+    # def canvas_draw_legend(self):
+    #     # create the legend or key for the heatmap
+    #     legendbox_x1 = 50
+    #     legendbox_y1 = self.const["PLANE_TOP_MARGIN"]
+    #     legendbox_x2 = 250
+    #     legendbox_y2 = self.const["PLANE_TOP_MARGIN"]+300
+    #     self.canvas.create_rectangle(legendbox_x1, legendbox_y1,
+    #         legendbox_x2, legendbox_y2)
+    #     self.canvas.create_text((legendbox_x1+legendbox_x2)/2,
+    #         legendbox_y1+40,text="Legend")
 
 
-        self.canvas.create_rectangle(legendbox_x1+15, legendbox_y1+60,
-            legendbox_x1+30, legendbox_y1+75)
-        self.canvas.create_text(legendbox_x1+45, legendbox_y1+60,text="20-30",
-            anchor="w")
-    ################################################# Not using this as a legend may not be necessary due to heatmap interactivity.
+    #     self.canvas.create_rectangle(legendbox_x1+15, legendbox_y1+60,
+    #         legendbox_x1+30, legendbox_y1+75)
+    #     self.canvas.create_text(legendbox_x1+45, legendbox_y1+60,text="20-30",
+    #         anchor="w")
+    # ################################################# Not using this as a legend may not be necessary due to heatmap interactivity.
 
 
 
