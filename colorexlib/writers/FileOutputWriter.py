@@ -33,8 +33,7 @@ class FileOutputWriter(OutputWriter):
 
     ''' Class represents all output file writers '''
 
-    def __init__(self, filepath=None,heatmap=None, 
-        stylesheet=None):
+    def __init__(self, filepath=None,heatmap=None):
         ''' Initialize FileOutputWriter object '''
 
         if(not isinstance(filepath, str)):
@@ -43,13 +42,10 @@ class FileOutputWriter(OutputWriter):
         elif(not isinstance(heatmap, HeatMap)):
             raise TypeError("argument 'heatmap' must be \
                 of type 'HeatMap'")
-        elif(not isinstance(stylesheet, StyleSheet)):
-            raise TypeError("argument 'stylesheet' must \
-                be of type 'StyleSheet'")
 
         self.__filepath = filepath
         self.__heatmap = heatmap
-        self.__stylesheet = stylesheet
+        self.__stylesheet = heatmap.stylesheet
 
 
     @property

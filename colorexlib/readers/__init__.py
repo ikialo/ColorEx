@@ -26,3 +26,4 @@ DEALINGS IN THE SOFTWARE.
 
 '''
 
+__package__ = 'colorexlib.colorexlib.readers'

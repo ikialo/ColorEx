@@ -10,8 +10,7 @@ class HeatMapWindow(Frame):
 
 
     
-    def __init__(self, parent, heatmap=None, 
-        stylesheet=StyleSheet, **kwargs):
+    def __init__(self, parent, heatmap=None, **kwargs):
         
         # Determine the validity of all parameters passed.
         if(not isinstance(parent, Tk)):
@@ -20,16 +19,13 @@ class HeatMapWindow(Frame):
         elif(not isinstance(heatmap, HeatMap)):
             raise TypeError("argument 'heatmap' \
                 must be of type 'HeatMap'")
-        elif(not isinstance(stylesheet, StyleSheet)):
-            raise TypeError("argument 'stylesheet' \
-                must be of type 'StyleSheet'")
 
 
         # call parent initialize
         Frame.__init__(self, parent, **kwargs)
         
         # declare some constants, styles for stylesheet
-        styles = stylesheet.styles
+        styles = heatmap.stylesheet.styles
         # tile styles and constants
         self.const = dict()
         self.const["TILESIZE"] = styles['tile_size']

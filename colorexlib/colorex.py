@@ -374,9 +374,8 @@ class CX_HeatMap:
             reader = CSVReader(self.__source, self.__rowcolheaders)
             data_grid = reader.generate_datagrid()
             heat_map = self.generate_heatmap(data_grid)
-            stylesheet = self.stylesheet
             html_writer = HTMLWriter(filepath=html_filename, 
-                heatmap=heat_map, stylesheet=stylesheet)
+                heatmap=heat_map)
             html_writer.write()
 
         else:
@@ -395,16 +394,14 @@ class CX_HeatMap:
             reader = CSVReader(self.__source, self.__rowcolheaders)
             data_grid = reader.generate_datagrid()
             heat_map = self.generate_heatmap(data_grid)
-            gui_writer = GUIOutputWriter(heatmap=heat_map,
-                stylesheet=self.__stylesheet)
+            gui_writer = GUIOutputWriter(heatmap=heat_map)
             gui_writer.write()
 
         elif(self.__sourcetype.lower() == 'datagrid'):
             # DataGrid object is the input source
             data_grid = self.__source
             heat_map = self.generate_heatmap(data_grid)
-            gui_writer = GUIOutputWriter(heatmap=heat_map,
-                stylesheet=self.__stylesheet)
+            gui_writer = GUIOutputWriter(heatmap=heat_map)
             gui_writer.write()
 
         else:

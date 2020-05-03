@@ -34,8 +34,7 @@ class HTMLWriter(FileOutputWriter):
 
     ''' Class that handles writing to HTML output files '''
 
-    def __init__(self, filepath=None, heatmap=None, 
-        stylesheet=None):
+    def __init__(self, filepath=None, heatmap=None):
         ''' Initialize HTMLWriter object '''
 
 
@@ -44,16 +43,13 @@ class HTMLWriter(FileOutputWriter):
         if(not isinstance(heatmap, HeatMap)):
             raise TypeError("argument 'heatmap' \
                 must be of type 'HeatMap'")
-        elif(not isinstance(stylesheet, StyleSheet)):
-            raise TypeError("argument 'stylesheet' \
-                must be of type 'StyleSheet'")
 
 
 
 
         
         FileOutputWriter.__init__(self, filepath=filepath, 
-            heatmap=heatmap, stylesheet=stylesheet)
+            heatmap=heatmap)
         
         self.dirs = dict()
 
@@ -68,7 +64,7 @@ class HTMLWriter(FileOutputWriter):
         self.ncols = self.heatmap.cols
         self.nrows = self.heatmap.rows
         self.dataformatter = self.heatmap.dataformatter
-        self.stylesheet = stylesheet
+        self.stylesheet = heatmap.stylesheet
 
         # determine which rows and columns are data, 
         # and which rows and columns are the axes
