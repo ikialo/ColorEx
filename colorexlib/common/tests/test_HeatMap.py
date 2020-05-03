@@ -1,7 +1,7 @@
 import unittest
-from ..datastructures import HeatMap
-from ..datastructures import Tile
-from ..styling import Theme, StyleSheet
+from colorexlib.colorexlib.common.datastructures import HeatMap
+from colorexlib.colorexlib.common.datastructures import Tile
+from colorexlib.colorexlib.common.styling import Theme, StyleSheet
 
 
 class TestInit(unittest.TestCase):

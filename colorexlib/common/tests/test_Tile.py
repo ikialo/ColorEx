@@ -1,5 +1,5 @@
 import unittest
-from ..datastructures import Tile
+from colorexlib.colorexlib.common.datastructures import Tile
 
 
 

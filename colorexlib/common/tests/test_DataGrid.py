@@ -1,5 +1,5 @@
 import unittest
-from ..datastructures import DataGrid
+from colorexlib.colorexlib.common.datastructures import DataGrid
 
 
 class TestInit(unittest.TestCase):

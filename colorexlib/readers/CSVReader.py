@@ -25,9 +25,13 @@ DEALINGS IN THE SOFTWARE.
 '''
 
 
-from ..common.datastructures import Data, DataGrid
+# from ..common.datastructures import Data, DataGrid
+# import csv
+# from .FileInputReader import FileInputReader
+
+from colorexlib.colorexlib.common.datastructures import Data, DataGrid
+from colorexlib.colorexlib.readers.FileInputReader import FileInputReader
 import csv
-from .FileInputReader import FileInputReader
 
 class CSVReader(FileInputReader):
 

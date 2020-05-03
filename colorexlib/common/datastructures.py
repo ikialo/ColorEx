@@ -23,8 +23,8 @@ DEALINGS IN THE SOFTWARE.
 '''
 
 
-from .styling import Themes, Theme, StyleSheet
-
+#from .styling import Themes, Theme, StyleSheet
+from colorexlib.colorexlib.common.styling import Themes, Theme, StyleSheet
 
 
 class Data:

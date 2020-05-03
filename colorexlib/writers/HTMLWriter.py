@@ -25,10 +25,17 @@ DEALINGS IN THE SOFTWARE.
 
 '''
 
-from .FileOutputWriter import FileOutputWriter
+# from .FileOutputWriter import FileOutputWriter
+# from Cheetah.Template import Template
+# from ..common.datastructures import HeatMap
+# from ..common.styling import StyleSheet
+
+
+from colorexlib.colorexlib.writers.FileOutputWriter import FileOutputWriter
 from Cheetah.Template import Template
-from ..common.datastructures import HeatMap
-from ..common.styling import StyleSheet
+from colorexlib.colorexlib.common.datastructures import HeatMap
+from colorexlib.colorexlib.common.styling import StyleSheet
+
 
 class HTMLWriter(FileOutputWriter):
 

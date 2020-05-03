@@ -25,15 +25,14 @@ DEALINGS IN THE SOFTWARE.
 
 
 # import necessary modules
-from .common.styling import Theme, Themes, StyleSheet
-from .common.formating import DataFormatter
-from .common.datastructures import Data, HeatMap, DataGrid, Tile, TileGroup, TileGroups
-from .writers.HTMLWriter import HTMLWriter
-from .writers.GUIOutputWriter import GUIOutputWriter
-from .readers.CSVReader import CSVReader
+from colorexlib.colorexlib.common.styling import Theme, Themes, StyleSheet
+from colorexlib.colorexlib.common.formating import DataFormatter
+from colorexlib.colorexlib.common.datastructures import Data, HeatMap, DataGrid, Tile, TileGroup, TileGroups
+from colorexlib.colorexlib.writers.HTMLWriter import HTMLWriter
+from colorexlib.colorexlib.writers.GUIOutputWriter import GUIOutputWriter
+from colorexlib.colorexlib.readers.CSVReader import CSVReader
 import re
 import time
-
 
 
 

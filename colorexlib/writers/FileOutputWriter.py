@@ -25,9 +25,13 @@ DEALINGS IN THE SOFTWARE.
 
 '''
 
+# from abc import ABC, abstractmethod, abstractproperty
+# from .OutputWriter import OutputWriter
+# from ..common.datastructures import HeatMap, StyleSheet
+
+from colorexlib.colorexlib.writers.OutputWriter import OutputWriter
+from colorexlib.colorexlib.common.datastructures import HeatMap, StyleSheet
 from abc import ABC, abstractmethod, abstractproperty
-from .OutputWriter import OutputWriter
-from ..common.datastructures import HeatMap, StyleSheet
 
 class FileOutputWriter(OutputWriter):
 

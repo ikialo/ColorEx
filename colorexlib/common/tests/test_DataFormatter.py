@@ -1,5 +1,5 @@
 import unittest
-from ..formating import DataFormatter
+from colorexlib.colorexlib.common.formating import DataFormatter
 
 
 class TestInit(unittest.TestCase):

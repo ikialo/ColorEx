@@ -1,5 +1,5 @@
 import unittest
-from ..datastructures import TileGroup
+from colorexlib.colorexlib.common.datastructures import TileGroup
 
 
 class TestInit(unittest.TestCase):

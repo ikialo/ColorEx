@@ -24,11 +24,19 @@ DEALINGS IN THE SOFTWARE.
 
 '''
 
-from .OutputWriter import OutputWriter
-from .HeatMapWindow import HeatMapWindow
-from ..common.datastructures import HeatMap
-from ..common.styling import StyleSheet
+# from .OutputWriter import OutputWriter
+# from .HeatMapWindow import HeatMapWindow
+# from ..common.datastructures import HeatMap
+# from ..common.styling import StyleSheet
+# from tkinter import *
+
+from colorexlib.colorexlib.writers.OutputWriter import OutputWriter
+from colorexlib.colorexlib.writers.HeatMapWindow import HeatMapWindow
+from colorexlib.colorexlib.common.datastructures import HeatMap
+from colorexlib.colorexlib.common.styling import StyleSheet
 from tkinter import *
+
+
 
 class GUIOutputWriter(OutputWriter):
        

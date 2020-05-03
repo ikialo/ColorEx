@@ -1,5 +1,5 @@
 import unittest
-from ..styling import StyleSheet
+from colorexlib.colorexlib.common.styling import StyleSheet
 
 
 class TestInit(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from ..datastructures import Data
+from colorexlib.colorexlib.common.datastructures import Data
 
 class TestInit(unittest.TestCase):
     def test__init__A(self):

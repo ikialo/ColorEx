@@ -1,9 +1,15 @@
+# from tkinter import *
+# from tkinter import ttk
+# from ..common.datastructures import HeatMap, Tile
+# from ..common.styling import Themes, StyleSheet
+# import math
+
+
 from tkinter import *
 from tkinter import ttk
-from ..common.datastructures import HeatMap, Tile
-from ..common.styling import Themes, StyleSheet
+from colorexlib.colorexlib.common.datastructures import HeatMap, Tile
+from colorexlib.colorexlib.common.styling import Themes, StyleSheet
 import math
-
 
 
 class HeatMapWindow(Frame):
