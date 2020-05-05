@@ -104,7 +104,7 @@ class CSVReader(FileInputReader):
             except:
                 r.append(item)
         if(rowcolheaders):
-            r.insert(0,row_header)
+            r.insert(0,str(row_header))
         return r
 
 
