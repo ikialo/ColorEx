@@ -2,7 +2,7 @@
 
 # Introduction
 
-*ColorEx* is a simple Python data visualization library for creating awesome and interactive heat maps. Heat maps are a great way for studying and learning patterns in data, and they use color extensively. It is meant to be simple, easy and straight-forward. 
+***ColorEx*** is a simple Python data visualization library for creating awesome and interactive heat maps. Heat maps are a great way for studying and learning patterns in data, and they use color extensively. This Python library aims to be simple, easy and straight-forward.
 
 ## Features
 
@@ -12,8 +12,8 @@
 - Input data supports **CSV** files.
 - Output to **GUI, HTML**.
 - Flexible data **formatting**, using Python format specifiers.
-- **Interactive** heat map, tile selection with popup.
-- **Grouping** and **labelling** of tiles, or cells.
+- **Interactive** heat map, cell (tile) selection with pop-up balloon.
+- **Grouping** and **labeling** of tiles, or cells.
 
 
 
@@ -32,7 +32,7 @@
 
 To begin using the *ColorEx* library, we first install it using *pip*.
 
-(NOTE: You'll need an Internet connection for this one!)
+(NOTE: You'll need an Internet connection for this one.)
 
 ```shell
 $ pip install colorexlib
