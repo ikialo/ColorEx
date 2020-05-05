@@ -26,7 +26,6 @@ DEALINGS IN THE SOFTWARE.
 
 '''
 
-#from .InputReader import *
 from colorexlib.colorexlib.readers.InputReader import InputReader
 from abc import ABC, abstractmethod, abstractproperty
 
