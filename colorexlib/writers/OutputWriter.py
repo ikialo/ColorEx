@@ -35,4 +35,6 @@ class OutputWriter(ABC):
     @abstractmethod
     def write(self):
         ''' writes output to output destination '''
-        pass
+        raise NotImplementedError("Must be implemented by child class")
+
+        

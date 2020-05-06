@@ -1,20 +1,28 @@
-![ColorEx](header.png)
-# ColorEx Library
+![ColorEx](res/header.png)
 
-*ColorEx* is a data visualization and summarization library that uses color creatively to represent data, make visualization interactive, and ultimately be a great tool for learning patterns in data. It is meant to be simple, easy, and straight-forward.
+# Introduction
+
+***ColorEx*** is a simple Python data visualization library for creating awesome and interactive heat maps. Heat maps are a great way for studying and learning patterns in data, and they use color extensively. This Python library aims to be simple, easy and straight-forward.
 
 ## Features
 
-- Supports **CSV** data files for input.
-- Generates and outputs **color grid** in **HTML** format.
-- **Themes** supported both in-built and user-defined.
-- **Templates** supported both in-built and user-defined.
+- **2-Dimensional** heat maps.
+- **Styling** and **theming**.
+- **Bi-color** heat maps supported.
+- Input data supports **CSV** files.
+- Output to **GUI, HTML**.
+- Flexible data **formatting**, using Python format specifiers.
+- **Interactive** heat map, cell (tile) selection with pop-up balloon.
+- **Grouping** and **labeling** of tiles, or cells.
+
+
 
 
 ## Requirements
 
 - Python 3.7+
-- Cheetah
+- Cheetah - Version?
+- Balloon.css (Embedded)
 
 
 
@@ -24,7 +32,7 @@
 
 To begin using the *ColorEx* library, we first install it using *pip*.
 
-(NOTE: You'll need an Internet connection for this one!)
+(NOTE: You'll need an Internet connection for this one.)
 
 ```shell
 $ pip install colorexlib
@@ -76,7 +84,7 @@ colorex_grid.to_html('attendance.html','template.html')
 6. If all things go smoothly, a new **HTML file** called ***attendance.html*** will be created in the same directory.
 7. Open this new HTML file, and you will see a color grid quite similar to the one shown below: 
 
-![Sample Output](sample_output.png)
+![Sample Output](res/sample_output.png)
 
 
 

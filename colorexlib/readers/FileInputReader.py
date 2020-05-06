@@ -26,16 +26,21 @@ DEALINGS IN THE SOFTWARE.
 
 '''
 
-from .InputReader import *
-
+from colorexlib.colorexlib.readers.InputReader import InputReader
 from abc import ABC, abstractmethod, abstractproperty
 
 class FileInputReader(InputReader, ABC):
 
-    ''' Class represents all input readers that get data from files '''
+    ''' Class represents all input readers 
+    that get data from files '''
 
     def __init__(self, filepath):
         ''' Initialize FileInputReader object '''
+
+        if(not isinstance(filepath, str)):
+            raise TypeError("argument 'filepath' \
+                must be of type 'str'")
+
         self.__filepath = filepath
         self.__data = None
 
@@ -45,17 +50,38 @@ class FileInputReader(InputReader, ABC):
         filepath = self.__filepath
         return filepath
 
+    @filepath.setter
+    def filepath(self, filepath):
+        ''' set the file path '''
+        if(not isinstance(filepath, str)):
+            raise TypeError("argument 'filepath' \
+                must be of type 'str'")
+        self.__filepath = filepath
+
     @property
     def data(self):
         ''' get the read data '''
         data = self.__data
         return data
 
+
+    @data.setter
+    def data(self, data):
+        ''' set data '''
+        if(not isinstance(data, list)):
+            raise TypeError("argument 'data' must \
+                be of type 'list'")
+        self.__data = data
+
+
+
     def read(self):
         ''' read the data from file '''
         pass
 
+
     def generate_datagrid(self):
-        ''' generate a DataGrid object based on read file data '''
+        ''' generate a DataGrid object based 
+        on read file data '''
         pass
 

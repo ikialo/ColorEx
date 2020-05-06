@@ -35,15 +35,15 @@ class InputReader(ABC):
     @abstractproperty
     def data(self):
         ''' data read from input source '''
-        pass
+        raise NotImplementedError("Must be implemented by child class")
 
     @abstractmethod
     def generate_datagrid(self):
         ''' returns instance of a DataGrid object '''
-        pass
+        raise NotImplementedError("Must be implemented by child class")
 
     @abstractmethod
     def read(self):
         ''' reads data from input source '''
-        pass
+        raise NotImplementedError("Must be implemented by child class")
 

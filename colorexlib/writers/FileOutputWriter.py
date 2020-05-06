@@ -23,20 +23,30 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 DEALINGS IN THE SOFTWARE.
 
 
-
 '''
 
+from colorexlib.colorexlib.writers.OutputWriter import OutputWriter
+from colorexlib.colorexlib.common.datastructures import HeatMap, StyleSheet
 from abc import ABC, abstractmethod, abstractproperty
-from .OutputWriter import OutputWriter
 
 class FileOutputWriter(OutputWriter):
 
     ''' Class represents all output file writers '''
 
-    def __init__(self, filepath, color_grid):
+    def __init__(self, filepath=None,heatmap=None):
         ''' Initialize FileOutputWriter object '''
+
+        if(not isinstance(filepath, str)):
+            raise TypeError("argument 'filepath' must \
+                be of type 'str'")
+        elif(not isinstance(heatmap, HeatMap)):
+            raise TypeError("argument 'heatmap' must be \
+                of type 'HeatMap'")
+
         self.__filepath = filepath
-        self.__color_grid = color_grid
+        self.__heatmap = heatmap
+        self.__stylesheet = heatmap.stylesheet
+
 
     @property
     def filepath(self):
@@ -44,12 +54,46 @@ class FileOutputWriter(OutputWriter):
         filepath = self.__filepath
         return filepath
 
+    @filepath.setter
+    def filepath(self, filepath):
+        ''' sets file path '''
+        if(not isinstance(filepath, str)):
+            raise TypeError("argument 'filepath' must \
+                be of type 'str'")
+        self.__filepath = filepath
+
+
     @property
-    def color_grid(self):
-        ''' get the color grid (list of lists) '''
-        colorgrid = self.__color_grid
-        return colorgrid
+    def heatmap(self):
+        ''' get the heat map (list of lists) '''
+        heatmap = self.__heatmap
+        return heatmap
+
+    @heatmap.setter
+    def heatmap(self, heatmap):
+        ''' set heatmap '''
+        if(not isinstance(heatmap, HeatMap)):
+            raise TypeError("argument 'heatmap' must \
+                be of type 'HeatMap'")
+        self.__heatmap = heatmap
+
+
+    @property
+    def stylesheet(self):
+        ''' get the stylesheet object of styling 
+        properties '''
+        stylesheet = self.__stylesheet
+        return stylesheet
+
+    @stylesheet.setter
+    def stylesheet(self, stylesheet):
+        ''' set stylesheet '''
+        if(not isinstance(stylesheet, StyleSheet)):
+            raise TypeError("argument 'stylesheet' must \
+                be of type 'StyleSheet'")
+        self.__stylesheet = stylesheet
+
     
-    def write(self, options):
-        ''' write color grid to output file '''
-        pass
+    def write(self):
+        ''' write heat map to output file '''
+        raise NotImplementedError
