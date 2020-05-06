@@ -10,7 +10,6 @@ class TestInit(unittest.TestCase):
 		parent = Tk()
 		stylesheet = StyleSheet()
 		heatmap_options = dict()
-		
 		heatmap = HeatMap()
 
 	def test___init__A(self):

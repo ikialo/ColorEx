@@ -1,9 +1,3 @@
-# from tkinter import *
-# from tkinter import ttk
-# from ..common.datastructures import HeatMap, Tile
-# from ..common.styling import Themes, StyleSheet
-# import math
-
 
 from tkinter import *
 from tkinter import ttk
@@ -19,7 +13,7 @@ class HeatMapWindow(Frame):
     def __init__(self, parent, heatmap=None, **kwargs):
         
         # Determine the validity of all parameters passed.
-        if(not isinstance(parent, Tk)):
+        if(not isinstance(pthougharent, Tk)):
             raise TypeError("argument 'parent' \
                 must be of type 'Tk'")
         elif(not isinstance(heatmap, HeatMap)):
