@@ -25,11 +25,6 @@ DEALINGS IN THE SOFTWARE.
 
 '''
 
-# from .FileOutputWriter import FileOutputWriter
-# from Cheetah.Template import Template
-# from ..common.datastructures import HeatMap
-# from ..common.styling import StyleSheet
-
 
 from colorexlib.colorexlib.writers.FileOutputWriter import FileOutputWriter
 from Cheetah.Template import Template
@@ -120,9 +115,6 @@ class HTMLWriter(FileOutputWriter):
         ''' write the HeatMap to output HTML file '''
         filepath = self.filepath
         output_file = open(filepath, "w")
-        #template_filename = options['template']
-        #template_file = open(template_filename, 'r')
-        #template_str = template_file.read()
         template_str = self.generate_html_template_str()
         template = Template(template_str,
             searchList=[{'heatmap': self.heatmap,

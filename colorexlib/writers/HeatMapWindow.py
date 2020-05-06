@@ -13,7 +13,7 @@ class HeatMapWindow(Frame):
     def __init__(self, parent, heatmap=None, **kwargs):
         
         # Determine the validity of all parameters passed.
-        if(not isinstance(pthougharent, Tk)):
+        if(not isinstance(parent, Tk)):
             raise TypeError("argument 'parent' \
                 must be of type 'Tk'")
         elif(not isinstance(heatmap, HeatMap)):

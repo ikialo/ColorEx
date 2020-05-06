@@ -94,6 +94,6 @@ class FileOutputWriter(OutputWriter):
         self.__stylesheet = stylesheet
 
     
-    def write(self, options):
+    def write(self):
         ''' write heat map to output file '''
-        pass
+        raise NotImplementedError
